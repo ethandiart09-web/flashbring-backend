@@ -86,12 +86,6 @@ function verifyGodMode(req, res, next) {
   return res.status(403).json({ error: "Accès réservé à l’admin principal" });
 }
 
-// 🔒 Anti brute-force sur inscription & login
-const registerLimiter = rateLimit({
-  windowMs: 60 * 60 * 1000, // 1h
-  max: 5,
-  message: "❌ Trop de tentatives d’inscription, réessaie plus tard"
-});
 
 const loginLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 min
@@ -106,8 +100,8 @@ app.use("/api/drivers", driversRoutes);
 app.use("/api/orders", verifyToken, ordersRoutes);
 app.use("/api/cart", verifyToken, cartRoutes);
 app.use("/api/deliveries", verifyToken, deliveriesRoutes);
-app.use("/api/users/register", registerLimiter);
-app.use("/api/users/login", loginLimiter);
+
+// Les vraies routes users
 app.use("/api/users", usersRoutes);
 app.use("/api/stores", storesRoutes);
 app.use("/api/products", productsRoutes);

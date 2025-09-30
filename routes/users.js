@@ -7,6 +7,7 @@ import { verifyToken, verifyRole } from "../middleware/auth.js";
 import fetch from "node-fetch"; // si pas déjà dispo (Node < 18)
 import { z } from "zod";
 import { validate } from "../middleware/validate.js";
+import rateLimit from "express-rate-limit";
 
 const router = express.Router();
 const prisma = new PrismaClient();
@@ -30,9 +31,20 @@ const registerSchema = z.object({
   email: z.string().email("Email invalide"),
   password: passwordSchema,
 });
+// --- Limiteur anti-spam inscription ---
+const registerLimiter = rateLimit({
+  windowMs: 1 * 60 * 1000, // 1 minute
+  max: 5,
+  message: "❌ Trop de tentatives d’inscription, attends 1 minute"
+});
+
 
 // ✅ Inscription sécurisée (tout le monde = client au départ)
-router.post("/register", validate(registerSchema), async (req, res) => {
+router.post(
+  "/register",
+  registerLimiter,                // ⬅️ ajouté ici
+  validate(registerSchema),
+  async (req, res) => {
   try {
     const { firstname, lastname, email, password } = req.validated; // ✅ garanti par validate()
 
