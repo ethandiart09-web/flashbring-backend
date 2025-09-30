@@ -251,7 +251,7 @@ res.cookie("token", token, {
     });
 
   // ✅ Redirection vers le front
-res.redirect(`flashbring://auth?token=${token}&refreshToken=${refreshToken}`);
+res.redirect(`flashbring://auth/callback?token=${encodeURIComponent(token)}&refreshToken=${encodeURIComponent(refreshToken)}`);
   }
 );
 
