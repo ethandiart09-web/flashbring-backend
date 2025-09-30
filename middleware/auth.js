@@ -7,8 +7,16 @@ export default prisma;
 
 export async function verifyToken(req, res, next) {
   try {
-    // 🔑 Récupère le token depuis les cookies
-    const token = req.cookies?.token;
+    let token;
+
+    // 🔎 1. Vérifie le header Authorization
+    if (req.headers.authorization && req.headers.authorization.startsWith("Bearer ")) {
+      token = req.headers.authorization.split(" ")[1];
+    }
+    // 🔎 2. Sinon, regarde dans les cookies (cas Web)
+    else if (req.cookies?.token) {
+      token = req.cookies.token;
+    }
 
     if (!token) {
       return res.status(401).json({ error: "Utilisateur non authentifié" });
@@ -17,7 +25,7 @@ export async function verifyToken(req, res, next) {
     // ✅ Vérifie le token avec la clé secrète
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    // 📌 Stocke les infos du user dans la requête
+    // 📌 Stocke les infos du user dans req.user
     req.user = decoded;
 
     return next();

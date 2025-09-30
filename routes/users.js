@@ -25,12 +25,14 @@ const passwordSchema = z
   .regex(/[0-9]/, "Le mot de passe doit contenir au moins un chiffre")
   .regex(/[^A-Za-z0-9]/, "Le mot de passe doit contenir au moins un symbole");
 
-const registerSchema = z.object({
+// --- Validation Zod ---
+const registerSchema = z.object({   
   firstname: z.string().min(2, "Prénom trop court"),
   lastname: z.string().min(2, "Nom trop court"),
   email: z.string().email("Email invalide"),
-  password: passwordSchema,
+  password: passwordSchema, // ⚡ défini ailleurs (ex: min 8 caractères)
 });
+
 // --- Limiteur anti-spam inscription ---
 const registerLimiter = rateLimit({
   windowMs: 1 * 60 * 1000, // 1 minute
@@ -38,90 +40,93 @@ const registerLimiter = rateLimit({
   message: "❌ Trop de tentatives d’inscription, attends 1 minute"
 });
 
-
-// ✅ Inscription sécurisée (tout le monde = client au départ)
+// ✅ Route d'inscription
 router.post(
   "/register",
-  registerLimiter,                // ⬅️ ajouté ici
+  registerLimiter,
   validate(registerSchema),
   async (req, res) => {
-  try {
-    const { firstname, lastname, email, password } = req.validated; // ✅ garanti par validate()
+    try {
+      const { firstname, lastname, email, password } = req.validated;
 
-    // Vérifie doublon
-    const existing = await prisma.users.findUnique({ where: { email } });
-    if (existing) {
-      return res.status(400).json({ error: "Email déjà utilisé" });
+      // --- Vérifie si l'email existe déjà
+      const existing = await prisma.users.findUnique({ where: { email } });
+      if (existing) {
+        return res.status(400).json({ error: "Email déjà utilisé" });
+      }
+
+      // --- Hash mot de passe
+      const hashedPassword = await bcrypt.hash(password, 10);
+
+      // --- Création de l'utilisateur (toujours client au départ)
+      const user = await prisma.users.create({
+        data: {
+          firstname,
+          lastname,
+          email,
+          password_hash: hashedPassword,
+          role: "client",
+          delivery_code: generatePin(),
+        },
+      });
+
+      // --- Génération des tokens
+      const accessToken = jwt.sign(
+        { id: user.id, role: user.role },
+        process.env.JWT_SECRET,
+        { expiresIn: "15m" }
+      );
+
+      const refreshToken = jwt.sign(
+        { id: user.id, role: user.role },
+        process.env.JWT_REFRESH_SECRET,
+        { expiresIn: "7d" }
+      );
+
+      // --- Stockage du refresh token en base
+      await prisma.refresh_tokens.create({
+        data: {
+          user_id: user.id,
+          token: refreshToken,
+          expires_at: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+        },
+      });
+
+      // --- Met dans les cookies sécurisés
+      res.cookie("token", accessToken, {
+        httpOnly: true,
+        sameSite: "strict",
+        secure: process.env.NODE_ENV === "production",
+      });
+      res.cookie("refreshToken", refreshToken, {
+        httpOnly: true,
+        sameSite: "strict",
+        secure: process.env.NODE_ENV === "production",
+      });
+
+      // --- Réponse JSON (⚡ inclut le token)
+      return res.json({
+        id: user.id,
+        firstname: user.firstname,
+        lastname: user.lastname,
+        email: user.email,
+        role: user.role,
+        delivery_code: user.delivery_code,
+        token: accessToken,   // ✅ indispensable pour l'app mobile
+      });
+
+    } catch (err) {
+      console.error("❌ Erreur /register :", err);
+
+      if (err.code === "P2002") {
+        // Prisma duplicate key
+        return res.status(400).json({ error: "Email déjà utilisé" });
+      }
+
+      return res.status(500).json({ error: "Erreur serveur lors de l'inscription." });
     }
-
-    // Hash mot de passe
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    // Création user → toujours client
-    const user = await prisma.users.create({
-      data: {
-        firstname,
-        lastname,
-        email,
-        password_hash: hashedPassword,
-        role: "client",
-        delivery_code: generatePin(),
-      },
-    });
-
-    // Génère les tokens
-    const accessToken = jwt.sign(
-      { id: user.id, role: user.role },
-      process.env.JWT_SECRET,
-      { expiresIn: "15m" }
-    );
-    const refreshToken = jwt.sign(
-      { id: user.id, role: user.role },
-      process.env.JWT_REFRESH_SECRET,
-      { expiresIn: "7d" }
-    );
-
-    // Stocke le refresh token en base
-    await prisma.refresh_tokens.create({
-      data: {
-        user_id: user.id,
-        token: refreshToken,
-        expires_at: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-      },
-    });
-
-    // Met dans les cookies
-    res.cookie("token", accessToken, {
-      httpOnly: true,
-      sameSite: "strict",
-      secure: process.env.NODE_ENV === "production",
-    });
-    res.cookie("refreshToken", refreshToken, {
-      httpOnly: true,
-      sameSite: "strict",
-      secure: process.env.NODE_ENV === "production",
-    });
-
-    // Retourne infos
-    return res.json({
-      id: user.id,
-      firstname: user.firstname,
-      lastname: user.lastname,
-      email: user.email,
-      role: user.role,
-      delivery_code: user.delivery_code,
-    });
-} catch (err) {
-  console.error("❌ Erreur /register :", err);
-
-  if (err.code === "P2002") { 
-    // Prisma duplicate key
-    return res.status(400).json({ error: "Email déjà utilisé" });
   }
-
-  return res.status(500).json({ error: "Erreur serveur lors de l'inscription." });
-}
-});
+);
 
 // --- Helper pour générer un access token ---
 function generateAccessToken(user) {
@@ -188,7 +193,7 @@ router.post("/login", async (req, res) => {
 
     // --- Réponse (⚡ pas de refreshToken en clair)
     res.json({
-      accessToken,
+token: accessToken,  // ✅ cohérent avec /register
       user: {
         id: user.id,
         firstname: user.firstname,
