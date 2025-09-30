@@ -44,8 +44,9 @@
     "schema": "prisma/schema.prisma",
     "seed": "node seed.js"
   },
-  "devDependencies": {
-    "eslint": "^9.36.0",
-    "eslint-plugin-security": "^3.0.1"
-  }
+"devDependencies": {
+  "eslint": "^9.36.0",
+  "eslint-plugin-security": "^3.0.1",
+  "prisma": "^6.14.0"
+}
 }
