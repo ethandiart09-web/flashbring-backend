@@ -51,6 +51,8 @@ prisma.$connect()
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const app = express();
+app.set("trust proxy", 1);
+
 
 registerStripeWebhooks(app);
 
