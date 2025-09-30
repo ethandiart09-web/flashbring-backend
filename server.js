@@ -40,8 +40,15 @@ import { verifyToken } from "./middleware/auth.js";
 import { registerStripeWebhooks } from "./webhooks.js";
 
 dotenv.config();
+console.log("📡 DATABASE_URL:", process.env.DATABASE_URL);
+
+
 const isDev = process.env.NODE_ENV !== "production";
 const prisma = new PrismaClient();
+prisma.$connect()
+  .then(() => console.log("✅ Connexion DB OK"))
+  .catch(err => console.error("❌ Connexion DB échouée:", err));
+
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const app = express();
 
@@ -65,7 +72,7 @@ app.disable("x-powered-by"); // masque Express
 
 // --- CORS ---
 app.use(cors({
-  origin: "https://localhost:3000",  // ⚡ ton site exact
+origin: "*", // 👉 accepte tout le monde (tu peux restreindre après à ton domaine)
   credentials: true
 }));
 
@@ -325,11 +332,6 @@ app.post("/api/contact", async (req, res) => {
     res.status(500).json({ error: "Impossible d’envoyer l’email" });
   }
 });
-// --- Serveurs HTTPS et HTTP ---
-const options = {
-  key: fs.readFileSync("key.pem"),
-  cert: fs.readFileSync("cert.pem"),
-};
 
 
 
@@ -402,13 +404,26 @@ app.get("/api/products/bestsellers", async (req, res) => {
   }
 });
 
-
-// --- Test simple pour l'app mobile ---
+// --- Route test ---
 app.get("/api/hello", (req, res) => {
   res.json({ message: "Salut depuis le backend 🚀" });
 });
 
-https.createServer(options, app).listen(3000, () => {
-  console.log("✅ Backend démarré sur https://localhost:3000");
-});
+const PORT = process.env.PORT || 3000;
 
+if (process.env.NODE_ENV !== "production") {
+  // 🔒 Mode développement local avec HTTPS
+  const options = {
+    key: fs.readFileSync("key.pem"),
+    cert: fs.readFileSync("cert.pem"),
+  };
+
+  https.createServer(options, app).listen(PORT, () => {
+    console.log(`✅ Backend démarré en local sur https://localhost:${PORT}`);
+  });
+} else {
+  // 🌍 Mode Render (production) → Render gère déjà HTTPS
+  app.listen(PORT, () => {
+    console.log(`✅ Backend démarré sur port ${PORT}`);
+  });
+}
