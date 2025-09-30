@@ -138,16 +138,20 @@ function generateAccessToken(user) {
   );
 }
 
+// --- Validation Login ---
 const loginSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(8),
+  email: z.string().email("Email invalide"),
+  password: z.string().min(6, "Mot de passe trop court"),
 });
 
-// --- LOGIN ---
-router.post("/login", async (req, res) => {
-  try {
+// --- Connexion ---
+router.post(
+  "/login",
+  validate(loginSchema),
+  async (req, res) => {
+    try {
+      const { email, password } = req.validated;  // ✅ garanti par validate()
 
-  const { email, password } = req.validated; // ✅ plus propre que req.body
 
     const user = await prisma.users.findUnique({ where: { email } });
     if (!user) {
