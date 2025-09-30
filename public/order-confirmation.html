@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Confirmation commande</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f2f2;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+    }
+    .container {
+      margin-top: 40px;
+      background: #fff;
+      padding: 40px 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      width: 90%;
+      max-width: 500px;
+      text-align: center;
+    }
+    .logo {
+      font-weight: bold;
+      font-size: 20px;
+      margin-bottom: 25px;
+    }
+    h1 {
+      margin: 0;
+      font-size: 26px;
+    }
+    p {
+      margin: 10px 0 20px;
+      font-size: 16px;
+    }
+    .order-box {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 15px;
+      text-align: left;
+      margin: 20px 0;
+      background: #fafafa;
+    }
+    .order-box h3 {
+      margin: 0 0 10px;
+      font-size: 15px;
+      font-weight: normal;
+      color: #444;
+    }
+    .order-box ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .order-box li {
+      display: flex;
+      justify-content: space-between;
+      margin: 6px 0;
+      font-size: 15px;
+    }
+    .order-box .total {
+      border-top: 1px solid #ddd;
+      margin-top: 10px;
+      padding-top: 10px;
+      font-weight: bold;
+    }
+    .footer {
+      margin-top: 15px;
+      font-size: 14px;
+      color: #444;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo">FLASHBRING</div>
+    <h1 id="thankUser">Merci pour votre commande !</h1>
+    <p id="store-validation">Votre commande est en attente de validation…</p>
+
+
+    <!-- ✅ Bloc détails commande -->
+    <div class="order-details" id="orderDetails">
+      <p><strong>Numéro de commande :</strong> ...</p>
+      <p><strong>Restaurant :</strong> ...</p>
+      <p><strong>Total :</strong> ... €</p>
+      <p><strong>Adresse de livraison :</strong> ...</p>
+    </div>
+
+    <div class="footer">Flashbring vous remercie</div>
+  </div>
+
+ <script>
+    // Récupère l'orderId dans l'URL
+    const params = new URLSearchParams(window.location.search);
+    const orderId = params.get("orderId");
+
+    async function loadOrder() {
+      try {
+        const res = await fetch(`/api/orders/${orderId}`, { credentials: "include" });
+        if (!res.ok) throw new Error("Erreur API");
+
+        const order = await res.json();
+        document.getElementById("orderDetails").innerHTML = `
+          <p><strong>Numéro de commande :</strong> ${order.id}</p>
+          <p><strong>Restaurant :</strong> ${order.store?.name || "N/A"}</p>
+          <p><strong>Total :</strong> ${order.total} €</p>
+          <p><strong>Adresse de livraison :</strong> ${order.user?.street}, ${order.user?.city}</p>
+        `;
+      } catch (err) {
+        console.error("❌ Erreur chargement commande:", err);
+      }
+    }
+
+    if (orderId) loadOrder();
+  </script>
+</body>
+</html>

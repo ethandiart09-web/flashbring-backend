@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "public"."orders" ADD COLUMN     "delivery_fee" DOUBLE PRECISION NOT NULL DEFAULT 0.0,
+ADD COLUMN     "service_fee" DOUBLE PRECISION NOT NULL DEFAULT 0.0;

@@ -1,0 +1,2 @@
+[dotenv@17.2.1] injecting env (14) from .env -- tip: ⚙️  write to custom object with { processEnv: myObject }
+👉 Token généré pour user 5 : eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiZW1haWwiOiJ1c2VyNUB0ZXN0LmNvbSIsInJvbGUiOiJjbGllbnQiLCJpYXQiOjE3NTgyMDA4NzAsImV4cCI6MTc1ODgwNTY3MH0.muy-4SSNVXxVJrHk6cQ3bjRXaG2lrLTugUXBBgBsrS4

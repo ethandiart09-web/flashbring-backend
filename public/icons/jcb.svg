@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 32">
+  <rect width="48" height="32" rx="4" fill="#fff"/>
+  <rect x="4" y="4" width="12" height="24" rx="2" fill="#006"/>
+  <rect x="18" y="4" width="12" height="24" rx="2" fill="#c00"/>
+  <rect x="32" y="4" width="12" height="24" rx="2" fill="#090"/>
+  <text x="50%" y="55%" text-anchor="middle" fill="#fff" font-family="Arial, sans-serif" font-size="10" font-weight="bold">
+    JCB
+  </text>
+</svg>

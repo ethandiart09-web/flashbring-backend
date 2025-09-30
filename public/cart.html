@@ -1,0 +1,3614 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Paiement - Flashbring</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<script src="https://js.stripe.com/v3/"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+<script src="/utils/api.js"></script>
+<script src="/js/cart.js"></script>
+
+
+<style>
+:root{
+      --bg:#ffffff;
+      --ink:#0f0f0f;
+      --muted:#6b6b6b;
+      --line:#eaeaea;
+      --card:#fafafa;
+      --brand:#111111;
+      --radius:18px;
+      --shadow:0 10px 30px rgba(0,0,0,.06);
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font:16px/1.5 Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+    a{color:inherit;text-decoration:none}
+    .container{max-width:1200px;margin:0 auto;padding:0 20px}
+
+ /* Header */
+    header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.8);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+    .nav{display:flex;align-items:center;justify-content:space-between;gap:16px;height:68px}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:800}
+    .brand-badge{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;background:#111;color:#fff}
+    .tagline{display:none;color:var(--muted)}
+    .actions{display:flex;gap:10px}
+    .btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--ink);padding:10px 14px;border-radius:12px;background:#111;color:#fff;font-weight:600;cursor:pointer}
+    .btn.ghost{background:#fff;color:#111}
+    .btn:active{transform:translateY(1px)}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  right: -100%;          /* caché en dehors de l’écran */
+  width: 100%;
+  max-width: 300px;      /* 👉 réduit la largeur comme Uber */
+  height: 100vh;         /* 👉 prend toute la hauteur de la page */
+  background: #fff;
+  box-shadow: -2px 0 8px rgba(0,0,0,0.15);
+  transition: right 0.3s ease;
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+}
+.sidebar.open {
+  right: 0;              /* glisse à l’écran */
+}
+
+
+.sidebar-header {
+  padding: 16px;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff;
+}
+    
+.sidebar-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex: 1;
+  background: #fff;
+}
+  
+.sidebar-links li {
+  border-bottom: none;
+}
+  
+.sidebar-links a {
+  display: block;
+  padding: 14px 18px;
+  font-size: 15px;
+  color: #111;
+  transition: background 0.2s;
+}
+
+.sidebar-links a:hover {
+  background: #f8f8f8;
+}
+  
+  
+.close-btn {
+  cursor: pointer;
+  font-size: 18px;
+}
+/* Overlay gris transparent sur toute la page */
+.sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;   
+  background: rgba(0,0,0,0.4); /* gris foncé transparent */
+  z-index: 150;                /* sous le side cart mais au-dessus de tout le reste */
+  display: none;               /* caché par défaut */
+}
+  
+.sidebar-overlay.active {
+  display: block; 
+}
+  
+.sidebar-user {
+  padding: 16px;
+  border-bottom: 1px solid #eee;
+}
+#sidebarName {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+  
+.manage-account {
+  font-size: 14px;
+  color: #007bff; 
+  text-decoration: none;
+}
+.manage-account:hover {
+  text-decoration: underline;
+}
+  
+/* Style spécifique pour "Gérer le compte" */
+.sidebar-links a.manage-account {
+  color: #007bff;       /* bleu comme Uber par ex */
+  font-weight: 600;     /* un peu plus gras */
+}
+
+
+  body {
+      font-family: system-ui, sans-serif;
+      background: #f9f9f9;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+    main {
+      max-width: 800px;
+      margin: 20px auto;
+      background: white;
+      border-radius: 12px;
+      padding: 24px;   
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    .tabs {
+      display: flex;
+      border-bottom: 1px solid #eee;
+      margin-bottom: 24px;
+    }
+    .tabs button {
+      flex: 1;
+      padding: 12px;
+      font-size: 15px;
+      border: none;
+      background: none;
+      cursor: pointer;
+      font-weight: 500;
+      color: #555;
+    }
+    .tabs button.active { 
+      border-bottom: 2px solid #111;
+      color: #111;
+      font-weight: 600;
+    }
+    .section {
+      display: none;   
+    }
+    .section.active {   
+      display: block;
+    }
+    .field {
+      margin-bottom: 16px;
+    }
+    .field label {  
+      display: block;
+      font-size: 14px;
+      margin-bottom: 6px;
+      font-weight: 500;
+    }
+ .field input {  
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 14px; 
+    }
+    .divider {
+      border-top: 1px solid #eee;
+      margin: 24px 0;
+    }
+    .security-item {   
+      margin-bottom: 20px;
+    }
+    .security-item h3 {
+      font-size: 16px;
+      margin: 0 0 6px;  
+      font-weight: 600;
+    }
+    .security-item p {
+      font-size: 14px;
+      color: #555;
+      margin: 0 0 10px;
+    }
+    .btn {
+      display: inline-block;
+      padding: 8px 16px;
+      font-size: 14px;
+      border: none; 
+      border-radius: 6px;
+      cursor: pointer;
+      background: #111;
+      color: white;
+    }
+ .btn.ghost {
+      background: #f0f0f0;
+      color: #333;
+    }
+    .connected-app {
+      display: flex;   
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0; 
+      border-bottom: 1px solid #eee;
+    }
+    .connected-app img {
+      width: 20px;
+      height: 20px;   
+      margin-right: 8px;
+    }
+    .connected-app .info {
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+    }
+      
+.input-with-badge { 
+  position: relative;
+  display: flex;
+  align-items: center; 
+}
+
+
+
+
+
+
+.cart-page {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 10%;
+  gap: 0px;
+  margin-top: 25px; /* <-- espace sous le header */
+}
+
+/* Colonne gauche */
+.cart-left {
+  flex: 0 0 62%;
+}
+
+/* Bloc global livraison */
+.cart-section {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+ font-size: 13px;
+}
+
+/* Chaque sous-partie */
+.cart-block {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+}
+
+.cart-block + hr {
+  margin: 10px 0;
+  border: none;
+  border-top: 1px solid #eee;
+}
+
+.cart-block-text .title {
+  font-weight: 600;
+  font-size: 16px;
+  margin: 0;
+}
+
+.cart-block-text .subtitle {
+  color: #666;
+  font-size: 14px;
+  margin: 4px 0 0;
+}
+
+/* Bouton */
+.btn-edit {
+  background: #f0f0f0;   /* gris clair */
+  color: #111;           /* texte noir */
+  border: none;          /* pas de bordure */
+  border-radius: 20px;   /* arrondi */
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+.btn-edit:hover {
+  background: #e0e0e0;   /* un gris un peu plus foncé au hover */
+}
+
+
+.address-block {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+
+.address-block .title {
+  margin: 0;
+  font-weight: bold;
+  line-height: 1.2; /* réduit l'espace vertical */
+   color: #222;        /* noir doux */
+  font-weight: 500;  
+}
+
+.address-block .subtitle {
+  margin: 2px 0 0; /* petit espace au-dessus */
+  color: #555;
+  font-size: 14px;
+  line-height: 1.2;
+}
+
+.map-icon {
+  font-size: 20px;
+  color: #000; /* noir */
+  width: 20px;      /* 👈 fixe la largeur */
+  text-align: center;
+}
+
+
+.priority-block {
+  border: 1px solid #ddd;   /* contour gris clair */
+  border-radius: 12px;      /* coins arrondis */
+  padding: 12px;
+  margin-top: 12px;         /* espace au-dessus */
+}
+
+
+.priority-price {
+  font-weight: 600;
+  font-size: 14px;
+  color: #222;
+  margin-left: auto;   /* pousse le prix à droite */
+  align-self: center;  /* aligne verticalement */
+}
+.standard-block {
+  border: 1px solid #ddd;   /* contour gris clair */
+  border-radius: 12px;      /* coins arrondis */
+  padding: 12px;
+  margin-top: 12px;         /* espace au-dessus */
+}
+
+
+
+/* Overlay sombre */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.45);
+  display: none;
+  z-index: 1000;
+}
+
+/* Boîte du popup */
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  width: 500px;
+  max-width: 90%;
+  display: none;
+  z-index: 1001;
+}
+
+/* Header du popup */
+.popup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.popup-header h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #222;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  color: #444;
+}
+
+/* Champ adresse */
+#addressInput {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  font-size: 14px;
+  outline: none;
+}
+
+#addressInput:focus {
+  border-color: #111;
+}
+
+/* Liste des suggestions */
+.suggestions-list {
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 0;
+  border: none;            /* ✅ supprime la ligne grise */
+  border-radius: 10px;
+  background: #fff;
+  max-height: 180px;
+  overflow-y: auto;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1); /* petit effet flottant à la place */
+}
+
+.suggestion-item {
+  padding: 10px 14px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.suggestion-item:hover {
+  background: #f6f6f6;
+}
+
+.instructions-subtitle {
+  font-size: 13px;
+  color: #555;
+  margin: 8px 0 0 0;
+}
+
+
+/* === Bloc générique (Leave / Give) === */
+.leave-block,
+.give-block {
+  border: 1px solid #ddd;   /* gris par défaut */
+  border-radius: 12px;
+  margin-top: 20px;
+  background: #fff;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+/* Quand actif → contour noir épais */
+.leave-block.active,
+.give-block.active {
+  border-color: #000;
+  border-width: 2px;   /* ✅ épaisseur des contours quand actif */
+}
+
+/* === Header cliquable (titre + image) === */
+.block-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  cursor: pointer;
+  background: #fff;
+}
+
+.block-header img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%; /* rond */
+  object-fit: cover;
+}
+
+/* Titre des blocs (plus visible que les options) */
+.block-header h3,
+.leave-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600; /* bien gras */
+  color: #000 !important; /* noir forcé */
+}
+
+/* === Contenu caché par défaut === */
+.block-content {
+  display: none;
+  padding: 12px;
+  background: #fff;
+}
+
+/* Quand actif → contenu visible */
+.leave-block.active .block-content,
+.give-block.active .block-content {
+  display: block;
+}
+
+/* === Options radio === */
+.radio-option {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 14px;
+  margin-bottom: 10px;
+  font-size: 16px;   /* ✅ plus grand */
+  font-weight: 450;  /* ✅ plus épais */
+  color: #333;
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+
+.radio-option input {
+  display: none; /* cacher input natif */
+}
+
+/* Rond personnalisé */
+.custom-radio {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #111;
+  border-radius: 50%;
+  position: relative;
+  flex-shrink: 0;
+}
+
+/* Point noir au centre quand coché */
+.radio-option input:checked + .custom-radio::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  background: #111;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Style actif quand coché */
+.radio-option:has(input:checked) {
+  background: #f8f8f8;
+}
+
+
+.instructions-courier {
+  margin-top: 20px;
+}
+
+.instructions-courier h4 {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #222;
+}
+
+.instructions-courier textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  resize: none;
+  outline: none;
+}
+
+.instructions-courier textarea:focus {
+  border-color: #111;
+}
+
+
+.instructions-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.instructions-actions .btn {
+  padding: 8px 18px;
+  font-size: 14px;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.instructions-actions .btn.ghost {
+  background: #f5f5f5;
+  color: #111;
+}
+
+.priority-block.active,
+.standard-block.active {
+  border-color: #000;
+  border-width: 2px;
+}
+
+
+.popup-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* espace entre chaque option */
+}
+
+
+.payment-option {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+}
+
+.payment-option:last-child {
+  border-bottom: none;
+}
+
+.payment-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 15px;
+}
+
+.payment-icon {
+  width: 22px;
+  height: 22px;
+}
+
+.radio-btn {
+  width: 20px;
+  height: 20px;
+  border: 2px solid black;
+  border-radius: 50%;
+  position: relative;
+}
+
+.radio-btn::after {
+  content: "";
+  width: 10px;
+  height: 10px;
+  background: black;
+  border-radius: 50%;
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  display: none;
+}
+
+.payment-option.active .radio-btn::after {
+  display: block;
+}
+
+.btn-save {
+  width: 100%;
+  background: #000;
+  color: #fff;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  margin-top: 15px;
+}
+
+.btn-save:hover {
+  background: #222;
+}
+
+.toast {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #000;
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease-in-out;
+  z-index: 9999;
+}
+
+.toast.show {
+  opacity: 1;
+}
+
+/* === Formulaire carte bancaire === */
+#cardPopup .form-row {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 14px;
+}
+
+#cardPopup .form-row label {
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 6px;
+  color: #333;
+}
+
+/* Champs Stripe */
+#card-number, #card-expiry, #card-cvc {
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #fafafa;
+}
+
+/* Expiration + CVC sur une seule ligne */
+.card-row-inline {
+  display: flex;
+  gap: 12px;
+}
+
+.card-row-inline .form-row {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+/* Sélecteur pays pro */
+#card-country {
+  appearance: none;              /* supprime le style natif */   
+  -webkit-appearance: none;
+  -moz-appearance: none; 
+  background: #fff url("https://cdn-icons-png.flaticon.com/512/2989/2989988.png") no-repeat right 12px center;
+  background-size: 14px;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+}
+#card-holder-name {
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  width: 100%;
+  background: #fff;
+}
+
+/* Personnalisation du sélecteur Choices.js */
+.choices {
+  margin-top: 6px;
+}
+
+.choices__inner {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  min-height: 48px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.is-focused .choices__inner,
+.is-open .choices__inner {
+  border-color: #ddd;     /* même gris clair que par défaut */
+  box-shadow: none;       /* supprime le halo */
+  border-radius: 8px;      /* ✅ conserve les coins arrondis */
+}
+
+.choices__list--dropdown {
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  margin-top: 4px;
+}
+
+.choices__list--dropdown .choices__item {
+  padding: 10px 14px;
+  font-size: 14px;
+}
+
+.choices__list--dropdown .choices__item--selectable.is-highlighted {
+  background-color: #f5f5f5;
+  color: #111;
+}
+
+.choices__placeholder {
+  color: #888;
+  font-weight: 400;
+}
+
+/* Sous-titre (même style que Carte de crédit) */
+.popup-subtitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: #222;
+  margin: 20px 0 10px 0;
+}
+
+
+/* Titre "Cartes enregistrées" */
+.saved-cards-title {
+  font-size: 18px;       /* identique à Carte de crédit */
+  font-weight: 600;
+  color: #222;
+  margin: 20px 0 10px 0;
+}
+
+.saved-cards {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.saved-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 0;
+  font-size: 15px;
+  color: #444;
+  border-bottom: 1px solid #e5e5e5;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.saved-card span {
+  font-weight: 500;
+  letter-spacing: 1px;
+}
+
+.saved-card:hover {
+  background: #f9f9f9;
+  color: #000;
+}
+
+.saved-card:last-child {
+  border-bottom: none;
+}
+
+.card-number-row {
+  position: relative;
+}
+
+#card-number {
+  width: 100%; /* tu gardes ton width */
+  box-sizing: border-box;
+  padding-right: 40px; /* réserve de l’espace à droite */
+}
+
+#card-brand-icon {
+  position: absolute;
+  right: 12px;
+  top: 67%;
+  transform: translateY(-50%); /* centre verticalement */
+  width: 28px;
+  height: auto;
+  opacity: 0.85;
+  pointer-events: none;
+}
+
+.delete-card {
+  background: none;
+  border: none;
+  color: #999;
+  font-size: 16px;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.delete-card:hover {
+  color: #e74c3c; /* rouge au hover */
+}
+
+.cart-block-text .subtitle span,
+.cart-block-text .subtitle div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 5px; /* 👈 espace entre “Carte bancaire” et la carte */
+}
+
+
+.cart-right {
+  flex: 0 0 36%;
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.cart-store-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.cart-store-info div {
+  flex: 1; /* 🟢 prend tout l’espace dispo entre l’image et la flèche */
+}
+
+
+.cart-store-info img {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.cart-store-info h3 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+}
+.cart-store-info p {
+  margin: 0;
+  font-size: 15px;
+  color: #666;
+}
+
+.cart-store-arrow {
+  margin-left: auto;  /* 🟢 pousse la flèche complètement à droite */
+  font-size: 18px;
+  color: #888;
+}
+
+.cart-divider {
+  border: none;
+  border-top: 1px solid #e5e5e5; /* un peu plus épaisse */
+  margin: 20px 0;
+}
+
+.cart-accordion .accordion-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;   /* centre le texte */
+  gap: 8px;
+  width: 100%;
+  padding: 10px;
+  background: #f5f5f5;
+  border: none;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  position: relative;
+  border-radius: 8px;
+   margin-bottom: 25px; 
+}
+.cart-accordion .accordion-toggle span {
+  flex: none;               /* le texte reste centré */
+}
+
+.cart-accordion .accordion-toggle i.fa-chevron-down,
+.cart-accordion .accordion-toggle i.fa-chevron-up {
+  position: absolute;
+  right: 12px;               /* pousse la flèche à droite */
+}
+
+
+.cart-accordion .accordion-toggle.active {
+  background: #e5e5e5;
+}
+
+.cart-accordion .accordion-content {
+  display: none;
+  padding: 10px 0;
+}
+
+.cart-accordion .accordion-content.open {
+  display: block;
+}
+
+.cart-item {
+  display: flex;
+  justify-content: space-between; /* 👈 sépare bien gauche / droite */
+  align-items: flex-start;
+  width: 100%;                    /* 👈 prend toute la largeur */
+  padding: 12px 0;
+  border-bottom: 1px solid #eee;
+}
+.cart-item-left {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  flex: 1;                        /* 👈 occupe toute la place dispo */
+   max-width: 100%;      /* enlève la marge forcée */
+}
+
+
+
+.cart-item-img {
+  width: 55px;
+  height: 55px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.cart-item-name {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.cart-item-price {
+  font-size: 13px;
+  color: #444;
+  margin: 2px 0;
+}
+
+.cart-item-supp {
+  font-size: 12px;
+  color: #666;
+}
+
+.cart-item-right {
+  text-align: right;
+  min-width: 80px;                /* 👈 fixe une largeur mini */
+  flex-shrink: 0;                 /* 👈 empêche de se compresser */
+}
+
+.cart-item-qty {
+  font-size: 13px;
+  color: #999;
+  margin: 0;
+}
+
+.cart-item-total {
+  font-size: 14px;
+  font-weight: 600;
+  margin-top: 4px;
+}
+#cartItems {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#cartItems li {
+  display: flex;
+  justify-content: space-between; /* bloc gauche à gauche, bloc droit à droite */
+  align-items: center;
+  width: 100%; /* prend toute la largeur */
+  margin-bottom: 12px; /* petit espace entre produits */
+}
+
+.cart-item-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1; /* occupe l’espace dispo à gauche */
+}
+
+.cart-item-img {
+  width: 50px;
+  height: 50px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.cart-item-name {
+  font-weight: 600;
+  margin: 0;
+}
+
+.cart-item-price {
+  font-size: 14px;
+  color: #555;
+  margin: 2px 0 0 0;
+}
+
+.cart-item-supp {
+  font-size: 13px;
+  color: #888;
+  margin: 0;
+}
+
+.cart-item-right {
+  text-align: right;
+  min-width: 80px; /* évite que ça bouge */
+}
+
+.cart-item-qty {
+  font-size: 14px;
+  margin: 0;
+}
+
+.cart-item-total {
+  font-weight: 600;
+  margin: 2px 0 0 0;
+}
+
+.cart-item-supps {
+  margin-top: 4px;
+  font-size: 13px;
+  color: #555;
+}
+
+.cart-item-supp {
+  margin: 2px 0;
+  padding-left: 12px; /* indentation */
+}
+.cart-fees {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 20px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+}
+.cart-fees .fees-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid #aaa;
+  font-size: 12px;
+  color: #aaa;
+  cursor: pointer;
+}
+/* --- POPUP FRAIS (cart.html) --- */
+#feesModal .modal-content {
+  max-width: 320px;     /* largeur fixe */
+  padding: 18px 20px;
+  border-radius: 12px;
+  text-align: left;
+  padding-bottom: 35px !important;
+}
+
+#feesModal h2 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 18px;
+}
+
+/* Retirer les lignes de séparation */
+#feesModal hr {
+  display: none;
+}
+
+/* Espacer les blocs Service / Livraison */
+#feesModal .fee-block {
+  margin-bottom: 22px;
+}
+
+#feesModal .fee-block div {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+#feesModal .fee-block p {
+  font-size: 14px;
+  color: #555;
+  margin: 0;
+}
+
+/* Total des frais */
+#feesModal .total-fees {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 700;
+  font-size: 16px;
+  margin-top: 15px !important;
+}
+.modal {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.5);
+  z-index: 9999;
+  justify-content: center;
+  align-items: center;
+}
+.modal-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;   
+  max-width: 370px !important;
+  width: 90% !important;
+}
+  
+.cart-disclaimer {
+  font-size: 12px;   
+  color: #555;
+  margin-top: 15px;
+  line-height: 1.4;
+}
+  
+.cart-disclaimer a {
+  color: #0070f3;
+  text-decoration: underline;
+  font-weight: 500;
+}
+
+/* ✅ Toast de paiement (fond blanc + bouton gris) */
+.payment-toast-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.payment-toast {
+  background: #fff;
+  color: #222;
+  padding: 16px 24px;
+  border-radius: 12px;
+  font-size: 15px;
+  text-align: center;
+  max-width: 320px;
+  width: 90%;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.payment-toast button {
+  margin-top: 12px;
+  background: #f0f0f0;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  color: #222;
+  cursor: pointer;
+  font-weight: 500;
+}
+.payment-toast button:hover {
+  background: #e0e0e0;
+}
+
+
+
+/* Lien voir les enseignes */
+.see-stores {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  padding: 12px 15px;
+  background: #f8f8f8;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 500;
+  color: #111;
+  transition: background 0.2s ease;
+}
+
+.see-stores:hover {
+  background: #eee;
+}
+
+.see-stores .arrow {
+  font-size: 16px;
+  transition: transform 0.2s ease;
+}
+
+.see-stores:hover .arrow {
+  transform: translateX(3px);
+}
+
+/* Overlay assombri */
+#storesPopupOverlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(2px);
+  z-index: 1000;
+}
+
+/* Popup principal */
+#storesPopup {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 92%;
+  max-width: 420px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+  padding: 16px 20px;
+  z-index: 1001;
+  flex-direction: column;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+/* Header popup avec croix */
+#storesPopupHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+#storesPopupHeader h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+#storesPopupHeader .popup-close {
+  font-size: 1.4rem;
+  cursor: pointer;
+  color: #888;
+  transition: color 0.2s ease;
+}
+#storesPopupHeader .popup-close:hover {
+  color: #000;
+}
+
+/* Chaque enseigne */
+.store-entry {
+  padding: 12px 0;
+  border-bottom: 1px solid #eee;
+}
+.store-entry:last-child {
+  border-bottom: none;
+}
+
+/* Header d’enseigne */
+.store-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+/* Partie gauche (logo + infos) */
+.store-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.store-header-left img.store-logo {
+  width: 55px;
+  height: 55px;
+  border-radius: 12px;
+  object-fit: cover;
+}
+.store-header-left h4 {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+.store-header-left p {
+  margin: 2px 0 0;
+  font-size: 0.85rem;
+  color: #666;
+}
+
+/* Flèche accordéon */
+.accordion-arrow {
+  font-size: 1.2rem;
+  color: #999;
+  transition: transform 0.25s ease;
+}
+.accordion-arrow.open {
+  transform: rotate(90deg);
+  color: #333;
+}
+
+/* Produits */
+.store-products {
+  display: none;
+  margin-top: 10px;
+  padding-left: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.store-product {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 0;
+  border-bottom: 1px solid #f5f5f5;
+}
+.store-product:last-child {
+  border-bottom: none;
+}
+.store-product span {
+  font-size: 0.9rem;
+  color: #333;
+}
+.store-product .price {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+</style>
+</head>
+<body>
+<script>
+async function checkAuth() {
+  try {
+    const res = await fetch("/api/users/me", { credentials: "include" });
+    if (!res.ok) throw new Error("Not connected");
+    return await res.json(); // ✅ user connecté
+  } catch (err) {
+    // ❌ Pas connecté → redirige vers la home avec un paramètre
+    window.location.href = "/index.html?openAuth=1";
+  }
+}
+  
+// ✅ bloque dès le début si pas connecté
+document.addEventListener("DOMContentLoaded", async () => {
+  await checkAuth();
+});
+</script>
+
+<div class="page-container">
+<!-- Header -->
+<header>
+  <div class="container nav">
+      <a class="brand" href="https://localhost:3000">
+      <div class="brand-badge">⚡️</div>
+      <div>
+        <div style="font-size:18px;letter-spacing:-.3px">FlashBring</div>
+        <div class="tagline">Tout, livré en 2h</div>
+      </div>
+    </a>
+<div class="actions">
+<div id="userMenu" style="display:none; position:relative; align-items:center; gap:12px;">
+    <span id="welcomeMsg" style="cursor:pointer;font-weight:600;font-size:15px;">
+      Bonjour <span id="welcomeName"></span>
+    </span>
+  </div>
+</div>
+  
+<!-- Overlay gris derrière le side cart -->
+<div id="sidebarOverlay" class="sidebar-overlay"></div>
+<!-- 👉 Le vrai conteneur du side cart -->
+<div id="userSidebar" class="sidebar">
+<div class="sidebar-user">
+  <div id="sidebarName">
+    Bonjour
+  </div>
+<a href="account.html" class="manage-account">Gérer le compte</a>
+</div>
+
+<ul class="sidebar-links">   
+  <li><a href="/#orders">Mes commandes</a></li>
+  <li><a href="cart.html">Mon panier</a></li>
+  <li><a href="/#favorites">Favoris</a></li>
+  <li><a href="/#refer">Parrainer</a></li>
+  <li><a href="/#faq">Aide</a></li>
+  <li><a href="/#settings">Paramètres</a></li>
+  <li><a href="#" id="logoutBtn">Se déconnecter</a></li>
+
+  <!-- séparateur -->
+  <li style="border-top:2px solid #eee; margin:10px 0"></li>
+      
+  <li><a href="/#partners">Ajouter votre restaurant</a></li>
+  <li><a href="/#drivers">Inscrivez-vous pour livrer</a></li>
+</ul> 
+  
+
+</div> <!-- ferme .sidebar -->
+</div>
+  </header>
+
+
+<!-- Container principal -->
+<div class="cart-page">
+  <!-- Colonne gauche -->
+  <div class="cart-left">
+    <!-- Bloc global Livraison -->
+    <div class="cart-section">
+      <h2>Détails de la livraison</h2>
+
+<!-- Adresse -->
+<div class="cart-block">
+  <div class="cart-block-text address-block">
+    <i class="fas fa-map-marker-alt map-icon"></i>
+    <div>
+      <p class="title" id="userAddress">Adresse non définie</p>
+      <p class="subtitle" id="userCity">Ville non définie</p>
+    </div>
+  </div>
+  <button class="btn-edit">Modifier</button>
+</div>
+
+      <hr />
+
+<!-- Instructions -->
+<div class="cart-block">
+  <div class="cart-block-text address-block">
+    <i class="fas fa-user-circle map-icon"></i>
+    <div>
+      <p class="title">Rendez-vous devant ma porte</p>
+      <p class="subtitle">Ajouter des instructions de livraison</p>
+    </div>
+  </div>
+  <button class="btn-edit" id="editInstructionsBtn">Modifier</button>
+</div>
+
+<hr />
+<h2>Options de livraison</h2>
+
+<!-- Priorité -->
+<div class="cart-block priority-block">
+  <div class="cart-block-text address-block">
+    <i class="fas fa-bolt map-icon" style="color:#e63946;"></i>
+    <div>
+      <p class="title">Priorité</p>
+      <p class="subtitle">20 – 30 minutes • Livré chez vous</p>
+    </div>
+  </div>
+<div class="priority-price">+1,99 €</div>
+</div>
+
+<!-- Standard -->
+<div class="cart-block standard-block">
+  <div class="cart-block-text address-block">
+    <i class="fas fa-truck map-icon" style="color:#222;"></i>
+    <div>
+      <p class="title">Standard</p>
+      <p class="subtitle">10 – 24 minutes </p>
+    </div>
+  </div>
+</div>
+</div> <!-- ferme .cart-section -->
+
+<!-- Bloc Moyen de paiement -->
+<div class="cart-section" style="margin-top: 24px;">
+  <h2>Moyen de paiement</h2>
+  <div class="cart-block">
+    <div class="cart-block-text address-block">
+      <i class="fas fa-credit-card map-icon"></i>
+      <div>
+        <p class="title">Carte bancaire</p>
+        <p class="subtitle" id="paymentSubtitle">
+          <!-- 🟢 On mettra ici le vrai moyen de paiement -->
+          Sélectionne un moyen de paiement
+        </p>
+      </div>
+    </div>
+<button class="btn-edit" id="editPaymentBtn">Modifier</button> <!-- 👈 ajouté -->
+  </div>
+</div>
+<!-- Bouton Commander -->
+<div style="margin-top: 20px;">
+  <button id="checkoutBtn"
+          style="
+            width: 100%;
+            background: #000;
+            color: #fff;
+            border: none;
+            padding: 14px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+          ">
+    Commander et payer
+  </button>
+</div>
+</div>
+
+ <!-- Colonne droite (sera ajoutée après) -->
+<!-- Colonne droite -->
+<div class="cart-right">
+<div class="cart-store-info" id="cartStoreInfo">
+  <img id="cartStoreImg" src="" alt="logo du store"
+       style="width:60px; height:60px; border-radius:50%; object-fit:cover;">
+  <div>
+    <h3 id="cartStoreName"></h3>
+    <p id="cartStoreAddress"></p>
+  </div>
+ <i class="fas fa-chevron-right cart-store-arrow"></i> <!-- ➡️ flèche -->
+</div>
+
+<!-- Accordéon récapitulatif -->
+<div class="cart-accordion">
+  <button class="accordion-toggle" id="cartAccordionToggle">
+    <i class="fas fa-shopping-cart"></i>
+    <span id="cartAccordionLabel">Récapitulatif du panier (0 articles)</span>
+    <i class="fas fa-chevron-down" id="cartAccordionArrow"></i>
+  </button>
+  <div class="accordion-content" id="cartAccordionContent">
+    <ul id="cartItems"></ul>
+  </div>
+</div>
+<!-- ✅ Séparateur + Promotion -->
+<div class="cart-promo">
+  <h3 style="font-size:20px; font-weight:600; margin:0;">Promotion</h3>
+<input 
+    type="text" 
+    id="promoInput" 
+    placeholder="Entrez votre code promo"
+    style="margin-top:8px; padding:6px 10px; border:1px solid #ccc; border-radius:6px; width:100%;"
+  >
+ <p id="promoFeedback" style="margin-top:6px; font-size:14px; color:green; display:none;">
+    ✅ Code promo appliqué
+  </p>
+</div>
+<!-- Ligne de séparation -->
+<hr class="cart-divider">
+
+<!-- Total de la commande -->
+<div class="cart-total-title">
+  <h3 style="font-size:20px; font-weight:600; margin:0;">Total de la commande</h3>
+</div>
+
+<div id="cartSummary" class="cart-summary">
+<!-- ✅ Sous-total -->
+<div class="cart-summary-line" style="display:flex; justify-content:space-between; margin-top:8px;">
+  <span style="font-size:16px;">Sous-total</span>
+  <span id="cartSubtotal" style="font-size:16px; font-weight:600;">0,00 €</span>
+</div>
+<div class="cart-fees">
+  <span class="fees-label">Frais</span>
+  <span class="fees-info" id="feesInfoBtn">
+    <span class="info-icon">i</span>
+  </span>
+</div>
+<!-- ✅ Service -->
+<div class="cart-summary-line" style="display:flex; justify-content:space-between; margin-top:8px;">
+  <span style="font-size:16px;">Service</span>
+  <span id="cartServiceFee" style="font-size:16px; font-weight:600;">0,00 €</span>
+</div>
+<!-- ✅ Livraison -->
+<div class="cart-summary-line" style="display:flex; justify-content:space-between; margin-top:8px;">
+  <span style="font-size:16px;">Livraison</span>
+  <span id="cartDeliveryFee" style="font-size:16px; font-weight:600;">0,00 €</span>
+</div>
+<!-- 🔹 Ligne de séparation -->
+<hr style="border:none; border-top:1px solid #ddd; margin:12px 0;">
+
+<!-- ✅ Total -->
+<div class="cart-summary-line" style="display:flex; justify-content:space-between; margin-top:4px;">
+  <span style="font-size:17px; font-weight:700;">Total</span>
+  <span id="cartTotal" style="font-size:17px; font-weight:700;">0,00 €</span>
+</div>
+<!-- Disclaimer comme Uber Eats -->
+<div class="cart-disclaimer">
+  <p>
+    Contrats sur les services — En cliquant sur le bouton pour passer votre commande, 
+    vous acceptez le <strong>Contrat sur les services de livraison</strong> avec 
+    <strong>Flashbring France SAS</strong>.
+  </p>
+  <p>
+    Vous renoncez pour rappel à votre droit de rétractation ayant pour objet les services de livraison. 
+    Vous avez la possibilité de recourir à un médiateur de la consommation 
+    <a href="https://www.economie.gouv.fr/mediation-conso" target="_blank">ici</a>.
+  </p>
+  <p>
+    Si vous n'êtes pas là lors de l’arrivée du coursier, ce dernier déposera votre commande devant la porte. 
+    Lorsque vous passez une commande, vous acceptez d'en assumer l'entière responsabilité une fois celle-ci livrée. 
+    En votre absence, les commandes contenant de l'alcool ou d'autres articles faisant l'objet de restrictions 
+    seront directement retournées à l'établissement.
+  </p>
+</div>
+
+<!-- Popup Frais -->
+<div id="feesModal" class="modal">
+  <div class="modal-content">
+    <h2>Ce que comprennent les frais</h2>
+
+    <div style="display:flex; justify-content:space-between; font-weight:bold; margin-bottom:6px;">
+      <span>Service</span>
+      <span id="popupServiceAmount">0,00 €</span>
+    </div>
+    <p style="font-size:14px; color:#555; margin-bottom:15px;">
+Ces frais varient en fonction de facteurs tels que la taille du panier et aident à couvrir les coûts liés à votre commande
+    </p>
+
+    <div style="display:flex; justify-content:space-between; font-weight:bold; margin-bottom:6px;">
+      <span>Livraison</span>
+      <span id="popupDeliveryAmount">0,00 €</span>
+    </div>
+    <p style="font-size:14px; color:#555; margin-bottom:15px;">
+Les frais de livraison sont dédiés au livreur et couvrent son déplacement ainsi que les kilomètres supplémentaires.
+    </p>
+
+    <div style="display:flex; justify-content:space-between; font-weight:bold; font-size:16px;">
+      <span>Total des frais</span>
+      <span id="popupTotalFees">0,00 €</span>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+</div>
+<script>
+// 👇 remplace console.log/console.error par un envoi vers ton backend
+["log", "error", "warn"].forEach(fn => {
+  const orig = console[fn];
+  console[fn] = function (...args) {
+    // affiche quand même côté navigateur
+    orig.apply(console, args);
+
+    try {
+apiFetch("/api/debug/log", {
+  method: "POST",
+  body: JSON.stringify({ 
+    level: fn, 
+    message: args.map(a => String(a)).join(" ") 
+  })
+});
+    } catch (e) {
+      orig("❌ Impossible d'envoyer log serveur:", e);
+    }
+  };
+});
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+  console.log("✅ Script cart.js chargé !");
+  
+  const welcomeName = document.getElementById("welcomeName"); // header
+  const sidebarName = document.getElementById("sidebarName"); // sidecart
+  const userMenu = document.getElementById("userMenu");
+  const userSidebar = document.getElementById("userSidebar");
+  const sidebarOverlay = document.getElementById("sidebarOverlay");
+  const logoutBtn = document.getElementById("logoutBtn");
+  const welcomeMsg = document.getElementById("welcomeMsg");
+
+  const addressEl = document.getElementById("userAddress");
+  const cityEl = document.getElementById("userCity");
+
+
+// --- Récupérer utilisateur connecté ---
+  try {
+    const res = await apiFetch("/api/users/me");
+    console.log("DEBUG /me status:", res.status);
+
+    if (res.ok) {
+      const user = await res.json();
+      console.log("🌐 /me data:", user);
+
+      const displayName = user.firstname || "Utilisateur";
+      if (userMenu) userMenu.style.display = "flex";
+      if (welcomeName) welcomeName.textContent = displayName;
+      if (sidebarName) sidebarName.textContent = "Bonjour " + displayName;
+
+      if (addressEl) addressEl.textContent = user.street || "Adresse non définie";
+      if (cityEl) cityEl.textContent = user.city || "Ville non définie";
+    } else {
+      console.error("❌ /me pas OK:", await res.text());
+    }
+  } catch (err) {
+    console.error("❌ Erreur récupération utilisateur:", err);
+  }
+
+  // --- Sidebar ---
+  if (welcomeMsg) {
+    welcomeMsg.addEventListener("click", () => {
+      userSidebar.classList.add("open");
+      sidebarOverlay.classList.add("active");
+    });
+  }
+  if (sidebarOverlay) {
+    sidebarOverlay.addEventListener("click", () => {
+      userSidebar.classList.remove("open");
+      sidebarOverlay.classList.remove("active");
+    });
+  }
+  document.querySelectorAll("#userSidebar a").forEach(link => {
+    link.addEventListener("click", () => {
+      userSidebar.classList.remove("open");
+      sidebarOverlay.classList.remove("active");
+    });
+  });
+
+  // --- Déconnexion ---
+  if (logoutBtn) {
+    logoutBtn.addEventListener("click", async (e) => {
+      e.preventDefault();
+      try {
+await apiFetch("/api/auth/logout", { method: "POST" });
+        userMenu.style.display = "none";
+        if (welcomeName) welcomeName.textContent = "";
+        if (sidebarName) sidebarName.textContent = "";
+      } catch (err) {
+        console.error("❌ Erreur déconnexion:", err);
+      }
+    });
+  }
+
+
+  const addressBtn = document.querySelector(".cart-block .btn-edit"); // le bouton modifier de l'adresse
+  const popup = document.getElementById("addressPopup");
+  const overlay = document.getElementById("addressPopupOverlay");
+  const closeBtn = document.getElementById("closeAddressPopup");
+
+  if (addressBtn) {
+    addressBtn.addEventListener("click", () => {
+      popup.style.display = "block";
+      overlay.style.display = "block";
+    });
+  }
+
+  if (closeBtn) {
+    closeBtn.addEventListener("click", () => {
+      popup.style.display = "none";
+      overlay.style.display = "none";
+    });
+  }
+
+  if (overlay) {
+    overlay.addEventListener("click", () => {
+      popup.style.display = "none";
+      overlay.style.display = "none";
+    });
+  }
+});
+
+
+</script>
+
+<!-- Overlay -->
+<div id="addressPopupOverlay" class="popup-overlay"></div>
+
+<!-- Popup -->
+<div id="addressPopup" class="popup">
+  <div class="popup-header">
+    <h3>Adresse</h3>
+    <button id="closeAddressPopup" class="close-btn">✕</button>
+  </div>
+  <div class="popup-body">  
+  <input type="text" id="addressInput" placeholder="Rechercher une adresse" autocomplete="off">
+    <ul id="addressSuggestions" class="suggestions-list"></ul>
+  </div>
+</div>
+
+
+<!-- Overlay Instructions -->
+<div id="instructionsPopupOverlay" class="popup-overlay"></div>
+
+<!-- Popup Instructions -->
+<div id="instructionsPopup" class="popup">
+  <div class="popup-header">
+    <h3>Options de livraison</h3>
+    <button id="closeInstructionsPopup" class="close-btn">✕</button>
+  </div>
+
+<!-- Sous-titre avec l’adresse -->
+  <p id="instructionsAddress" class="instructions-subtitle">
+    Livrez à l'adresse : Adresse non définie
+  </p>
+
+
+
+<!-- Bloc "Laisser sur place" -->
+<div class="leave-block active">
+  <div class="block-header">
+    <div class="cart-block-text address-block">
+      <img src="A_photograph_showcases_a_FlashBring_delivery_paper.png" 
+           alt="Sac Flashbring" class="leave-icon">
+      <div>
+        <p class="leave-title">Laisser sur place</p>
+      </div>
+    </div>
+  </div>
+  <div class="block-content">
+    <label class="radio-option">
+      Déposer devant ma porte
+      <input type="radio" name="leaveOption" value="door">
+      <span class="custom-radio"></span>
+    </label>
+      
+    <label class="radio-option">
+      Déposer à l’accueil
+      <input type="radio" name="leaveOption" value="lobby">  
+      <span class="custom-radio"></span>
+    </label>
+  </div>
+</div>
+
+<!-- Bloc "Donnez-le moi" -->
+<div class="give-block">
+  <div class="block-header">
+    <div class="cart-block-text address-block">
+      <img src="sac-flashbring.png" alt="Donner sac Flashbring" class="leave-icon">
+      <div>
+        <p class="leave-title">Donnez-le moi</p>
+      </div>
+    </div>
+  </div>
+  <div class="block-content">
+    <label class="radio-option">
+      Rendez-vous à ma porte
+      <input type="radio" name="giveOption" value="door">
+      <span class="custom-radio"></span>
+    </label>
+    <label class="radio-option">
+      Rendez-vous à l’extérieur
+      <input type="radio" name="giveOption" value="outside">
+      <span class="custom-radio"></span>
+    </label>
+    <label class="radio-option">
+      Rendez-vous dans le hall d’entrée
+      <input type="radio" name="giveOption" value="hall">
+      <span class="custom-radio"></span>
+    </label>
+  </div>
+</div>
+
+<!-- Instructions pour le coursier -->
+<div class="instructions-courier">
+  <h4>Instructions pour le coursier</h4>
+  <textarea id="courierNotes" placeholder="Écrire vos instructions..." rows="3"></textarea>
+</div>
+<!-- Boutons bas du popup -->
+<div class="instructions-actions">
+  <button class="btn ghost" id="backInstructions">Retour</button>
+  <button class="btn" id="saveInstructions">Mettre à jour</button>
+</div>
+</div>
+
+
+<!-- Overlay Paiement -->
+<div id="paymentPopupOverlay" class="popup-overlay"></div>
+
+<!-- Popup Paiement -->
+<div id="paymentPopup" class="popup">
+  <div class="popup-header">
+    <h3>Option de paiement</h3>
+    <button id="closePaymentPopup" class="close-btn">✕</button>
+  </div>
+<div class="popup-body">
+<p>Moyen de paiement</p>  
+
+<div class="payment-option" data-method="apple">
+    <div class="payment-info">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" alt="Apple Pay" class="payment-icon">
+      <span>Apple Pay</span>
+    </div>
+    <span class="radio-btn"></span>
+  </div>
+
+  <div class="payment-option" data-method="cash">
+    <div class="payment-info">
+      💵 <span>Espèces</span>
+    </div>
+    <span class="radio-btn"></span>
+  </div>
+
+  <div class="payment-option" data-method="card">
+    <div class="payment-info">
+      💳 <span>Carte de crédit</span>
+    </div>
+<i class="fas fa-chevron-right"></i>
+  </div>
+</div>
+<div class="popup-footer">
+  <button id="savePayment" class="btn-save">Enregistrer</button>
+</div>
+</div>
+
+
+
+<!-- Overlay Carte -->
+<div id="cardPopupOverlay" class="popup-overlay"></div>
+
+<!-- Popup Carte -->
+<div id="cardPopup" class="popup">
+  <div class="popup-header">
+    <h3>Carte de crédit</h3>
+    <button id="closeCardPopup" class="close-btn">✕</button>
+  </div>
+  <div class="popup-body">
+
+<div class="form-row card-number-row">
+  <label>Numéro de carte</label>
+  <div style="display: flex; align-items: center; gap: 10px;">
+    <div id="card-number"></div>
+    <img id="card-brand-icon" src="/icons/default.svg" alt="brand" style="width: 40px; height: auto;" />
+  </div>
+</div>
+
+<div class="card-row-inline">
+  <div class="form-row">
+    <label>Date d'expiration</label>
+    <div id="card-expiry"></div>
+  </div>
+  <div class="form-row">
+    <label>Code de sécurité</label>
+    <div id="card-cvc"></div>
+  </div>
+</div>
+
+<div class="form-row">
+  <label>Pays</label>
+  <select id="card-country"></select>
+</div>
+
+<div class="form-row">
+  <label>Nom complet ( Facultatif )</label>
+  <input type="text" id="card-holder-name" placeholder="Nom complet" />
+</div>
+
+  <div id="saved-cards" class="saved-cards"></div>
+
+<div class="popup-footer">
+  <button id="addCardBtn" class="btn-save">Ajouter la carte</button>
+</div>
+  </div>
+
+</div>
+
+
+<!-- ======================
+     POPUP ENSEIGNES
+====================== -->
+<div id="storesPopup" class="popup">
+  <div class="popup-content">
+    <span class="popup-close" data-close="storesPopup">&times;</span>
+    <h3 class="popup-title">Enseignes du panier</h3>
+
+    <!-- Liste des enseignes -->
+    <div id="storesList" class="stores-list">
+      <!-- Rempli dynamiquement en JS -->
+    </div>
+  </div>
+</div>
+
+<div id="storesPopupOverlay" class="popup-overlay"></div>
+
+
+
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const input = document.getElementById("addressInput");
+  const suggestions = document.getElementById("addressSuggestions");
+  const popup = document.getElementById("addressPopup");
+
+  input.addEventListener("input", async () => {
+    const query = input.value.trim();
+    if (query.length < 3) {
+      suggestions.innerHTML = "";
+      return;
+    }
+
+    try {
+      const res = await fetch(
+        `https://api-adresse.data.gouv.fr/search/?q=${encodeURIComponent(query)}&limit=5`
+      );
+      const data = await res.json();
+
+      suggestions.innerHTML = "";
+
+      data.features.forEach((feature) => {
+        const li = document.createElement("li");
+        li.textContent = feature.properties.label;
+        li.classList.add("suggestion-item");
+
+        li.addEventListener("click", async () => {
+          input.value = feature.properties.name || feature.properties.label;
+          suggestions.innerHTML = "";
+
+          try {
+            const res = await apiFetch("/api/users/me", {
+              method: "PUT",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                address: feature.properties.name || feature.properties.label,
+                postal: feature.properties.postcode || "",
+                city: feature.properties.city || "",
+                lat: feature.geometry.coordinates[1],
+                lng: feature.geometry.coordinates[0],
+              }),
+            });
+
+            if (res.ok) {
+              const updated = await res.json();
+              console.log("✅ Adresse mise à jour:", updated);
+
+              // 👉 Mets à jour l’affichage directement
+              const userAddressEl = document.getElementById("userAddress");
+              const userCityEl = document.getElementById("userCity");
+              if (userAddressEl) userAddressEl.textContent = updated.user.address || feature.properties.name;
+              if (userCityEl) userCityEl.textContent = updated.user.city || feature.properties.city;
+
+              // 👉 Fermer le popup
+              if (popup) popup.style.display = "none";
+              const overlay = document.getElementById("addressPopupOverlay");
+              if (overlay) overlay.style.display = "none";
+
+              // 🔥 reset champ + liste
+              input.value = "";
+              suggestions.innerHTML = "";
+
+// 🚀 Recalcule aussi les délais Standard / Priorité
+try {
+  const recapRes = await apiFetch("/api/orders/recap-panier", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      orderId: window.CURRENT_ORDER_ID,
+      products: window.SELECTED_PRODUCTS || {}  // ✅ garde les produits choisis
+    })
+  });
+
+  if (recapRes.ok) {
+    const recap = await recapRes.json();
+
+    if (recap?.deliveryTime) {
+      updateDeliveryOptions(recap.deliveryTime);
+    }
+
+    updateCartTotalsAndTime(recap); // ✅ affiche uniquement le récap
+  } else {
+    console.error("❌ Erreur API recap-panier:", await recapRes.text());
+  }
+} catch (err) {
+  console.error("⚠️ Impossible de recalculer le délai après changement d’adresse:", err);
+}
+
+            } else {
+              console.error("❌ Erreur API update:", await res.text());
+            }
+          } catch (err) {
+            console.error("❌ Erreur enregistrement adresse:", err);
+          }
+        });
+
+        suggestions.appendChild(li);
+      });
+    } catch (err) {
+      console.error("Erreur API adresse:", err);
+    }
+  });
+});
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  const leaveBlock = document.querySelector(".leave-block");
+  const giveBlock = document.querySelector(".give-block");
+  const instructionsPopup = document.getElementById("instructionsPopup");
+  const instructionsOverlay = document.getElementById("instructionsPopupOverlay");
+  const closeInstructionsBtn = document.getElementById("closeInstructionsPopup");
+  const openInstructionsBtn = document.getElementById("editInstructionsBtn");
+  const saveInstructionsBtn = document.getElementById("saveInstructions");
+  const backInstructionsBtn = document.getElementById("backInstructions");
+  const courierNotes = document.getElementById("courierNotes");
+
+  // 👉 Fonction reset : laisser "Laisser sur place" ouvert
+  function resetBlocks() {
+    leaveBlock.classList.add("active");
+    giveBlock.classList.remove("active");
+
+    // Par défaut → cocher la première option de chaque bloc
+    document.querySelectorAll(".leave-block, .give-block").forEach(block => {
+      const firstRadio = block.querySelector("input[type='radio']");
+      if (firstRadio) firstRadio.checked = true;
+    });
+  }
+
+  // 👉 Au clic sur header "Donnez-le moi"
+  document.querySelector(".give-block .block-header").addEventListener("click", () => {
+    giveBlock.classList.add("active");
+    leaveBlock.classList.remove("active");
+  });
+
+  // 👉 Au clic sur header "Laisser sur place"
+  document.querySelector(".leave-block .block-header").addEventListener("click", () => {
+    leaveBlock.classList.add("active");
+    giveBlock.classList.remove("active");
+  });
+
+  // 👉 Open popup → reset
+  openInstructionsBtn?.addEventListener("click", () => {
+    instructionsPopup.style.display = "block";
+    instructionsOverlay.style.display = "block";
+    resetBlocks();
+  });
+
+  // 👉 Close popup (croix ou overlay ou bouton retour) → reset
+  [closeInstructionsBtn, instructionsOverlay, backInstructionsBtn].forEach(el => {
+    el?.addEventListener("click", () => {
+      instructionsPopup.style.display = "none";
+      instructionsOverlay.style.display = "none";
+      resetBlocks();
+    });
+  });
+
+  // 👉 Sauvegarde en base
+  saveInstructionsBtn?.addEventListener("click", async () => {
+    const deliveryOption =
+      document.querySelector('input[name="leaveOption"]:checked')?.value ||
+      document.querySelector('input[name="giveOption"]:checked')?.value ||
+      "door"; // fallback si rien coché
+
+    const instructions = courierNotes.value;
+
+    try {
+      const res = await apiFetch(`/api/orders/${CURRENT_ORDER_ID}/instructions`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ delivery_option: deliveryOption, instructions })
+      });
+
+      if (res.ok) {
+        console.log("✅ Instructions mises à jour !");
+        instructionsPopup.style.display = "none";
+        instructionsOverlay.style.display = "none";
+      } else {
+        console.error("❌ Erreur côté serveur:", await res.text());
+      }
+    } catch (err) {
+      console.error("❌ Erreur enregistrement:", err);
+    }
+  });
+});
+</script>
+<script>
+// ======================
+// ✅ Toast Notification
+// ======================
+function showToast(message) {
+  const toast = document.getElementById("toast");
+  toast.textContent = message;
+  toast.classList.add("show");
+
+  setTimeout(() => {
+    toast.classList.remove("show");
+  }, 2000);
+}
+
+
+
+// ======================
+// ✅ Popup Paiement
+// ======================
+document.addEventListener("DOMContentLoaded", () => {
+  const paymentBtn = document.getElementById("editPaymentBtn"); // ✅ bouton correct
+  if (!paymentBtn) return;
+
+  const paymentPopup = document.getElementById("paymentPopup");
+  const paymentOverlay = document.getElementById("paymentPopupOverlay");
+  const closePaymentBtn = document.getElementById("closePaymentPopup");
+  const paymentOptions = document.querySelectorAll(".payment-option");
+
+  // popup carte
+  const cardOption = document.querySelector('.payment-option[data-method="card"]');
+  const cardPopup = document.getElementById("cardPopup");
+  const cardOverlay = document.getElementById("cardPopupOverlay");
+  const closeCardBtn = document.getElementById("closeCardPopup");
+
+  function resetPayment() {
+    paymentOptions.forEach(opt => opt.classList.remove("active"));
+    document.querySelector('[data-method="apple"]').classList.add("active"); // Apple par défaut
+  }
+
+  // 👉 Ouvrir le popup paiement
+  paymentBtn.addEventListener("click", () => {
+    resetPayment();
+    paymentPopup.style.display = "block";
+    paymentOverlay.style.display = "block";
+  });
+
+  // 👉 Fermer le popup paiement
+  [closePaymentBtn, paymentOverlay].forEach(el => {
+    el?.addEventListener("click", () => {
+      paymentPopup.style.display = "none";
+      paymentOverlay.style.display = "none";
+      resetPayment();
+    });
+  });
+
+  // 👉 Sélection autre option (Apple / Cash)
+  paymentOptions.forEach(opt => {
+    if (opt.dataset.method === "card") return;
+    opt.addEventListener("click", () => {
+      paymentOptions.forEach(o => o.classList.remove("active"));
+      opt.classList.add("active");
+    });
+  });
+
+  // 👉 Cas Carte
+  if (cardOption) {
+    cardOption.addEventListener("click", () => {
+      paymentPopup.style.display = "none";
+      paymentOverlay.style.display = "none";
+      cardPopup.style.display = "block";
+      cardOverlay.style.display = "block";
+      loadSavedCards(); // ⚡ charge les cartes existantes
+    });
+  }
+
+  [closeCardBtn, cardOverlay].forEach(el => {
+    el?.addEventListener("click", () => {
+      cardPopup.style.display = "none";
+      cardOverlay.style.display = "none";
+      resetPayment();
+    });
+  });
+});
+
+</script>
+<script>
+// ======================
+// ✅ Sauvegarde du moyen de paiement (popup 1)
+// ======================
+document.addEventListener("DOMContentLoaded", () => {
+  // 👉 Toggle visuel des options
+  document.querySelectorAll(".payment-option").forEach(opt => {
+    opt.addEventListener("click", () => {
+      document.querySelectorAll(".payment-option").forEach(o => o.classList.remove("active"));
+      opt.classList.add("active");
+    });
+  });
+
+  const savePaymentBtn = document.getElementById("savePayment");
+  if (!savePaymentBtn) return;
+console.warn("⚠️ Bouton savePayment introuvable !");
+
+  savePaymentBtn.addEventListener("click", async () => {
+console.log("💾 Bouton Sauvegarder cliqué");
+
+    const active = document.querySelector(".payment-option.active");
+console.log("👉 Option active:", active);
+    if (!active) return alert("Choisis un moyen de paiement");
+
+    const method = active.dataset.method;
+
+    // 🟢 Cas "Carte" → ouvrir le popup cartes
+    if (method === "card") {
+      document.getElementById("paymentPopup").style.display = "none";
+      document.getElementById("paymentPopupOverlay").style.display = "none";
+      document.getElementById("cardPopup").style.display = "block";
+      document.getElementById("cardPopupOverlay").style.display = "block";
+
+      window.SELECTED_PAYMENT_METHOD = method; // garde en mémoire
+      return;
+    }
+
+    // 🟢 Autres cas → appel API pour enregistrer
+    try {
+      const res = await apiFetch(`/api/orders/${CURRENT_ORDER_ID}/payment`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ method })
+      });
+
+      if (res.ok) {
+        window.SELECTED_PAYMENT_METHOD = method; // garde côté front
+
+        if (method === "apple") {
+          showToast("Apple Pay enregistré");
+        } else if (method === "cash") {
+          showToast("Règlement en espèces enregistré");
+        }
+
+        document.getElementById("paymentPopup").style.display = "none";
+        document.getElementById("paymentPopupOverlay").style.display = "none";
+
+        updatePaymentBlock(); // 🔄 met à jour le bloc affichage
+      } else {
+        const err = await res.json();
+        alert("❌ Erreur: " + err.error);
+      }
+    } catch (e) {
+      console.error(e);
+      alert("❌ Impossible d’enregistrer le paiement");
+    }
+  });
+});
+
+// ======================
+// ✅ Stripe init
+// ======================
+const stripe = Stripe("pk_test_51Rye4DLNzGlAd8NWq7bONluyY7yz7gjP9b1ZsJMr3SHkhGL8ozpP289FbBSPA2dY2FGoUV7Xc5CrhtzO0q2aXooG004zjuHj2f");
+const elements = stripe.elements();
+
+const style = {
+  base: {
+    fontSize: "16px",
+    color: "#32325d",
+    "::placeholder": { color: "#a0aec0" }
+  },
+  invalid: {
+    color: "#e53e3e"
+  }
+};
+
+// Champs Stripe Elements
+const cardNumber = elements.create("cardNumber", { style });
+cardNumber.mount("#card-number");
+
+const cardExpiry = elements.create("cardExpiry", { style });
+cardExpiry.mount("#card-expiry");
+
+const cardCvc = elements.create("cardCvc", { style });
+cardCvc.mount("#card-cvc");
+
+// Gestion du logo de la carte
+cardNumber.on("change", event => {
+  const brandIcon = document.getElementById("card-brand-icon");
+
+  if (!brandIcon) return; // sécurité
+
+  const brand = event.brand;
+
+  if (!brand || brand === "unknown") {
+    brandIcon.src = "/icons/default.svg";
+    brandIcon.alt = "Carte bancaire";
+  } else {
+    brandIcon.src = `/icons/${brand}.svg`;
+    brandIcon.alt = brand.charAt(0).toUpperCase() + brand.slice(1);
+  }
+});
+
+// ======================
+// ✅ Ajouter une carte
+// ======================
+document.getElementById("addCardBtn")?.addEventListener("click", async () => {
+  try {
+    // 1️⃣ Créer la carte côté Stripe
+    const { paymentMethod, error } = await stripe.createPaymentMethod({
+      type: "card",
+      card: cardNumber,
+      billing_details: {
+        name: document.getElementById("card-holder-name")?.value || "Client",
+        address: { country: document.getElementById("card-country")?.value || "FR" }
+      }
+    });
+
+    if (error) {
+      showToast("❌ " + error.message);
+      return;
+    }
+
+    // 2️⃣ Enregistrer la carte côté backend
+    const res = await apiFetch("/api/payments/add-card", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ paymentMethodId: paymentMethod.id })
+    });
+
+    const data = await res.json();
+    if (!res.ok) {
+      showToast("❌ Erreur: " + data.error);
+      return;
+    }
+
+    const newCard = data;
+
+    // 3️⃣ Associer cette carte à la commande en cours
+    await apiFetch(`/api/orders/${CURRENT_ORDER_ID}/payment`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ method: `card:${newCard.id}` })
+    });
+
+    // 4️⃣ UI + reset
+    showToast("✅ Carte enregistrée");
+    document.getElementById("cardPopup").style.display = "none";
+    document.getElementById("cardPopupOverlay").style.display = "none";
+
+    await loadSavedCards();
+    await updatePaymentBlock();
+
+    // 🔄 Reset des champs Stripe Elements + inputs
+    cardNumber.clear();
+    cardExpiry.clear();
+    cardCvc.clear();
+    document.getElementById("card-holder-name").value = "";
+    document.getElementById("card-country").value = "FR";
+  } catch (e) {
+    console.error("❌ Erreur addCard:", e);
+    showToast("❌ Impossible d’enregistrer la carte");
+  }
+});
+
+// ======================
+// ✅ Charger cartes existantes
+// ======================
+async function loadSavedCards() {
+  try {
+    const res = await apiFetch("/api/payments/my-cards");
+    if (!res.ok) return;
+
+    const cards = await res.json();
+    const container = document.getElementById("saved-cards");
+    if (!container) return;
+
+    container.innerHTML = "";
+
+    // 👉 Si aucune carte, on arrête là
+    if (!cards.length) return;
+
+    // ✅ Titre
+    const title = document.createElement("h3");
+    title.className = "popup-subtitle";
+    title.textContent = "Cartes enregistrées";
+    container.appendChild(title);
+
+    // ✅ Unicité (brand + last4)
+    const seen = new Set();
+    const unique = [];
+    cards.forEach(c => {
+      const key = `${c.brand}-${c.last4}`;
+      if (!seen.has(key)) {
+        seen.add(key);
+        unique.push(c);
+      }
+    });
+
+    // ✅ Affiche max 2 cartes
+    unique.slice(0, 2).forEach((card, index) => {
+      const div = document.createElement("div");
+      div.className = "saved-card";
+
+      const icon = card.brand ? `/icons/${card.brand}.svg` : "/icons/default.svg";
+      div.innerHTML = `
+        <div style="display:flex;align-items:center;justify-content:space-between;width:100%;">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <img src="${icon}" alt="${card.brand || "card"}" style="width:28px;height:auto;" />
+            <span>•••• ${card.last4}</span>
+          </div>
+          <button class="delete-card" data-id="${card.id}" title="Supprimer la carte">
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
+      `;
+
+      // ✅ Carte par défaut (DB) ou première → active
+      if (card.is_default || index === 0) {
+        div.classList.add("active");
+        window.SELECTED_PAYMENT_METHOD = `card:${card.id}`;
+      }
+
+      // ✅ Clic sur la carte → sélectionner
+      div.addEventListener("click", async (e) => {
+        // ⛔ Ignore le clic si c'est sur la corbeille
+        if (e.target.closest(".delete-card")) return;
+
+        document.querySelectorAll(".saved-card").forEach(c => c.classList.remove("active"));
+        div.classList.add("active");
+        window.SELECTED_PAYMENT_METHOD = `card:${card.id}`;
+        console.log("✅ Carte choisie:", window.SELECTED_PAYMENT_METHOD);
+
+        try {
+          await apiFetch(`/api/orders/${CURRENT_ORDER_ID}/payment`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ method: `card:${card.id}` })
+          });
+
+          showToast(`Carte ${card.brand?.toUpperCase() || "CB"} •••• ${card.last4} enregistrée`);
+
+          // Ferme le popup après sélection
+          document.getElementById("cardPopup").style.display = "none";
+          document.getElementById("cardPopupOverlay").style.display = "none";
+
+          updatePaymentBlock();
+        } catch (e) {
+          console.error("Erreur save card:", e);
+          showToast("Impossible d’enregistrer cette carte");
+        }
+      });
+
+      // ✅ Supprimer la carte
+      div.querySelector(".delete-card").addEventListener("click", async (e) => {
+        e.stopPropagation(); // évite de déclencher la sélection
+        try {
+          const res = await apiFetch(`/api/payments/my-cards/${card.id}`, { method: "DELETE" });
+          if (res.ok) {
+            showToast(`Carte •••• ${card.last4} supprimée`);
+            await loadSavedCards();
+            await updatePaymentBlock();
+          } else {
+            const err = await res.json();
+            showToast("❌ Erreur suppression: " + err.error);
+          }
+        } catch (err) {
+          console.error("Erreur suppression carte:", err);
+          showToast("❌ Impossible de supprimer cette carte");
+        }
+      });
+
+      container.appendChild(div);
+    });
+  } catch (err) {
+    console.error("❌ Erreur loadSavedCards:", err);
+  }
+}
+
+
+// ======================
+// ✅ Charger liste des pays
+// ======================
+document.addEventListener("DOMContentLoaded", () => {
+  const countrySelect = document.getElementById("card-country");
+
+  const stripeCountries = [
+    { code: "AU", name: "Australie" },
+    { code: "AT", name: "Autriche" },
+    { code: "BE", name: "Belgique" },
+    { code: "BR", name: "Brésil" },
+    { code: "BG", name: "Bulgarie" },
+    { code: "CA", name: "Canada" },
+    { code: "HR", name: "Croatie" },
+    { code: "CY", name: "Chypre" },
+    { code: "CZ", name: "République tchèque" },
+    { code: "DK", name: "Danemark" },
+    { code: "EE", name: "Estonie" },
+    { code: "FI", name: "Finlande" },
+    { code: "FR", name: "France" },
+    { code: "DE", name: "Allemagne" },
+    { code: "GR", name: "Grèce" },
+    { code: "HK", name: "Hong Kong" },
+    { code: "HU", name: "Hongrie" },
+    { code: "IE", name: "Irlande" },
+    { code: "IT", name: "Italie" },
+    { code: "JP", name: "Japon" },
+    { code: "LV", name: "Lettonie" },
+    { code: "LT", name: "Lituanie" },
+    { code: "LU", name: "Luxembourg" },
+    { code: "MT", name: "Malte" },
+    { code: "MX", name: "Mexique" },
+    { code: "NL", name: "Pays-Bas" },
+    { code: "NZ", name: "Nouvelle-Zélande" },
+    { code: "NO", name: "Norvège" },
+    { code: "PL", name: "Pologne" },
+    { code: "PT", name: "Portugal" },
+    { code: "RO", name: "Roumanie" },
+    { code: "SG", name: "Singapour" },
+    { code: "SK", name: "Slovaquie" },
+    { code: "SI", name: "Slovénie" },
+    { code: "ES", name: "Espagne" },
+    { code: "SE", name: "Suède" },
+    { code: "CH", name: "Suisse" },
+    { code: "GB", name: "Royaume-Uni" },
+    { code: "US", name: "États-Unis" }
+  ];
+
+stripeCountries.forEach(c => {
+    const opt = document.createElement("option");
+    opt.value = c.code;
+    opt.textContent = c.name;
+    if (c.code === "FR") opt.selected = true;
+    countrySelect.appendChild(opt);
+  });
+
+  new Choices(countrySelect, {
+    searchEnabled: true,
+    itemSelectText: "",
+    shouldSort: true,
+    placeholder: true,
+    searchPlaceholderValue: "Rechercher un pays..."
+  });
+});
+
+
+
+
+// ⚡ Appeler au chargement de la page
+document.addEventListener("DOMContentLoaded", updatePaymentBlock);
+
+</script>
+<!-- Toast Notification -->
+<div id="toast" class="toast"></div>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+  try {
+    // 👉 On appelle d’abord /current
+    let res = await apiFetch("/api/orders/current");
+    if (!res.ok) return;
+
+    let order = await res.json();
+    if (!order) {
+      console.log("Pas de commande en cours");
+      return;
+    }
+
+if (order?.id) {
+  window.CURRENT_ORDER_ID = order.id;
+  console.log("🆔 Order en cours:", CURRENT_ORDER_ID);
+}
+
+const cartItems = document.getElementById("cartItems");
+    const container = document.getElementById("cartStoreInfo");
+
+    // --- Cas multi-stores ---
+    if (order.stores && order.stores.length > 1) {
+      console.log("⚡ Passage en mode multi-stores");
+
+      // Recharge depuis /current-multistore
+      res = await apiFetch("/api/orders/current-multistore");
+      if (!res.ok) throw new Error("Erreur chargement commande multi-stores");
+      order = await res.json();
+      if (!order) return;
+
+      // Injecter bouton "Voir les enseignes"
+      container.innerHTML = `
+        <div class="see-stores">
+          Voir les enseignes (${order.stores.length})
+        </div>
+      `;
+      container.style.display = "block";
+
+      // Panier et totaux vides
+      cartItems.innerHTML = "<p>Sélectionnez vos produits dans les enseignes</p>";
+      [
+        "cartSubtotal","cartServiceFee","cartDeliveryFee","cartTotal",
+        "popupServiceAmount","popupDeliveryAmount","popupTotalFees"
+      ].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = "0,00 €";
+      });
+      document.getElementById("cartAccordionLabel").textContent =
+        `Récapitulatif du panier (0 articles)`;
+
+      // Popup enseignes
+      container.querySelector(".see-stores").addEventListener("click", () => {
+        const list = document.getElementById("storesList");
+        list.innerHTML = "";
+        order.stores.forEach(s => {
+          const div = document.createElement("div");
+          div.className = "store-entry";
+          div.style.marginBottom = "15px";
+          div.style.borderBottom = "1px solid #ddd";
+          div.style.paddingBottom = "10px";
+          div.innerHTML = `
+            <div class="store-header" style="display:flex;align-items:center;gap:10px;cursor:pointer;">
+              <img src="${s.banner_url}" alt="${s.name}" class="store-logo"
+                   style="width:45px;height:45px;border-radius:8px;object-fit:cover;">
+              <div>
+                <h4 style="margin:0;font-size:16px;">${s.name}</h4>
+                <p style="margin:0;font-size:13px;color:#666;">${s.address}</p>
+              </div>
+            </div>
+          `;
+          list.appendChild(div);
+        });
+        document.getElementById("storesPopup").style.display = "flex";
+        document.getElementById("storesPopupOverlay").style.display = "block";
+      });
+
+} else {
+  // --- Cas mono-store ---
+  if (!order?.store) return;
+
+  // Infos store
+  document.getElementById("cartStoreImg").src = order.store.banner_url || "/placeholder.png";
+  document.getElementById("cartStoreName").textContent = order.store.name;
+  document.getElementById("cartStoreAddress").textContent = order.store.address || "";
+  container.style.display = "flex";
+
+  container.onclick = () => {
+    // On récupère la catégorie du store
+    let category = order.store.category; // ex: "food", "grocery", "tech", "fashion", "gifts"
+    if (!category) category = "food"; // fallback si jamais pas défini
+
+    // On construit le bon lien
+    window.location.href = `/store-${category}.html?id=${order.store.id}`;
+  };
+
+      // Produits
+      cartItems.innerHTML = "";
+      order.items.forEach(item => {
+        let itemTotal = item.price * item.quantity;
+        if (item.supplements?.length) {
+          item.supplements.forEach(supp => {
+            itemTotal += supp.price * supp.quantity;
+          });
+        }
+        const li = document.createElement("li");
+        li.className = "cart-item";
+        li.innerHTML = `
+          <div class="cart-item-left">
+            <img src="${item.image || '/placeholder.png'}" alt="${item.name}" class="cart-item-img">
+            <div>
+              <p class="cart-item-name">${item.name}</p>
+              <p class="cart-item-price">${item.price.toFixed(2)} €</p>
+            </div>
+          </div>
+          <div class="cart-item-right">
+            <p class="cart-item-qty">x${item.quantity}</p>
+            <p class="cart-item-total">${itemTotal.toFixed(2)} €</p>
+          </div>
+        `;
+        if (item.supplements?.length) {
+          const suppContainer = document.createElement("div");
+          suppContainer.className = "cart-item-supps";
+          item.supplements.forEach(supp => {
+            const suppLine = document.createElement("p");
+            suppLine.className = "cart-item-supp";
+            suppLine.textContent =
+              `+ ${supp.name} x${supp.quantity} (${(supp.price * supp.quantity).toFixed(2)} €)`;
+            suppContainer.appendChild(suppLine);
+          });
+          li.querySelector(".cart-item-left div").appendChild(suppContainer);
+        }
+        cartItems.appendChild(li);
+      });
+
+      // Totaux
+      document.getElementById("cartSubtotal").textContent =
+        `${order.subtotal.toFixed(2)} €`;
+      document.getElementById("cartServiceFee").textContent =
+        `${order.fees.service.toFixed(2)} €`;
+      document.getElementById("popupServiceAmount").textContent =
+        `${order.fees.service.toFixed(2)} €`;
+      document.getElementById("cartDeliveryFee").textContent =
+        `${order.fees.delivery.toFixed(2)} €`;
+      document.getElementById("popupDeliveryAmount").textContent =
+        `${order.fees.delivery.toFixed(2)} €`;
+      document.getElementById("popupTotalFees").textContent =
+        `${(order.fees.service + order.fees.delivery).toFixed(2)} €`;
+      document.getElementById("cartTotal").textContent =
+        `${order.total.toFixed(2)} €`;
+
+      document.getElementById("cartAccordionLabel").textContent =
+        `Récapitulatif du panier (${order.items.length} articles)`;
+
+      if (order.deliveryTime) {
+        updateDeliveryOptions(order.deliveryTime);
+      }
+    }
+  } catch (err) {
+    console.error("❌ Erreur chargement commande:", err);
+  }
+
+  // Accordéon
+  const toggle = document.getElementById("cartAccordionToggle");
+  const content = document.getElementById("cartAccordionContent");
+  if (toggle && content) {
+    toggle.addEventListener("click", () => {
+      toggle.classList.toggle("active");
+      content.classList.toggle("open");
+    });
+  }
+});
+</script>
+<script>
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  const promoInput = document.getElementById("promoInput");
+  const promoFeedback = document.getElementById("promoFeedback");
+
+if (promoInput) {
+    promoInput.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+
+        const code = promoInput.value.trim();
+        if (code) {
+          console.log(" Code promo saisi :", code);
+          promoFeedback.textContent = ` Code "${code}" appliqué`;
+          promoFeedback.style.color = "black";
+        } else {
+          promoFeedback.textContent = "⚠️ Aucun code saisi";
+          promoFeedback.style.color = "red";
+        }
+
+        // 👉 Affiche puis disparaît après 3 secondes
+        promoFeedback.style.display = "block";
+        setTimeout(() => {
+          promoFeedback.style.display = "none";
+        }, 2000);
+      }
+    });
+  }
+});
+
+
+
+// --- Popup Frais ---
+const feesBtn = document.getElementById("feesInfoBtn");
+const feesModal = document.getElementById("feesModal");
+
+if (feesBtn && feesModal) {
+  feesBtn.addEventListener("click", () => {
+    feesModal.style.display = "flex";
+  });
+
+  feesModal.addEventListener("click", (e) => {
+    if (e.target === feesModal) {
+      feesModal.style.display = "none";
+    }
+  });
+}
+
+
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const priorityBlock = document.querySelector(".priority-block");
+  const standardBlock = document.querySelector(".standard-block");
+
+  async function fetchOrder(isPriority) {
+    const res = await apiFetch(`/api/orders/current?priority=${isPriority}`);
+    if (!res.ok) return;
+
+    const order = await res.json();
+
+    // ⚡ Mise à jour affichage avec les valeurs backend
+    document.getElementById("cartDeliveryFee").textContent = `${order.fees.delivery.toFixed(2)} €`;
+    document.getElementById("popupDeliveryAmount").textContent = `${order.fees.delivery.toFixed(2)} €`;
+
+    document.getElementById("cartServiceFee").textContent = `${order.fees.service.toFixed(2)} €`;
+    document.getElementById("popupServiceAmount").textContent = `${order.fees.service.toFixed(2)} €`;
+
+    document.getElementById("cartSubtotal").textContent = `${order.subtotal.toFixed(2)} €`;
+
+    document.getElementById("cartTotal").textContent = `${order.total.toFixed(2)} €`;
+
+    document.getElementById("popupTotalFees").textContent =
+      `${(order.fees.service + order.fees.delivery).toFixed(2)} €`;
+  }
+
+  function activate(block, isPriority) {
+    [priorityBlock, standardBlock].forEach(b => b.classList.remove("active"));
+    block.classList.add("active");
+    fetchOrder(isPriority);
+  }
+
+  // ⚡ Clics
+  priorityBlock.addEventListener("click", () => activate(priorityBlock, true));
+  standardBlock.addEventListener("click", () => activate(standardBlock, false));
+
+activate(standardBlock, false); // coche visuellement et applique les frais standard
+});
+
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  // Charger les cartes dès que la page est prête
+  loadSavedCards();
+
+  // ⚡ Si tu ouvres le popup via un bouton
+  const openCardPopup = document.getElementById("openCardPopup");
+  if (openCardPopup) {
+    openCardPopup.addEventListener("click", () => {
+      loadSavedCards(); // recharge la liste à l’ouverture
+    });
+  }
+});
+
+
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const checkoutBtn = document.getElementById("checkoutBtn");
+  if (!checkoutBtn) return;
+
+  checkoutBtn.addEventListener("click", async () => {
+    console.log("🖱️ Bouton Payer cliqué");
+
+    try {
+      if (!window.SELECTED_PAYMENT_METHOD) {
+        showToast("❌ Choisis un moyen de paiement avant de continuer.");
+        return;
+      }
+
+// 1️⃣ Préparer le body
+const body = {
+  order_id: window.CURRENT_ORDER_ID,
+  card_id: window.SELECTED_PAYMENT_METHOD.startsWith("card:")
+    ? parseInt(window.SELECTED_PAYMENT_METHOD.split(":")[1], 10)
+    : null,
+  payment_method: window.SELECTED_PAYMENT_METHOD   // 👈 ajoute ça
+};
+console.log("📤 Body envoyé au backend:", body);
+
+      // 2️⃣ Cas espèces → pas de Stripe
+      if (window.SELECTED_PAYMENT_METHOD === "cash") {
+        showToast("💵 Commande enregistrée : paiement à la livraison");
+        setTimeout(() => {
+          window.location.href = `/order-confirmation?orderId=${window.CURRENT_ORDER_ID}`;
+        }, 1500);
+        return;
+      }
+
+      // 3️⃣ Appel backend → créer PaymentIntent
+      const res = await fetch("/api/payments/create-payment-intent", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify(body)
+      });
+
+      const data = await res.json();
+      console.log("📦 Réponse backend paiement:", data);
+
+      if (!res.ok) {
+        throw new Error(data.error || "Erreur backend");
+      }
+
+      // 4️⃣ Logique selon cas
+      if (window.SELECTED_PAYMENT_METHOD.startsWith("card")) {
+        // Carte enregistrée → Stripe confirm
+        const { error, paymentIntent } = await stripe.confirmCardPayment(data.clientSecret);
+
+        if (error) {
+          showPaymentModal({
+            status: "error",
+            message: "❌ Paiement refusé : " + error.message
+          });
+        } else {
+          showPaymentModal({
+            status: "success",
+            message: "✅ Votre paiement a été validé.",
+            redirectUrl: `/order-confirmation?orderId=${window.CURRENT_ORDER_ID}`,
+            paymentIntentId: paymentIntent.id,
+            orderId: window.CURRENT_ORDER_ID
+          });
+        }
+        return;
+      }
+
+      if (window.SELECTED_PAYMENT_METHOD === "apple") {
+        const totalAmount = parseFloat(
+          document.getElementById("cartTotal").textContent.replace(",", ".")
+        ) * 100;
+
+        const pr = stripe.paymentRequest({
+          country: "FR",
+          currency: "eur",
+          total: { label: "Commande Flashbring", amount: Math.round(totalAmount) },
+          requestPayerName: true,
+          requestPayerEmail: true
+        });
+
+        const elements = stripe.elements();
+        const prButton = elements.create("paymentRequestButton", { paymentRequest: pr });
+
+        const result = await pr.canMakePayment();
+        if (result) {
+          await pr.show();
+        } else {
+          showToast("❌ Apple Pay non disponible sur ce device");
+        }
+        return;
+      }
+    } catch (e) {
+      console.error("🌐 [CLIENT ERROR] Erreur checkout:", e);
+      showToast("❌ Impossible de lancer le paiement.");
+    }
+  });
+});
+</script>
+<!-- Overlay -->
+<div id="paymentModalOverlay" class="popup-overlay" style="display:none;"></div>
+
+<!-- Modal Paiement -->
+<div id="paymentModal" class="popup" style="display:none; text-align:center;">
+  <div class="popup-header">
+    <h3 id="paymentModalTitle"></h3>
+    <button id="closePaymentModal" class="close-btn">✕</button>
+  </div>
+  <div class="popup-body">
+    <p id="paymentModalMessage"></p>
+    <div id="paymentModalActions"></div>
+  </div>
+</div>
+<script>
+function showPaymentModal({ message, redirectUrl, paymentIntentId, orderId }) {
+  // overlay + contenu
+  const overlay = document.createElement("div");
+  overlay.className = "payment-toast-overlay";
+
+  overlay.innerHTML = `
+    <div class="payment-toast">
+      <p>${message}</p>
+      <button id="cancelPayment">Annuler</button>
+    </div>
+  `;
+
+  document.body.appendChild(overlay);
+
+  // redirection auto si pas annulé
+  const timeout = setTimeout(() => {
+    window.location.href = redirectUrl;
+  }, 2000);
+
+  // bouton Annuler → API cancel
+  overlay.querySelector("#cancelPayment").addEventListener("click", async () => {
+    clearTimeout(timeout);
+    try {
+      await apiFetch("/api/payments/cancel-payment", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ payment_intent_id: paymentIntentId, order_id: orderId })
+      });
+showToast("❌ Paiement annulé, vous ne serez pas crédité.");
+    } catch (e) {
+      console.error("Erreur annulation:", e);
+      showToast("Erreur lors de l’annulation.");
+    }
+    overlay.remove();
+  });
+}
+</script>
+<script>
+function roundTo5(x) {
+  return Math.round(x / 5) * 5;
+}
+
+function updateDeliveryOptions(deliveryTime) {
+  if (!deliveryTime || isNaN(deliveryTime)) {
+    console.warn("⚠️ Pas de délai de livraison valide :", deliveryTime);
+    return;
+  }
+
+  // Standard
+  const standardMin = roundTo5(Math.max(5, deliveryTime - 5));
+  const standardMax = roundTo5(Math.max(5, deliveryTime + 5));
+
+  // Priorité
+  const priorityMin = roundTo5(Math.max(5, deliveryTime - 11));
+  const priorityMax = roundTo5(Math.max(5, deliveryTime - 3));
+
+  // Mettre à jour uniquement si les blocs existent dans le DOM
+  const standardEl = document.querySelector(".standard-block .subtitle");
+  const priorityEl = document.querySelector(".priority-block .subtitle");
+
+  if (standardEl) {
+    standardEl.textContent =
+      standardMin === standardMax
+        ? `${standardMin} minutes`
+        : `${standardMin} – ${standardMax} minutes`;
+  }
+
+  if (priorityEl) {
+    priorityEl.textContent =
+      priorityMin === priorityMax
+        ? `${priorityMin} minutes • Livré chez vous`
+        : `${priorityMin} – ${priorityMax} minutes • Livré chez vous`;
+  }
+}
+
+function updateCartTotals(order) {
+  if (!order?.fees) return;
+
+  // Sous-total
+  const subtotalEl = document.getElementById("cartSubtotal");
+  if (subtotalEl) subtotalEl.textContent = order.subtotal.toFixed(2) + " €";
+
+  // Frais de service
+  const serviceEl = document.getElementById("cartServiceFee");
+  if (serviceEl) serviceEl.textContent = order.fees.service.toFixed(2) + " €";
+
+  // Frais de livraison
+  const deliveryEl = document.getElementById("cartDeliveryFee");
+  if (deliveryEl) deliveryEl.textContent = order.fees.delivery.toFixed(2) + " €";
+
+  // Total
+  const totalEl = document.getElementById("cartTotal");
+  if (totalEl) totalEl.textContent = order.total.toFixed(2) + " €";
+
+  // Popup frais
+  const popupService = document.getElementById("popupServiceAmount");
+  if (popupService) popupService.textContent = order.fees.service.toFixed(2) + " €";
+
+  const popupDelivery = document.getElementById("popupDeliveryAmount");
+  if (popupDelivery) popupDelivery.textContent = order.fees.delivery.toFixed(2) + " €";
+
+  const popupTotal = document.getElementById("popupTotalFees");
+  if (popupTotal) popupTotal.textContent = (order.fees.service + order.fees.delivery).toFixed(2) + " €";
+}
+
+</script>
+<script>
+// ✅ Utilitaire pour récupérer la commande (mono ou multi)
+async function fetchCurrentOrder() {
+  try {
+    let res = await apiFetch("/api/orders/current");
+    let data = await res.json();
+
+    // Si c'est une erreur multi-store, on bascule
+    if (res.status === 400 && data?.error?.includes("multi-store")) {
+      res = await apiFetch("/api/orders/current-multistore");
+      if (!res.ok) throw new Error("Impossible de charger current-multistore");
+      data = await res.json();
+    }
+
+    // 🟢 Sauvegarde l’ID globalement
+    if (data?.id) {
+      window.CURRENT_ORDER_ID = data.id;
+    }
+
+    return data;
+  } catch (err) {
+    console.error("❌ Erreur fetchCurrentOrder:", err);
+    return null;
+  }
+}
+
+// ✅ Bloc paiement
+async function updatePaymentBlock() {
+  try {
+    const subtitleEl = document.querySelector(
+      ".cart-section:nth-of-type(2) .subtitle"
+    );
+    if (!subtitleEl) return;
+
+    const order = await fetchCurrentOrder();
+    if (!order) return;
+
+    // --- 1️⃣ Carte
+    if (order.payment_method && order.payment_method.startsWith("card:")) {
+      const cardId = order.payment_method.split(":")[1];
+      const cardRes = await apiFetch("/api/payments/my-cards");
+      if (cardRes.ok) {
+        const cards = await cardRes.json();
+        const card = cards.find(c => c.id == cardId);
+        if (card) {
+          subtitleEl.innerHTML = `
+            <img src="/icons/${card.brand}.svg" alt="${card.brand}" style="width:20px;height:auto;margin-right:6px;">
+            •••• ${card.last4}
+          `;
+          return;
+        }
+      }
+    }
+
+    // --- 2️⃣ Apple Pay
+    if (order.payment_method === "apple") {
+      subtitleEl.innerHTML = `
+        <span style="display:flex;align-items:center;gap:6px;font-size:14px;font-weight:500;">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg"
+               alt="Apple Pay"
+               style="width:16px;height:16px;display:inline-block;">
+          Pay
+        </span>
+      `;
+      return;
+    }
+
+ // --- 3️⃣ Espèces
+    else if (order.payment_method === "cash") {
+      subtitleEl.innerHTML = "💵 Espèces";
+    }
+    // --- 4️⃣ Fallback
+    else {
+      subtitleEl.textContent = "Visa, MasterCard, Google / Apple Pay...";
+    }
+
+    // --- ⏱️ Délais livraison
+    if (order.deliveryTime) {
+      updateDeliveryOptions(order.deliveryTime);
+    }
+  } catch (err) {
+    console.error("❌ Erreur updatePaymentBlock:", err);
+  }
+}
+
+
+// ⚡ Lancer tout au chargement
+document.addEventListener("DOMContentLoaded", async () => {
+  await updatePaymentBlock();
+});
+</script>
+<script>
+// ✅ Init globale
+if (!window.SELECTED_PRODUCTS) {
+  window.SELECTED_PRODUCTS = {};
+}
+
+// 👉 Génère une clé unique produit+suppléments
+function getCartItemKey(product) {
+  const supps = (product.supplements || [])
+    .map(s => `${s.product_id}:${s.quantity}`) // ⚡ utiliser product_id pas id
+    .sort()
+    .join("|");
+  return `${product.product_id}-${supps || "nosupp"}`;
+}
+
+
+// --- Injecter les enseignes dans le popup ---
+async function setupStoresPopup() {
+  try {
+    const order = await fetchCurrentOrder();
+    if (!order?.stores?.length) return;
+
+    const container = document.getElementById("cartStoreInfo");
+    if (!container) return;
+
+    container.innerHTML = `
+      <div id="seeStoresRow" class="see-stores">
+        <span>Voir les enseignes (${order.stores.length})</span>
+        <span class="arrow">➔</span>
+      </div>
+    `;
+
+    document.getElementById("seeStoresRow").addEventListener("click", () => {
+      openStoresPopup(order);
+    });
+  } catch (err) {
+    console.error("❌ Erreur setupStoresPopup:", err);
+  }
+}
+
+function openStoresPopup(order) {
+  const popup = document.getElementById("storesPopup");
+  const overlay = document.getElementById("storesPopupOverlay");
+  const list = document.getElementById("storesList");
+
+  list.innerHTML = "";
+
+  order.stores.forEach(store => {
+    const div = document.createElement("div");
+    div.className = "store-entry";
+    div.innerHTML = `
+      <div class="store-header">
+        <div class="store-header-left">
+          <img src="${store.banner_url}" class="store-logo" alt="">
+          <div>
+            <h4>${store.name}</h4>
+            <p>${store.address || ""}</p>
+          </div>
+        </div>
+        <span class="accordion-arrow">➔</span>
+      </div>
+      <div class="store-products" style="display:none;"></div>
+    `;
+
+    const productsDiv = div.querySelector(".store-products");
+
+    order.items
+      .filter(p => p.store?.id === store.id)
+      .forEach(p => {
+        const key = getCartItemKey(p);
+        if (window.SELECTED_PRODUCTS[key]) return; // déjà choisi
+
+        const prod = document.createElement("div");
+        prod.className = "store-product";
+        prod.innerHTML = `
+          <span>${p.name}</span>
+          <span class="price">${p.total.toFixed(2)} €</span>
+        `;
+
+// 👉 Clic produit
+prod.addEventListener("click", async () => {
+  try {
+    const key = getCartItemKey(p);
+
+    if (!window.SELECTED_PRODUCTS[key]) {
+window.SELECTED_PRODUCTS[key] = {
+  product_id: p.product_id,
+  supplements: (p.supplements || []).map(s => ({
+    product_id: s.id || s.product_id,   // 🔄 assure un id
+    quantity: s.quantity || 1,
+    price: s.price || 0                 // 🔄 sécurité si pas de prix
+  })), // <= ICI la virgule manquait
+  quantity: 0
+};
+    }
+    window.SELECTED_PRODUCTS[key].quantity++;
+
+    // 🔄 Construire une LISTE détaillée pour le backend
+    const productList = Object.values(window.SELECTED_PRODUCTS).map(prod => ({
+      product_id: prod.product_id,
+      supplements: prod.supplements.map(s => ({
+        product_id: s.product_id,
+        quantity: s.quantity
+      })),
+      quantity: prod.quantity
+    }));
+
+    console.log("📤 [FRONT] Payload envoyé /recap-panier:", {
+      orderId: window.CURRENT_ORDER_ID,
+      products: productList
+    });
+
+    const res = await apiFetch("/api/orders/recap-panier", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        orderId: window.CURRENT_ORDER_ID,
+        products: productList // ✅ LISTE, pas MAP
+      })
+    });
+
+    if (!res.ok) throw new Error(await res.text());
+    const recap = await res.json();
+    console.log("🛒 [FRONT] Recap reçu:", recap);
+
+    await updateCartTotalsAndTime(recap);
+    prod.remove();
+
+    const label = document.getElementById("cartAccordionLabel");
+    if (label && recap?.items) {
+      label.textContent = `Récapitulatif du panier (${recap.items.length} articles)`;
+    }
+  } catch (err) {
+    console.error("❌ Erreur ajout produit:", err);
+  }
+});
+
+        productsDiv.appendChild(prod);
+      });
+
+    div.querySelector(".store-header").addEventListener("click", () => {
+      const arrow = div.querySelector(".accordion-arrow");
+      productsDiv.style.display =
+        productsDiv.style.display === "none" ? "flex" : "none";
+      arrow.classList.toggle("open");
+    });
+
+    list.appendChild(div);
+  });
+
+  // Ouvrir popup
+  popup.style.display = "block";
+  overlay.style.display = "block";
+
+  // Fermer popup
+  popup.querySelector(".popup-close").onclick = () => {
+    popup.style.display = "none";
+    overlay.style.display = "none";
+  };
+  overlay.onclick = () => {
+    popup.style.display = "none";
+    overlay.style.display = "none";
+  };
+}
+
+// ⚡ Lancer
+document.addEventListener("DOMContentLoaded", setupStoresPopup);
+</script>
+<script>
+let baseDeliveryFee = 0;  // frais venant du backend
+let isPriority = false;   // mode sélectionné
+window.LAST_ORDER = null; // dernier recap panier connu
+
+// --- Affiche les produits dans l’accordéon ---
+function renderCartItems(items) {
+  const list = document.getElementById("cartItems");
+  if (!list) return;
+  list.innerHTML = ""; // reset
+
+  items.forEach(p => {
+    const li = document.createElement("li");
+    li.className = "cart-item";
+
+    li.innerHTML = `
+      <div class="cart-item-left">
+        <img src="${p.image || '/img/default.png'}" alt="${p.name}" class="cart-item-img">
+        <div>
+          <!-- Nom du produit -->
+          <p class="cart-item-name">${p.name}</p>
+          <!-- Prix unitaire -->
+          <p class="cart-item-price">${p.price.toFixed(2)} €</p>
+
+          <!-- Suppléments -->
+          ${p.supplements && p.supplements.length ? `
+            <div class="cart-item-supps">
+${p.supplements.map(s => `
+  <p class="cart-item-supp">
+    + ${s.name} x${s.quantity} (${(s.price * s.quantity).toFixed(2)} €)
+  </p>
+`).join("")}
+            </div>
+          ` : ""}
+        </div>
+      </div>
+      <div class="cart-item-right">
+        <p class="cart-item-qty">x${p.quantity}</p>
+        <p class="cart-item-total">${p.total.toFixed(2)} €</p>
+      </div>
+    `;
+
+    list.appendChild(li);
+  });
+}
+
+// --- Mise à jour du panier et délais ---
+async function updateCartTotalsAndTime(order) {
+  try {
+    if (!order) {
+      order = await fetchCartRecap();
+      if (!order) return;
+    }
+
+    // garde en mémoire le dernier recap
+    window.LAST_ORDER = order;
+    baseDeliveryFee = order.fees?.delivery || 0;
+
+    // ✅ Injecter les produits dans l’accordéon
+    if (order.items) {
+      renderCartItems(order.items);
+    }
+
+    // ✅ Nombre d’articles
+    const label = document.getElementById("cartAccordionLabel");
+    if (label && order.items) {
+      label.textContent = `Récapitulatif du panier (${order.items.length} articles)`;
+    }
+
+    // ✅ Sous-total
+    if (order.subtotal !== undefined) {
+      document.getElementById("cartSubtotal").textContent =
+        `${order.subtotal.toFixed(2)} €`;
+    }
+
+    // ✅ Frais de service
+    if (order.fees?.service !== undefined) {
+      document.getElementById("cartServiceFee").textContent =
+        `${order.fees.service.toFixed(2)} €`;
+      const popupServiceEl = document.getElementById("popupServiceAmount");
+      if (popupServiceEl)
+        popupServiceEl.textContent = `${order.fees.service.toFixed(2)} €`;
+    }
+
+    // ✅ Frais de livraison (ajout 1,99 si priorité)
+    const deliveryFee = isPriority ? baseDeliveryFee + 1.99 : baseDeliveryFee;
+    document.getElementById("cartDeliveryFee").textContent =
+      `${deliveryFee.toFixed(2)} €`;
+    const popupDeliveryEl = document.getElementById("popupDeliveryAmount");
+    if (popupDeliveryEl)
+      popupDeliveryEl.textContent = `${deliveryFee.toFixed(2)} €`;
+
+    // ✅ Total frais (popup)
+    const popupTotalEl = document.getElementById("popupTotalFees");
+    if (popupTotalEl) {
+      popupTotalEl.textContent = `${(order.fees.service + deliveryFee).toFixed(2)} €`;
+    }
+
+    // ✅ Total général
+    const total = order.subtotal + order.fees.service + deliveryFee;
+    document.getElementById("cartTotal").textContent =
+      `${total.toFixed(2)} €`;
+
+    // ✅ Délais
+    if (order.deliveryTime) {
+      updateDeliveryOptions(order.deliveryTime);
+    }
+  } catch (err) {
+    console.error("❌ Erreur updateCartTotalsAndTime:", err);
+  }
+}
+
+// --- Gestion du mode livraison ---
+document.addEventListener("DOMContentLoaded", () => {
+  const standardBlock = document.querySelector(".standard-block");
+  const priorityBlock = document.querySelector(".priority-block");
+
+  function updateDeliveryMode(mode) {
+    if (mode === "priority") {
+      isPriority = true;
+      priorityBlock.classList.add("active");
+      standardBlock.classList.remove("active");
+    } else {
+      isPriority = false;
+      standardBlock.classList.add("active");
+      priorityBlock.classList.remove("active");
+    }
+
+    // recalcul avec le dernier recap stocké
+    updateCartTotalsAndTime(window.LAST_ORDER);
+  }
+
+  standardBlock?.addEventListener("click", () => updateDeliveryMode("standard"));
+  priorityBlock?.addEventListener("click", () => updateDeliveryMode("priority"));
+});
+</script>
+<script>
+async function fetchCartRecap() {
+  const res = await apiFetch("/api/orders/recap-panier");
+  if (!res.ok) throw new Error("Impossible de charger le panier");
+  return await res.json();
+}
+</script>
+</body>
+</html>

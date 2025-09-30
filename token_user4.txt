@@ -1,0 +1,2 @@
+[dotenv@17.2.1] injecting env (14) from .env -- tip: 📡 auto-backup env with Radar: https://dotenvx.com/radar
+👉 Token généré pour user 4 : eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiZW1haWwiOiJ1c2VyNEB0ZXN0LmNvbSIsInJvbGUiOiJjbGllbnQiLCJpYXQiOjE3NTgyMDA4NzAsImV4cCI6MTc1ODgwNTY3MH0.j0mdkk7PFHZ--xXulXtU3S53XM3BwqERDkZtZ_mUa_8

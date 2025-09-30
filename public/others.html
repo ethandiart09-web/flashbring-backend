@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FlashBring — Maison</title>
+<!-- ajoute ça comme dans cart.html -->
+  <script src="/utils/api.js"></script>
+  <script src="/js/cart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2"></script>
+<style>
+:root{
+      --bg:#ffffff;
+      --ink:#0f0f0f;
+      --muted:#6b6b6b;
+      --line:#eaeaea;
+      --card:#fafafa;   
+      --brand:#111111;
+      --radius:18px;
+      --shadow:0 10px 30px rgba(0,0,0,.06);
+    } 
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font:16px/1.5 Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+    a{color:inherit;text-decoration:none}
+    .container{max-width:1200px;margin:0 auto;padding:0 20px}
+  
+ /* Header */
+    header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.8);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+    .nav{display:flex;align-items:center;justify-content:space-between;gap:16px;height:68px}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:800}
+    .brand-badge{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;background:#111;color:#fff}
+    .tagline{display:none;color:var(--muted)}
+    .actions{display:flex;gap:10px}
+    .btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--ink);padding:10px 14px;border-radius:12px;background:#111;color:#fff;font-weight:600;cursor:pointer}
+    .btn.ghost{background:#fff;color:#111}
+    .btn:active{transform:translateY(1px)}
+
+
+
+.view .page {
+  max-width: 900px;
+  margin: 0 auto;      /* centre horizontalement */
+  padding: 24px 16px;  /* espace intérieur agréable */
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+  
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1;
+}
+  
+/* Footer */
+footer {
+  border-top: 1px solid #ddd; /* fine ligne de séparation */
+  padding: 30px 0;
+  color: #666;
+  font-size: 14px; 
+  background: #fff;
+ position: relative; 
+} 
+
+footer .container {
+  max-width: 1200px;  /* même largeur que la bannière et le contenu */
+  margin: 0 auto;     /* centre le bloc */
+  padding: 0 20px;    /* petit padding horizontal */
+}
+  
+.fcols {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 30px;
+}
+  
+.fcols a{
+display:block;
+color:var(--muted);
+margin: 10px 0;
+text-decoration: none;
+} 
+
+.copy { 
+  margin-top: 15px;
+  font-size: 13px;
+  color: #999;
+}
+footer .brand b {  
+  font-size: 18px;  
+  color: #000; /* ou la couleur de ton choix */
+} 
+footer .brand + div {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 10px;
+} 
+.footer-support {
+  position: absolute;
+  bottom: 10px;   /* colle en bas */
+  right: 20px;    /* colle à droite */
+  text-align: right;
+  font-size: 14px;
+  color: #000;
+}
+
+/* Hero Conciergerie */
+.conciergerie-hero {
+  background: #1e90ff; /* bleu clair */
+  color: #fff;
+  padding: 80px 40px;
+  text-align: left;
+}
+
+.conciergerie-hero .hero-content {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.conciergerie-hero h1 {
+  font-size: 2.6rem;
+  margin-bottom: 16px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.conciergerie-hero h1 span {
+  color: #ffffff; /* ✅ maintenant blanc */
+}
+
+.conciergerie-hero .subtitle {
+  font-size: 1.2rem;
+  color: #f0f0f0;
+  margin-bottom: 28px;
+  max-width: 600px;
+}
+
+.conciergerie-hero .cta-btn {
+  display: inline-block;
+  background: #0077e6; /* ✅ bleu un peu plus foncé que le fond */
+  color: #ffffff;      /* texte blanc */
+  padding: 14px 28px;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.3s;
+}
+
+.conciergerie-hero .cta-btn:hover {
+  background: #0066cc; /* encore un peu plus foncé au hover */
+}
+
+/* Section Comment ça fonctionne */
+.conciergerie-how {
+  padding: 80px 60px; /* espace en haut, bas et côtés */
+  background: #fff;
+}
+
+.how-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 60px; /* espace entre image et texte */
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.how-image {
+  flex: 0 0 50%; /* image = 40% largeur */
+}
+
+.how-image img {
+  width: 100%;
+  border-radius: 12px;
+  filter: grayscale(100%); /* rendu en noir & blanc */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.how-text {
+  flex: 0 0 40%; /* texte = 40% largeur */
+}
+
+.how-text h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #1e90ff;
+}
+
+.how-text p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #444;
+}
+
+/* Section Nos Services */
+.conciergerie-services {
+  padding: 80px 40px;
+  background: #f9f9f9;
+  text-align: center;
+}
+
+.services-header h2 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  color: #1e90ff;
+}
+
+.services-header p {
+  font-size: 1.1rem;
+  color: #555;
+  margin-bottom: 40px;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* toujours 3 colonnes */
+  gap: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Responsive mobile : passe en 1 colonne */
+@media (max-width: 768px) {
+  .services-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.service-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  text-align: left;
+  transition: transform 0.2s ease;
+}
+
+.service-card:hover {
+  transform: translateY(-4px);
+}
+
+.service-card h3 {
+  font-size: 1.3rem;
+  margin-bottom: 12px;
+  color: #333;
+}
+
+.service-card p {
+  font-size: 1rem;
+  color: #666;
+  line-height: 1.5;
+}
+
+/* === AVIS CLIENTS === */
+.conciergerie-avis {
+  padding: 80px 40px;
+  background: #fff;
+  text-align: center;
+}
+
+.conciergerie-avis h2 {
+  font-size: 2rem;
+  margin-bottom: 40px;
+  color: #1e90ff;
+}
+
+.avis-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.avis-card {
+  background: #fafafa;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #444;
+}
+
+.avis-card span {
+  display: block;
+  margin-top: 10px;
+  font-size: 0.9rem;
+  color: #777;
+}
+
+/* === TARIFS === */
+.conciergerie-tarifs {
+  padding: 80px 40px;
+  background: #f9f9f9;
+  text-align: center;
+}
+
+.conciergerie-tarifs h2 {
+  font-size: 2rem;
+  margin-bottom: 40px;
+  color: #1e90ff;
+}
+
+.tarifs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.tarif-card {
+  background: #fff;
+  padding: 28px;
+  border-radius: 12px;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.06);
+  text-align: center; /* ✅ texte centré */
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Titres des plans */
+.tarif-card h3 {
+  font-size: 1.4rem;
+  margin: 0;
+  color: #1e90ff; /* ✅ bleu pour le titre */
+  font-weight: 700;
+}
+
+.price {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  align-items: baseline;
+}
+
+.new-price {
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: #e60000; /* rouge promo */
+}
+
+.old-price {
+  font-size: 1.2rem;
+  color: #999;
+  text-decoration: line-through;
+}
+
+/* Prix en noir */
+.tarif-card .price {
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: #000; /* ✅ noir */
+}
+
+.tarif-card ul {
+  padding: 0;
+  margin: 0;
+  list-style: none; /* ✅ enlever les puces */
+}
+
+.tarif-card ul li {
+  padding: 10px 0;
+  border-top: 1px solid #eee; /* ✅ ligne séparation */
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.tarif-card ul li:first-child {
+  border-top: none; /* enlever la première ligne */
+}
+
+/* Bouton "Choisir" */
+.tarif-card .cta-btn {
+  display: inline-block;
+  background: #1e90ff;   /* bleu principal */
+  color: #fff;           /* texte blanc */
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.tarif-card .cta-btn:hover {
+  background: #1877cc;   /* bleu un peu plus foncé au hover */
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(30,144,255,0.3);
+}
+
+/* Mise en avant du plan premium */
+.tarif-card.highlight {
+  border: 2px solid #1e90ff;
+  transform: scale(1.02);
+}
+
+/* === CONTACT === */
+.conciergerie-contact {
+  padding: 80px 40px;
+  background: #fff;
+}
+
+.contact-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.contact-form h2,
+.contact-info h2 {
+  font-size: 1.6rem;
+  margin-bottom: 20px;
+  color: #1e90ff;
+}
+
+.contact-form form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.contact-form input,
+.contact-form textarea {
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.contact-form button {
+  align-self: flex-start;
+}
+
+.contact-info p {
+  margin-bottom: 12px;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .how-container, .contact-container {
+    flex-direction: column;
+    display: flex;
+  }
+}
+
+
+.tarif-card .badge {
+  position: absolute;
+  top: -12px;        /* un peu au-dessus du bord */
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1e90ff;
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+}
+
+.price small {
+  font-size: 0.8rem;   /* plus petit */
+  color: #666;         /* gris discret */
+  font-weight: normal;
+}
+
+</style>
+</head>
+<body>
+<main>
+<div class="page-container">
+<!-- Header -->
+<header>
+  <div class="container nav">
+      <a class="brand" href="https://localhost:3000">
+      <div class="brand-badge">⚡️</div>
+      <div>  
+        <div style="font-size:18px;letter-spacing:-.3px">FlashBring Conciergerie </div>
+        <div class="tagline">Tout, livré en 2h</div>
+      </div>
+    </a>
+<div class="actions">
+<div id="userMenu" style="display:none; position:relative; align-items:center; gap:12px;">
+    <span id="welcomeMsg" style="cursor:pointer;font-weight:600;font-size:15px;">
+      Bonjour <span id="welcomeName"></span>
+    </span>
+  </div>
+</div>
+  
+</div>
+  </header>
+
+
+<!-- HERO -->
+<section class="conciergerie-hero">
+  <div class="hero-content">
+    <h1>Simplifiez votre quotidien,<br><span>FlashBring s’occupe de tout</span></h1>
+    <p class="subtitle">
+      Gagnez du temps en déléguant vos tâches. Réservations, démarches, courses ou organisation : on gère tout pour vous.
+    </p>
+    <a href="#tarifs" class="cta-btn">Découvrir nos services</a>
+  </div>
+</section>
+
+<!-- COMMENT ÇA FONCTIONNE -->
+<section class="conciergerie-how">
+  <div class="how-container">
+    <div class="how-image">
+      <img src="https://picsum.photos/500/400" alt="Conciergerie en action">
+    </div>
+    <div class="how-text">
+      <h2>Comment ça fonctionne ?</h2>
+      <p>
+        Vous nous confiez vos besoins, et notre équipe prend le relais pour vous faire gagner du temps. 
+        Que ce soit pour réserver un rendez-vous, commander un repas, organiser une course ou gérer une démarche administrative,
+        nous vous apportons une assistance personnalisée, rapide et fiable.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- NOS SERVICES -->
+<section id="services" class="conciergerie-services">
+  <div class="services-header">
+    <h2>Nos services</h2>
+    <p>Découvrez ce que nous pouvons faire pour vous</p>
+  </div>
+  <div class="services-grid">
+    <div class="service-card"><h3>📅 Prise de rendez-vous</h3><p>Médecins, restaurants, coiffeurs, et plus encore.</p></div>
+    <div class="service-card"><h3>🛒 Courses & livraison</h3><p>Commandez repas, courses ou produits spéciaux.</p></div>
+    <div class="service-card"><h3>📝 Démarches simples</h3><p>Gestion d’appels et démarches administratives basiques.</p></div>
+    <div class="service-card"><h3>🎁 Achats & cadeaux</h3><p>Produits du quotidien, cadeaux ou objets spécifiques.</p></div>
+    <div class="service-card"><h3>🚖 Organisation transport</h3><p>Taxis, VTC ou trajets sur mesure.</p></div>
+    <div class="service-card"><h3>💡 Demandes sur-mesure</h3><p>Un besoin particulier ? Nous trouvons la solution.</p></div>
+  </div>
+</section>
+
+<!-- AVIS CLIENTS -->
+<section class="conciergerie-avis">
+  <h2>Ce que disent nos clients</h2>
+  <div class="avis-grid">
+    <div class="avis-card">
+      <p>"Service rapide et fiable, j’ai pu réserver mon médecin en 5 minutes."</p>
+      <span>⭐⭐⭐⭐⭐ – Julie, Nancy</span>
+    </div>
+    <div class="avis-card">
+      <p>"Je gagne un temps fou, plus besoin de m’occuper de mes courses."</p>
+      <span>⭐⭐⭐⭐ – Karim, Metz</span>
+    </div>
+    <div class="avis-card">
+      <p>"Super pratique, l’équipe est réactive et toujours disponible."</p>
+      <span>⭐⭐⭐⭐⭐ – Sophie, Toul</span>
+    </div>
+  </div>
+</section>
+
+<!-- TARIFS --> 
+<section id="tarifs" class="conciergerie-tarifs">
+  <h2>Nos tarifs</h2>
+  <div class="tarifs-grid">
+    <div class="tarif-card">
+      <h3>Essentiel</h3>
+      <p class="price">18 € <small>/ mois</small></p>
+      <ul>
+        <li>6 services par mois</li>
+        <li>Prise de rendez-vous</li>
+        <li>Démarches simples</li>
+        <li>Support e-mail (12h)</li>
+      </ul>
+      <a href="#" class="cta-btn">Choisir</a>
+    </div>  
+
+    <div class="tarif-card highlight">
+      <div class="badge">Populaire</div>
+      <h3>Premium</h3>
+      <p class="price">36 € <small>/ mois</small></p>
+      <ul>
+        <li>15 services par mois</li>
+        <li>Tous les services inclus</li>
+        <li>Support prioritaire</li>
+        <li>Support e-mail (2h)</li>
+      </ul>
+      <a href="#" class="cta-btn">Choisir</a>
+    </div>
+
+    <div class="tarif-card">
+      <h3>Business</h3>
+      <p class="price">   
+        <span class="new-price">89 €</span>
+        <span class="old-price">109 €</span>
+        <small>/ mois</small>
+      </p>
+      <ul>
+        <li>Services illimités</li>   
+        <li>Tous les services inclus</li>
+        <li>Support téléphone</li>  
+        <li>Réponse instantanée</li> 
+      </ul>
+      <a href="#" class="cta-btn">Choisir</a>
+    </div> 
+  </div>
+</section><
+
+<!-- CONTACT -->
+<section class="conciergerie-contact">
+  <div class="contact-container">
+    <!-- Formulaire -->
+    <div class="contact-form">
+      <h2>Contactez-nous</h2>
+      <form>
+        <input type="text" placeholder="Nom complet" required>
+        <input type="email" placeholder="E-mail" required>
+        <input type="tel" placeholder="Téléphone" required>
+        <input type="text" placeholder="Objet de votre demande" required>
+        <textarea placeholder="Votre message" rows="5" required></textarea>
+        <button type="submit" class="cta-btn">Envoyer</button>
+      </form>
+    </div>
+    <!-- Infos -->
+    <div class="contact-info">
+      <h2>Nos coordonnées</h2>
+      <p><strong>Adresse :</strong> 12 Rue Saint-Dizier, 54000 Nancy</p>
+      <p><strong>Téléphone :</strong> 06 33 93 36 90</p>
+      <p><strong>Email :</strong> ethan.diart09@gmail.com</p>
+      <p><strong>Horaires :</strong><br>Lundi - Vendredi : 7h - 19h<br>Samedi : 10h - 17h</p>
+    </div>
+  </div>
+</section>
+
+
+<script>    
+// --- Récupérer utilisateur connecté ---
+  try {
+    const res = await apiFetch("/api/auth/me");
+    console.log("DEBUG /me status:", res.status);
+         
+    if (res.ok) {
+      const user = await res.json();
+      console.log("🌐 /me data:", user);
+    
+      const displayName = user.firstname || "Utilisateur";
+      if (userMenu) userMenu.style.display = "flex";
+      if (welcomeName) welcomeName.textContent = displayName;
+      if (sidebarName) sidebarName.textContent = "Bonjour " + displayName;
+
+      if (addressEl) addressEl.textContent = user.street || "Adresse non définie";
+      if (cityEl) cityEl.textContent = user.city || "Ville non définie";
+    } else {
+      console.error("❌ /me pas OK:", await res.text());
+    }
+  } catch (err) {
+    console.error("❌ Erreur récupération utilisateur:", err);
+  }
+  
+   
+</script>
+</main>
+<footer>
+  <div class="container fcols">
+    <div>
+      <div class="brand" style="gap:10px;margin-bottom:8px">
+        <div class="brand-badge">⚡️</div><b>FlashBring</b>
+      </div>
+      <div>Livraison locale tout-en-un.</div>
+      <div class="copy">© <span id="y"></span>2025 FlashBring</div>
+    </div>
+    <div>
+      <b>Entreprise</b>
+<a href="index.html#about">À propos</a>
+<a href="index.html#careers">Carrières</a>
+<a href="index.html#press">Presse</a>
+    </div>
+    <div>
+      <b>Légal</b>
+<a href="index.html#terms">CGU</a>
+<a href="index.html#privacy">Confidentialité</a>
+<a href="index.html#cookies">Cookies</a>
+    </div>
+    <div>
+      <b>Contact</b>
+<a href="index.html#support">Support</a>
+<a href="index.html#drivers">Devenir livreur</a>
+<a href="index.html#partners">Devenir partenaire</a>
+</div>   
+
+  </div>
+</div>
+    
+      
+<div class="footer-support">
+  <div>Service client 7j/7</div>
+  <div>+33 6 33 93 36 90</div>
+</div>
+</footer> 
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const cards = document.querySelectorAll(".tarif-card");
+
+  // Par défaut → Premium sélectionné
+  let selected = document.querySelector(".tarif-card.highlight");
+
+  cards.forEach(card => {
+    card.addEventListener("click", () => {
+      if (selected) selected.classList.remove("highlight"); // retirer la sélection actuelle
+      card.classList.add("highlight"); // ajouter la sélection sur le nouveau
+      selected = card;
+    });
+  });
+});
+</script>
+</body>
+</html>

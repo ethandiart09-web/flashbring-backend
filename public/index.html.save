@@ -1,0 +1,3519 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>FlashBring — Tout ce que vous voulez, livré en 2h</title>
+
+  <!-- SEO -->
+  <meta name="description" content="Commandes locales : restos, courses, mode, pharmacie, high-tech… livré en moins de 2h. Paiement sécurisé. Suivi en temps réel." />
+  <meta name="theme-color" content="#111" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡️</text></svg>">
+
+  <style>
+    :root{
+      --bg:#ffffff;
+      --ink:#0f0f0f;
+      --muted:#6b6b6b;
+      --line:#eaeaea;
+      --card:#fafafa;
+      --brand:#111111;
+      --radius:18px;
+      --shadow:0 10px 30px rgba(0,0,0,.06);
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font:16px/1.5 Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+    a{color:inherit;text-decoration:none}
+    .container{max-width:1200px;margin:0 auto;padding:0 20px}
+
+    /* Header */
+    header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.8);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+    .nav{display:flex;align-items:center;justify-content:space-between;gap:16px;height:68px}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:800}
+    .brand-badge{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;background:#111;color:#fff}
+    .tagline{display:none;color:var(--muted)}
+    .actions{display:flex;gap:10px}
+    .btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--ink);padding:10px 14px;border-radius:12px;background:#111;color:#fff;font-weight:600;cursor:pointer}
+    .btn.ghost{background:#fff;color:#111}
+    .btn:active{transform:translateY(1px)}
+
+    /* Hero */
+    .hero{padding:56px 0 32px}
+    .hero-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:24px;align-items:center}
+    .h1{font-size:44px;line-height:1.05;margin:0 0 10px;font-weight:900}
+    .sub{color:var(--muted);margin:0 0 18px}
+    .search{display:flex;gap:10px;flex-wrap:wrap}
+    .search .input{flex:1;min-width:260px;border:1px solid var(--line);border-radius:14px;padding:14px 16px;font-weight:600;background:#fff}
+    .search .go{white-space:nowrap}
+    .hero-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
+    .hero-points{display:grid;gap:8px;margin-top:12px;color:var(--muted)}
+    .hero-img{border-radius:var(--radius);border:1px solid var(--line);overflow:hidden;box-shadow:var(--shadow)}
+    .hero-img > div{aspect-ratio:4/3;background:
+      radial-gradient(100% 100% at 0% 0%, #f2f2f2, #eaeaea);display:grid;place-items:center;color:#999;font-weight:700}
+
+    /* Categories */
+    .section{padding:28px 0}
+    .section h2{margin:0 0 12px;font-size:24px}
+    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:14px}
+    .tile{grid-column:span 3;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;display:flex;align-items:center;gap:12px;transition:.15s;cursor:pointer}
+    .tile:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+    .tile .icon{width:42px;height:42px;border-radius:12px;background:#fff;border:1px solid var(--line);display:grid;place-items:center;font-size:22px}
+    .tile b{display:block}
+    .tile span{color:var(--muted);font-size:13px}
+
+    /* How it works */
+    .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .step{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px}
+    .step h3{margin:6px 0}
+    .step p{margin:6px 0;color:var(--muted)}
+
+    /* Trust */
+    .trust{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+    .trust .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;color:#2a2a2a}
+    .trust .muted{color:var(--muted);font-size:14px}
+
+    /* CTA */
+.cta {
+  margin:34px auto;   /* <-- centre horizontalement */
+  background:#111;
+  color:#fff;
+  border-radius:20px;
+  padding:24px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  max-width:900px;    /* <-- largeur max */
+  width:90%;          /* <-- adaptatif */
+}
+
+
+    /* Footer */
+    footer{border-top:1px solid var(--line);padding:22px 0;color:var(--muted);font-size:14px}
+    .fcols{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:16px}
+    .fcols a{display:block;color:var(--muted);margin:6px 0}
+    .copy{margin-top:8px}
+
+
+    /* Responsive */
+    @media (max-width: 1024px){
+      .hero-grid{grid-template-columns:1fr}
+      .tagline{display:inline}
+      .tile{grid-column:span 4}
+      .steps{grid-template-columns:1fr 1fr}
+      .trust{grid-template-columns:1fr 1fr}
+      .fcols{grid-template-columns:1fr 1fr}
+    }
+    @media (max-width: 640px){
+      .tile{grid-column:span 6}
+      .steps{grid-template-columns:1fr}
+      .trust{grid-template-columns:1fr}
+      .fcols{grid-template-columns:1fr}
+      .h1{font-size:34px}
+    }
+
+    /* Small helper badges */
+    .badge{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);padding:6px 10px;border-radius:999px;color:var(--muted);font-size:13px;background:#fff}
+  
+
+
+#loginForm input,
+#registerForm input,
+#forgotForm input {
+  margin-bottom: 10px;
+}
+
+/* Style premium unifié pour tous les inputs */
+
+.account-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 32px 16px;
+}
+
+.account-container h1 {
+  font-size: 28px;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.account-section {
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.account-section h2 {
+  font-size: 20px;
+  margin-bottom: 16px;
+  color: #333;
+}
+
+.account-form {
+  display: grid;
+  gap: 16px;
+}
+
+.account-form .row {
+  display: flex;
+  gap: 12px;
+}
+
+.account-form .row div {
+  flex: 1;
+}
+
+.form-input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 15px;
+}
+
+.form-input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0,123,255,0.15);
+  outline: none;
+}
+
+.btn-primary {
+  background: #000;
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 14px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-primary:hover {
+  background: #333;
+}
+
+
+
+    
+.mock-visuel img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+border-radius: 25px;
+}
+
+
+
+/* --- Barre de recherche --- */
+.search-bar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.search-bar input {
+  flex: 1;
+  padding: 10px 15px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  font-size: 16px;
+}
+
+.search-bar button {
+  background: #ff6b00;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.search-bar button:hover {
+  background: #e55a00;
+}
+
+/* --- Résultats de recherche --- */
+.results {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.result-item {
+  background: #fff;
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  font-size: 18px;
+  font-weight: 500;
+  text-align: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.result-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+  cursor: pointer;
+}
+
+/* Catégories food */
+.categories {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  gap: 20px;
+  margin: 20px 0;
+}
+
+.cat-item {
+  flex: 1;
+  text-align: center;
+  cursor: pointer;
+  font-size: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: background 0.2s;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.cat-item span {
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.cat-item.active {
+  background: #f2f2f2;
+}
+
+/* --- Filtres version Uber compact --- */
+.filters-bar {
+  display: flex;
+  gap: 8px;
+  margin: 12px 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.filters-bar::-webkit-scrollbar { display: none; }
+
+.filter-btn {
+  padding: 6px 14px;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  background: #fff;
+  cursor: pointer;
+  font-size: 13px;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+.filter-btn:hover { background: #f8f8f8; }
+.filter-btn.active {
+  background: #000;
+  color: #fff;
+  border-color: #000;
+}
+
+/* Panneaux (plus compacts et centrés) */
+.filter-panel {
+  display: none;
+  max-width: 400px;
+  margin: 8px auto; /* centré */
+  padding: 12px;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  animation: fadeIn 0.15s ease;
+  font-size: 13px;
+}
+
+.filter-panel h4 {
+  margin-bottom: 6px;
+  font-size: 14px;
+  color: #111;
+}
+
+/* options inline */
+.filter-options {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 10px; /* espace avant boutons */
+}
+.filter-options label {
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: #fafafa;
+}
+.filter-options input { display: none; }
+.filter-options input:checked + span {
+  background: #000;
+  color: #fff;
+  border-color: #000;
+}
+
+/* Actions compactes */
+.filter-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+}
+.filter-actions button {
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: none;
+  font-size: 13px;
+  cursor: pointer;
+}
+.price-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.price-row input {
+  width: 80px;
+}
+
+
+
+#resetFilters { background: #f2f2f2; }
+#applyFilters { background: #000; color: #fff; }
+
+.cards-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+  margin: 15px 0;
+}
+
+
+.card {
+  width: 250px;       /* un peu plus étroit */
+  height: 200px;      /* hauteur fixe plus petite */
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  background: #fff;
+  margin: 8px;
+  display: flex;
+  flex-direction: column;
+}
+
+.card img {
+  height: 80px;        /* image réduite */
+  object-fit: cover;
+}
+
+.card-info {
+  padding: 4px;
+  font-size: 12px;     /* texte plus petit */
+  line-height: 1.2;
+}
+
+.card-header {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-weight:400; /* correct */
+  font-size:14px;
+}
+
+
+
+.like {
+  cursor: pointer;
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  right: -100%;          /* caché en dehors de l’écran */
+  width: 100%;           
+  max-width: 300px;      /* 👉 réduit la largeur comme Uber */
+  height: 100vh;         /* 👉 prend toute la hauteur de la page */
+  background: #fff;
+  box-shadow: -2px 0 8px rgba(0,0,0,0.15);
+  transition: right 0.3s ease;
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+}
+
+
+.sidebar.open {
+  right: 0;              /* glisse à l’écran */
+}
+
+.sidebar-header {
+  padding: 16px;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff;
+}
+
+.sidebar-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex: 1;
+  background: #fff;
+}
+
+.sidebar-links li {
+  border-bottom: none;
+}
+
+.sidebar-links a {
+  display: block;
+  padding: 14px 18px;
+  font-size: 15px;
+  color: #111;
+  transition: background 0.2s;
+}
+
+
+.sidebar-links a:hover {
+  background: #f8f8f8;
+}
+
+.close-btn {
+  cursor: pointer;
+  font-size: 18px;
+}
+/* Overlay gris transparent sur toute la page */
+.sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.4); /* gris foncé transparent */
+  z-index: 150;                /* sous le side cart mais au-dessus de tout le reste */
+  display: none;               /* caché par défaut */
+}
+
+.sidebar-overlay.active {
+  display: block;
+}
+
+.sidebar-user {
+  padding: 16px;
+  border-bottom: 1px solid #eee;
+}
+
+#sidebarName {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.manage-account {
+  font-size: 14px;
+  color: #007bff;
+  text-decoration: none;
+}
+.manage-account:hover {
+  text-decoration: underline;
+}
+
+/* Style spécifique pour "Gérer le compte" */
+.sidebar-links a.manage-account {
+  color: #007bff;       /* bleu comme Uber par ex */
+  font-weight: 600;     /* un peu plus gras */
+}
+
+
+/* === Styles page Mes commandes === */
+.orders-page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 24px 16px;
+}
+
+.order-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid #eee;  /* fine séparation */
+}
+
+.order-left {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.order-left img {
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+.order-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.order-info h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.order-info .muted {
+  font-size: 13px;
+  color: #777;
+}
+
+.order-items {
+  font-size: 14px;
+  margin-top: 6px;
+}
+
+.order-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+
+
+
+
+/* Encadrement invisible pour la page Parrainage */
+#view-refer .page {
+  max-width: 455px;   /* largeur de la "colonne invisible" */
+  margin: 0 auto;     /* centre sur la page */
+  padding: 20px;
+  text-align: center;
+}
+
+#view-refer h1 {
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+#view-refer h2 {
+  font-size: 20px;
+  margin: 30px 0 15px 0;
+}
+
+#view-refer p {
+  font-size: 15px;
+  line-height: 1.6;
+  margin: 12px 0;
+}
+
+/* Conteneur pour centrer les boutons */
+#view-refer .share-buttons {
+  display: flex;
+  justify-content: center; /* 👉 centre horizontalement */
+  gap: 12px;               /* espace entre les boutons */
+  margin-top: 0px;
+}
+
+/* Style des boutons */
+#view-refer .share-btn {
+  background: #000;      /* 👉 fond noir */
+  color: #fff;           /* 👉 texte blanc */
+  border: none;
+  padding: 6px 22px;
+  border-radius: 100px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+#view-refer .share-btn:hover {
+  background: #333;
+}
+
+
+/* === Séparations page Parrainer === */
+#view-refer .section {
+  padding: 15px 0;
+  border-bottom: 1px solid #eee;  /* fine ligne grise */
+}
+
+#view-refer .section:last-child {
+  border-bottom: none; /* pas de ligne après le dernier bloc */
+}
+
+
+/* Bloc du code parrainage */
+#view-refer .referral-box {
+  background: #f2f2f2;     /* gris clair */
+  padding: 12px 16px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin: 20px 0;
+}
+
+/* Le code lui-même */
+#view-refer .referral-box #referralCode {
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: 1px;
+}
+
+/* Le bouton copier */
+#view-refer .referral-box #copyReferral {
+  background: #fff;          /* bouton blanc */
+  border: 1px solid #ddd;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.2s;
+}
+
+#view-refer .referral-box #copyReferral:hover {
+  background: #f9f9f9;
+}
+
+/* STYLES PAGES INTERNES */
+
+#view-drivers .page {
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+}
+      
+#view-drivers {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+      
+#view-drivers .driver-section {
+  width: 100%;
+  min-height: 100vh;          /* occupe toute la hauteur */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;    /* contenu centré verticalement */
+  align-items: center;
+  padding: 0;                 /* pas de marge qui réduit */
+  box-sizing: border-box;
+}
+      
+    
+#view-drivers .driver-section:nth-child(even) {
+  background: #f9f9f9;       /* alterne fond gris clair */
+}
+
+#view-drivers .driver-section h1,
+#view-drivers .driver-section h2 {
+  font-size: 3rem;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+#view-drivers .driver-section p {
+  font-size: 1.2rem;
+  max-width: 600px;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  text-align: left;
+}
+  
+/* image côté droit ou gauche */
+#view-drivers .driver-section img {
+  max-width: 400px;
+  height: auto;
+  border-radius: 8px;
+}
+#view-drivers .driver-section .btn-start {
+  font-size: 1.3rem;      /* texte plus gros */
+  padding: 15px 40px;     /* bouton plus grand */
+}
+  
+ 
+/* Bloc plein écran */
+/* Bloc demi-écran (2 et 3) */
+.driver-section.half-height {
+  height: 50vh !important;      /* force la moitié d’écran */
+  min-height: 50vh !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 10%;
+  box-sizing: border-box;
+}
+  
+.driver-section.driver-more h2 {
+  font-size: 2.6rem !important;   /* ✅ plus grand */
+  text-align: center !important;
+  margin: 0 auto 18px auto;
+  max-width: 800px;   
+  line-height: 1.3;
+}
+  
+.driver-section.driver-more p {
+  text-align: center !important;
+  font-size: 1.1rem;  
+  line-height: 1.5; 
+  max-width: 700px;
+  margin: 0 auto;
+}
+ 
+/* === Personnalisation bloc par bloc (Drivers) === */
+
+/* Bloc 1 : Hero avec fond noir */
+.driver-hero {
+  background: #000;       /* fond noir */
+  color: #fff;            /* texte en blanc */
+}
+  
+/* Ajuste le texte */
+.driver-hero h1,
+.driver-hero p {
+  color: #fff;            /* force le texte en blanc */
+} 
+
+
+
+/* Bouton Commencez spécifique au Hero */
+.driver-hero .btn-start {
+  background: #fff;       /* fond blanc */
+  color: #000;            /* texte noir */
+  border: none;
+  font-weight: 600;
+  padding: 15px 40px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+  
+.driver-hero .btn-start:hover {
+  background: #f2f2f2;    /* léger gris au survol */
+} 
+/* Bloc 2 : En savoir plus */
+.driver-more {
+  width: 100%;
+  min-height: 100vh;
+  padding: 80px 12%;
+  background: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.driver-more h2 { font-size: 2.5rem; margin-bottom: 20px; }
+
+/* Bloc 3 : Avantages */
+.driver-advantages {
+  width: 100%;
+  min-height: 100vh;
+  padding: 80px 8%;
+  background: #f9f9f9;
+}
+.driver-advantages h3 { font-size: 1.8rem; margin-bottom: 10px; }
+  
+/* Bloc 3 - Réduit l’espace sous le grand titre */
+.driver-advantages > div:first-child h2 {
+  margin-bottom: 0px !important;   /* réduit l’espace */
+  font-size: 2.2rem !important;    /* taille déjà réduite */
+  line-height: 1.2;
+}
+
+.driver-separator {
+  border: 0;  
+  border-top: 2px solid #ddd;  /* fine ligne grise */
+  width: 40%;                  /* centrée et pas trop large */
+  margin: 0px auto;            /* espace au-dessus/dessous + centré */
+}
+  
+/* Bloc 6 : Commencer */  
+.driver-start {
+  width: 100%;
+  min-height: 100vh;
+  padding: 80px 10%;
+  background: #fff;
+}
+  
+/* Bloc 6 : titres plus grands */
+.driver-start h3 { 
+  font-size: 2rem;       /* augmente la taille du titre */
+  font-weight: 550;      /* plus gras */
+  margin-bottom: 10px;   /* espace sous le titre */
+} 
+
+  
+/* Bloc 7 : FAQ */
+.driver-faq {
+  width: 100%;
+  min-height: 100vh;
+  padding: 80px 10%;
+  background: #f9f9f9;
+}
+  
+  
+ 
+  
+
+/* === Accordéon FAQ === */
+.accordion {  
+  border-top: 1px solid #ddd;
+}
+.accordion-item {  
+  border-bottom: 1px solid #ddd;
+} 
+.accordion-header {
+  width: 100%;
+  text-align: left;
+  padding: 14px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+.accordion-header:hover {
+  background: #f2f2f2;
+}
+.accordion-content {  
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease, padding 0.3s ease;
+  padding: 0 14px;
+} 
+/* Forcer la taille réduite des réponses dans la FAQ */
+.driver-faq .accordion-content p {
+  font-size: 0.85rem !important;   /* réduit la taille */
+  line-height: 1.4 !important;     /* resserre l’interligne */
+  color: #000;                     /* optionnel : gris doux */
+  margin: 8px 0;   
+}
+  
+
+.accordion-item.active .accordion-content {
+  max-height: 200px; /* ajuste selon contenu */
+  padding: 10px 14px;
+}
+  
+  
+/* Bloc 9 : Contact */
+.driver-contact {
+  width: 100%;
+  min-height: 100vh;
+  padding: 80px 12%;
+  background: #f9f9f9;
+  text-align: center;
+}
+.driver-contact button {
+  font-size: 1.2rem;
+  padding: 14px 28px;
+}
+.contact-form {
+  max-width: 500px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+ 
+.contact-form label {
+  font-weight: 600;
+  font-size: 14px;
+}
+  
+.contact-form input,
+.contact-form textarea {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  width: 100%;
+  box-sizing: border-box;
+}
+.contact-form button {
+  background: #111;
+  color: #fff;
+  padding: 12px;
+  font-size: 15px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+  
+.contact-form button:hover {
+  background: #222;
+}
+
+
+#driverContactForm {
+  display: grid;
+  gap: 16px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+#driverContactForm .row {
+  display: flex;
+  gap: 12px;
+}
+
+#driverContactForm .row div {
+  flex: 1;
+}
+
+#driverContactForm label {
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 4px;
+  display: block;
+}
+
+#driverContactForm .form-input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 15px;
+}
+
+#driverContactForm textarea.form-input {
+  resize: vertical;
+}
+
+
+
+
+/* Chaque vue interne est cachée par défaut */
+.view {
+  display: none;
+  padding: 0;
+  margin: 0;
+}
+  
+/* Vue active (page affichée) */
+.view.active {
+  display: block; 
+}
+/* Conteneur interne bien centré */
+.view .page {
+  max-width: 900px;   
+  margin: 0 auto;         /* centre horizontalement */
+  padding: 24px 16px;     /* espace intérieur agréable */
+  box-sizing: border-box;
+}
+  
+/* Titres et textes */
+.view h1 {
+  margin: 0 0 16px;
+} 
+.view p {
+  color: var(--muted);
+  line-height: 1.6;
+}
+.muted-small {
+  color: var(--muted);
+  font-size: 14px;
+}
+  
+/* Cache la home quand une page interne est ouverte */
+/* Cache uniquement la home quand une page interne est ouverte */
+body.page-open .hero,
+body.page-open .home-section,
+body.page-open .cta {
+  display: none;
+} 
+
+#drivers-list {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid #eee;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+#drivers-list div {
+  padding: 8px 0;
+  border-bottom: 1px solid #f2f2f2;
+}
+#drivers-list div:last-child {
+  border-bottom: none;
+}
+
+
+
+
+/* Checkout layout */
+.checkout-container {
+  display: flex;
+  gap: 40px;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 20px;
+}
+.checkout-left, .checkout-right {
+  flex: 1;
+}
+.checkout-section {
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+.checkout-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 0;
+}
+.cart-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 10px 0;
+}
+.cart-item img {
+  border-radius: 8px;
+}
+.cart-item .info {
+  flex: 1;
+}
+.checkout-row.total {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.sidebar-user {
+  text-align: center;
+  padding: 20px;
+}
+#sidebarName {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch-lite.umd.js"></script>
+
+</head>
+<body>
+<main>
+<div class="page-container">  
+<!-- Header -->
+<header>
+  <div class="container nav">
+<a class="brand" href="#" onclick="event.preventDefault(); location.hash=''; window.location.reload();">
+      <div class="brand-badge">⚡️</div>
+      <div>
+        <div style="font-size:18px;letter-spacing:-.3px">FlashBring</div>
+        <div class="tagline">Tout, livré en 2h</div>
+      </div>
+    </a>
+<div class="actions">
+  <button id="btnLogin" class="btn">Se connecter</button>
+  <div id="userMenu" style="display:none;position:relative; display:flex; align-items:center; gap:12px;">
+    <span id="welcomeMsg" style="cursor:pointer;font-weight:600;font-size:15px;">
+      Bonjour <span id="welcomeName"></span>
+    </span>
+    <button id="btnCart" class="btn ghost" style="display:none">🛒 Panier</button>
+  </div>
+</div>
+
+<!-- Overlay gris derrière le side cart -->
+<div id="sidebarOverlay" class="sidebar-overlay"></div>
+
+<!-- 👉 Le vrai conteneur du side cart -->
+<div id="userSidebar" class="sidebar">
+<div class="sidebar-user">
+  <div id="sidebarName">
+    Bonjour
+  </div>
+<a href="#account" class="manage-account">Gérer le compte</a>
+</div>
+
+  <ul class="sidebar-links">
+    <li><a href="#orders">Mes commandes</a></li>
+    <li><a href="#cart">Mon panier</a></li>
+    <li><a href="#favorites">Favoris</a></li>
+    <li><a href="#refer">Parrainer</a></li>
+    <li><a href="#help">Aide</a></li>
+    <li><a href="#settings">Paramètres</a></li>
+    <li><a href="#" id="logoutBtn">Se déconnecter</a></li>
+
+    <!-- Séparation fine -->
+    <li style="border-top:2px solid #eee; margin:10px 0"></li>
+
+    <!-- Nouveaux liens -->
+    <li><a href="#partners">Ajouter votre restaurant</a></li>
+    <li><a href="#drivers">Inscrivez-vous pour livrer</a></li>
+  </ul>
+</div> <!-- ferme .sidebar -->
+</div> 
+  </header>
+
+
+
+    <!-- HERO -->
+<section class="hero home-section">
+      <div class="container hero-grid">
+        <div>
+<h1 class="h1">Tout ce que vous voulez,<br> livré en <span style="white-space:nowrap">moins de 2h.</span></h1>
+          <p class="sub">Resto, courses, mode, pharmacie, high-tech, cadeaux… Paiement sécurisé, suivi en temps réel, livreurs vérifiés.</p>
+
+          <div class="hero-card">
+            <div class="search">
+<input class="input" id="keyword" placeholder="Cherche un produit ou magasin (ex: Trottinette, Carrefour)">
+<button class="btn go" id="btnSearch">Rechercher</button>
+            </div>
+            <div class="hero-points">
+            </div>
+          </div>
+        </div>
+
+<div class="mock-visuel">
+<img src="visuel-flashbring.png" alt="Vos envies, chez vous en un éclair" class="mock-visuel">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CATEGORIES -->
+<section class="section home-section">
+      <div class="container">
+        <h2>Catégories </h2>
+        <div class="grid" id="catGrid">
+          <!-- items injectés par JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+<section class="section home-section">
+      <div class="container">
+        <h2>On vous explique</h2>
+        <div class="steps">
+          <div class="step">
+            <div class="badge">1</div>
+<h3>Vous commandez</h3>
+            <p>Choisissez une catégorie ou recherchez par mot-clés. Vous commandez et on se charge de la livraison.</p>
+          </div>
+          <div class="step">
+            <div class="badge">2</div>
+            <h3>On sécurise</h3>
+            <p>Paiement sécurisé, livreur vérifié.</p>
+          </div>
+          <div class="step">
+            <div class="badge">3</div>
+            <h3>Livré en 2h</h3>
+            <p>Suivi en temps réel, code de remise au client, photo de confirmation.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TRUST / POURQUOI NOUS -->
+<section class="section home-section">
+      <div class="container">
+        <h2>Pourquoi nous</h2>
+        <div class="trust">
+          <div class="card">
+            <b>Meilleur délai</b>
+            <div class="muted">Objectif &lt; 120 minutes, urbain & périurbain.</div>
+          </div>
+          <div class="card">
+            <b>Sécurité avancée</b>
+            <div class="muted">Paiement sécurisé, livreur vérifié, remboursement en cas de vol/perte.</div>
+          </div>
+          <div class="card">
+            <b>Tout, vraiment</b>
+            <div class="muted">Resto, mode, tech, courses, cadeaux, pharmacie…</div>
+          </div>
+          <div class="card">
+            <b>Support humain</b>
+            <div class="muted">Chat et email basés en France, 7j/7.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+<!-- CTA -->
+<section class="container cta home-section">
+  <div class="left">Prêt ? Essaie dans ta ville maintenant.</div>
+  <div class="right">
+    <a class="btn ghost" href="#how">Pourquoi Flashbring ?</a>
+    <button class="btn" id="ctaStart">Commencer</button>
+  </div>
+</section>
+
+
+
+
+<section id="view-about"   class="view"><div class="page">
+  <h1>À propos de FlashBring</h1>
+  <p class="muted-small">Notre histoire, notre mission et nos valeurs.</p>
+  <p>FlashBring est né d’une idée simple : permettre à chacun de se faire livrer ce qu’il veut, quand il veut, avec un service fiable et humain. Notre ambition est d’ouvrir la livraison à tous les commerces locaux — pas seulement la restauration — en gardant une exigence de sécurité, de rapidité et de transparence.</p>
+  <h3>Notre clientèle</h3>
+  <p>Étudiants pressés, jeunes actifs, familles débordées, seniors… Nos utilisateurs nous choisissent pour gagner du temps, éviter les déplacements, et soutenir leurs commerces de quartier.</p>
+  <h3>Commerces partenaires</h3>
+<p>De l’alimentaire à la mode, du high-tech à la pharmacie, nous intégrons progressivement les enseignes nationales et locales. Objectif : 500 commerces actifs dans 50 villes d’ici 2026.</p>
+  <h3>Livreurs partenaires</h3>
+  <p>Nous travaillons avec des livreuses et livreurs indépendants, vérifiés et formés à nos standards (prise en charge en magasin, contrôle article, preuve de livraison).</p>
+  <h3>L’innovation, livrée à domicile</h3>
+  <p>Cartes virtuelles à usage unique, vérification des produits, preuve de remise… Nous investissons dans des briques technologiques pragmatiques pour sécuriser chaque étape.</p>
+</div></section>
+
+<section id="view-careers" class="view"><div class="page">
+  <h1>Carrières</h1>
+  <p>On construit un service utile, simple et responsable. Si tu veux rejoindre l’aventure (ops, support, tech, growth), écris-nous : <a href="mailto:jobs@flashbring.com">jobs@flashbring.com</a>.</p>
+</div></section>
+
+<section id="view-press" class="view"><div class="page">
+  <h1>Presse</h1>
+  <p>Contacts médias, kit logo, chiffres clés (à venir). Écris-nous : <a href="mailto:press@flashbring.com">press@flashbring.com</a>.</p>
+</div></section>
+
+<section id="view-terms" class="view"><div class="page">
+  <h1>Conditions Générales d’Utilisation (CGU)</h1>
+  <p>Version courte : utilisation du service, respect de la loi, responsabilité limitée, etc. (On mettra la version complète ici.)</p>
+</div></section>
+
+<section id="view-privacy" class="view"><div class="page">
+  <h1>Politique de confidentialité</h1>
+  <p>Ce que nous collectons, pourquoi, combien de temps, et tes droits (RGPD). Texte complet à venir.</p>
+</div></section>
+
+<section id="view-cookies" class="view"><div class="page">
+  <h1>Cookies</h1>
+  <p>Cookies techniques, mesure d’audience, consentement. Détails et préférences bientôt disponibles.</p>
+</div></section>
+
+<section id="view-support" class="view"><div class="page">
+  <h1>Support</h1>
+  <p>Une question sur ta commande ? Écris-nous : <a href="mailto:support@flashbring.com">support@flashbring.com</a>.</p>
+</div></section>
+
+
+<!-- PAGE DRIVERS -->
+<section id="view-drivers" class="view">
+
+  <!-- Bloc 1 : Hero -->
+  <section class="driver-section driver-hero">
+    <div style="display:flex;align-items:center;gap:30px;flex-wrap:wrap;max-width:1200px;width:100%;">
+      <div style="flex:1;min-width:260px">
+        <h1>Livrez quand vous voulez, générez des revenus sur mesure</h1>
+        <p>Générez des revenus selon votre emploi du temps.</p>
+        <button class="btn ghost btn-start" style="margin-top:12px;">Commencez</button>
+      </div>
+      <div style="flex:1;min-width:260px">
+<img src="driver-intro.png" alt="Livreur FlashBring" style="max-width:118%;border-radius:12px">
+      </div>
+    </div>  
+  </section>
+
+  <!-- Bloc 2 : En savoir plus -->
+  <section class="driver-section half-height driver-more">
+    <div style="max-width:900px;text-align:center;">
+<h2>En savoir plus sur la livraison avec FlashBring</h2>
+      <p>Livrer avec Flashbring, c’est l’activité idéale pour compléter ses revenus en toute liberté. Vous pouvez livrer où vous voulez, quand vous voulez.</p>
+    </div>  
+  </section>
+
+<!-- Bloc 3 : Avantages -->
+<section class="driver-section half-height driver-advantages">
+  <div style="max-width:1200px; width:100%; text-align:center; margin-bottom:40px;">
+    <h2>Gagnez de l'argent à votre rythme</h2>
+  </div>
+  <div style="display:flex;gap:40px;flex-wrap:wrap;max-width:1200px;margin:0 auto;">
+    <div style="flex:1;min-width:260px">
+      <h3>Votre vélo, vos horaires</h3>
+      <p>Découvrez votre ville tout en livrant à vélo et ce, quand vous le voulez - pour une heure, un weekend, ou tout au long de la semaine.</p>
+    </div>
+    <div style="flex:1;min-width:260px">
+      <h3>Paiement hebdomadaire</h3>
+      <p>Recevez vos paiements chaque début de semaine. Débloquez FlexPay pour être payé chaque jour.</p>
+    </div>
+    <div style="flex:1;min-width:260px">
+      <h3>Découvrez votre ville</h3>
+      <p>Profitez de chaque livraison pour explorer de nouveaux quartiers.</p>
+    </div>
+  </div>  
+</section>
+
+<hr class="driver-separator">
+
+  <!-- Bloc 6 : Commencer -->
+  <section class="driver-section half-height driver-start">
+    <div style="display:flex;gap:40px;flex-wrap:wrap;max-width:1000px;">
+      <div style="flex:1;min-width:260px">
+        <h3>Nouveau sur Flashbring ?</h3>
+        <p>-  S'inscrire en tant que coursier</p>
+<p>- Mettez vos documents en ligne</p>
+<p>- Validez votre sac de livraison</p>
+<p>- Dès que votre profil est activé, vous pouvez commencer à livrer pour Flashbring..</p>
+      </div>
+      <div style="flex:1;min-width:260px">
+        <h3>Déjà partenaire Flashbring ?</h3>
+        <p>- Rendez-vous sur votre espace compte</p>
+ <p>- Acceptez les conditions</p>
+ <p>- Livrez dès que vous le souhaitez.</p>
+      </div>
+    </div>
+  </section>
+
+
+<!-- Bloc 7 : FAQ -->
+<section class="driver-section half-height driver-faq">
+  <div style="max-width:900px;">
+    <h2>FAQ</h2>
+
+    <div class="accordion">
+      <div class="accordion-item">
+        <button class="accordion-header">Comment mettre en ligne mes documents ?</button>
+        <div class="accordion-content">
+          <p>Vous pouvez renseigner vos documents directement depuis votre compte.</p>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <button class="accordion-header">Pourquoi mes documents sont-ils refusés ?</button>
+        <div class="accordion-content">
+          <p>Si votre document est refusé, c’est très certainement pour une des 3 raisons suivantes :</p>
+<p>- C'est une photocopie ou un document en noir et blanc </p>
+<p>- Les quatre bords du document ne sont pas visibles </p>
+<p>- Le document est flou, des reflets, des ombres ou des objets masquent une partie de l’image </p>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <button class="accordion-header">Comment activer mon compte ?</button>
+        <div class="accordion-content">
+          <p>Validez vos documents + sac de livraison conforme.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<div class="driver-section driver-contact">
+  <h2>Vous avez d'autres questions ?</h2>
+  <form class="contact-form" id="driverContactForm">
+    
+    <div class="row">
+      <div>
+        <label for="firstname">Prénom</label>
+        <input type="text" id="firstname" name="firstname" class="form-input" required>
+      </div>
+      <div>
+        <label for="lastname">Nom</label>
+        <input type="text" id="lastname" name="lastname" class="form-input" required>
+      </div>
+    </div>
+    
+    <div>
+      <label for="email">Adresse e-mail</label>
+      <input type="email" id="email" name="email" class="form-input" required>
+    </div>
+    
+    <div>
+      <label for="message">Description du problème</label>
+      <textarea id="message" name="message" class="form-input" rows="5" required></textarea>
+    </div>
+    
+    <div style="display:flex;gap:12px;justify-content:center;margin-top:10px;">
+      <button type="submit" class="btn-primary">Envoyer</button>
+      <button type="reset" class="btn ghost">Effacer</button>
+    </div>
+  </form>
+</div>
+
+<div id="drivers-list"></div>
+
+</section>
+
+
+<section id="view-partners" class="view"><div class="page">
+  <h1>Devenir partenaire</h1>
+  <p>Commerces et enseignes : connectez votre catalogue et commencez à livrer via FlashBring. <a href="mailto:partners@flashbring.com">partners@flashbring.com</a></p>
+</div></section>
+
+
+
+<!-- MON COMPTE -->
+<section id="view-account" class="view"><div class="page">
+
+    <div class="account-container">
+      <h1>Mon compte</h1>
+
+      <!-- Bloc Infos personnelles -->
+      <section class="account-section">
+        <h2>Informations personnelles</h2>
+<form id="accountForm" class="account-form">
+          <div>
+            <label for="firstname">Prénom</label>
+            <input type="text" id="account-firstname" class="form-input" placeholder="Votre prénom">
+          </div>
+          <div>
+            <label for="lastname">Nom</label>
+            <input type="text" id="account-lastname" class="form-input" placeholder="Votre nom">
+          </div>
+          <div>
+            <label for="email">Adresse email</label>
+            <input type="email" id="account-email" class="form-input" placeholder="exemple@mail.com">
+          </div>
+          <div>
+            <label for="street">Adresse</label>
+            <input type="text" id="account-street" class="form-input" placeholder="Rue et numéro">
+          </div>
+          <div class="row">
+            <div>
+              <label for="city">Ville</label>
+              <input type="text" id="account-city" class="form-input" placeholder="Ville">
+            </div>
+            <div>
+              <label for="postal">Code postal</label>
+              <input type="text" id="account-postal" class="form-input" placeholder="75000">
+            </div>
+          </div>
+          <button type="submit" class="btn-primary">Mettre à jour</button>
+        </form>
+</section>
+
+<h3>Mes moyens de paiement</h3>
+<div id="paymentMethods"></div>
+<button id="addCardBtn">➕ Ajouter une carte</button>
+
+
+ 
+  <!-- Zone où Stripe Elements s’affichera -->
+  <div id="card-element" style="margin-top:15px;"></div>
+  <button id="saveCardBtn" style="display:none;">Enregistrer ma carte</button>
+</div> 
+<!-- Liste des cartes -->
+<ul id="cardList" style="margin-top:15px; list-style:none; padding:0;"></ul>
+
+  </div>
+</section>
+
+
+
+
+<section id="view-orders" class="view">
+  <div class="orders-page">
+    <h1>Mes commandes passées</h1>
+    <!-- Les commandes seront injectées ici par loadOrders() -->
+  </div>
+</section>
+
+
+
+<!-- PAGE PANIER -->
+<section id="view-cart" class="view">
+  <div class="checkout-container">
+    
+    <!-- Colonne gauche -->
+    <div class="checkout-left">
+      
+      <!-- Détails de livraison -->
+      <div class="checkout-section">
+        <h2>Détails de la livraison</h2>
+        <div class="checkout-row">
+          <div>
+            <b>Adresse :</b><br>
+            <span id="deliveryAddress"></span>
+          </div>
+          <button class="btn ghost" id="editAddressBtn">Modifier</button>
+        </div>
+        <div class="checkout-row">
+          <div>
+            <b>Instructions :</b><br>
+            <span id="deliveryInstructions"></span>
+          </div>
+          <button class="btn ghost" id="editInstructionsBtn">Modifier</button>
+        </div>
+      </div>
+
+      <!-- Options livraison -->
+      <div class="checkout-section">
+        <h2>Options de livraison</h2>
+        <div class="checkout-row">
+          <label>
+            <input type="radio" name="delivery" value="priority"> 🚀 Priorité (<span id="priorityTime"></span>)
+          </label>
+          <span id="priorityPrice"></span>
+        </div>
+        <div class="checkout-row">
+          <label>
+            <input type="radio" name="delivery" value="standard" checked> ⏳ Standard (<span id="standardTime"></span>)
+          </label>
+          <span>Inclus</span>
+        </div>
+      </div>
+
+      <!-- Moyens de paiement -->
+      <div class="checkout-section">
+        <h2>Moyens de paiement</h2>
+        <div class="checkout-row">
+          <span id="paymentMethod"> Apple Pay</span>
+          <button class="btn ghost" id="editPaymentBtn">Modifier</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Colonne droite -->
+    <div class="checkout-right">
+
+      <!-- Récap panier -->
+      <div class="checkout-section">
+        <h2>Récapitulatif du panier (<span id="cartCount">0</span> articles)</h2>
+        <div id="cartItems"></div>
+      </div>
+
+      <!-- Promotions -->
+      <div class="checkout-section">
+        <h2>Promotion</h2>
+        <a href="#" id="addPromoBtn">+ Ajouter un code promotionnel</a>
+      </div>
+
+      <!-- Totaux -->
+      <div class="checkout-section">
+        <h2>Total de la commande</h2>
+        <div class="checkout-row">
+          <span>Sous-total</span><span id="subtotal">0,00 €</span>
+        </div>
+        <div class="checkout-row">
+          <span>Frais</span><span id="fees">0,00 €</span>
+        </div>
+        <div class="checkout-row">
+          <span>Livraison</span><span id="deliveryFee">0,00 €</span>
+        </div>
+        <div class="checkout-row total">
+          <span>Total</span><span id="grandTotal">0,00 €</span>
+        </div>
+<a href="#checkout" class="btn-primary" style="margin-top:10px;width:100%;" id="payBtn">Payer</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+
+
+
+
+
+
+
+
+<!-- PAGE PARRAINER -->
+<section id="view-refer" class="view">
+  <div class="page">
+    <h1>Faites économiser vos amis</h1>
+    <p>
+      Vous obtenez tous les deux une promotion lorsque votre ami effectue sa première commande de livraison.
+      <a href="#" id="openReferralDetails">Voir les détails</a>
+    </p>
+    <!-- Ligne fine de séparation -->
+    <hr style="border:0; border-top:1px solid #eaeaea; margin:10px 0;">  
+    <!-- Bloc Parrain -->
+    <h2>Vous obtenez 10 € de crédit</h2>
+    <p> Sur deux de vos commandes, vous pouvez choisir de bénéficier d’une remise de 5 € sur les frais de livraison. Cette offre est valable une seule fois par commande et reste utilisable pendant un an.</p>
+  
+    <!-- Bloc Filleul -->
+    <h2>Ils bénéficient de la livraison gratuite </h2>
+    <p>Frais de livraison gratuits dès 15 € de commande pour la 1ère commande, et -50% sur les frais pour la 2ème dès 30 €.</p>
+  
+<!-- Code parrainage -->
+<div class="referral-box">
+  <b>Votre code :</b>
+  <span id="referralCode">EATS-9K3EBPVOGU</span>
+  <button id="copyReferral">Copier</button>
+</div>
+
+
+
+    <!-- Boutons partage -->
+<div class="share-buttons">
+  <div style="display:flex;gap:12px;flex-wrap:wrap">
+    <a href="https://www.facebook.com/sharer/sharer.php?u=https://flashbring.com" target="_blank" class="share-btn"> Facebook </a>
+    <a href="https://twitter.com/intent/tweet?url=https://flashbring.com&text=Rejoins-moi sur FlashBring avec ce code !" target="_blank" class="share-btn"> Twitter </a>
+    <a href="mailto:?subject=Ton code FlashBring&body=Voici mon code : EATS-9K3EBPVOGU. Télécharge FlashBring et profite d’une réduction !" class="share-btn">️ E-mail </a>
+  </div>
+</div>
+</section>
+
+
+
+<!-- RESULTATS DE RECHERCHE -->
+<section id="view-results" class="view" style="display:none;max-width:1100px;margin:0 auto;padding:24px 16px">
+  <h2 id="resTitle" style="margin:0 0 16px">Résultats</h2>
+
+  <div id="resSummary" class="muted" style="margin-bottom:14px"></div>
+
+  <div id="resMerchants" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px"></div>
+
+  <div id="resProducts" style="margin-top:22px">
+    <h3 style="margin:16px 0 10px">Produits</h3>
+    <div id="resProductsGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px"></div>
+  </div>
+</section>
+
+<!-- PAGE RESTAURANTS -->
+<section id="view-cat-food" class="view">
+  <div class="page">
+
+    <!-- Barre de recherche -->
+    <div class="search-bar">
+      <input type="text" id="restaurantSearch" placeholder="Que voulez-vous manger ?">
+    </div>
+
+<!-- Catégories -->
+<div id="foodCategories" class="categories">
+  <div class="cat-item" data-cat="pizza">🍕<span>Pizza</span></div>
+  <div class="cat-item" data-cat="sushi">🍣<span>Sushi</span></div>
+  <div class="cat-item" data-cat="halal">🕌<span>Halal</span></div>
+  <div class="cat-item" data-cat="burger">🍔<span>Burgers</span></div>
+  <div class="cat-item" data-cat="fastfood">🍟<span>Fast Food</span></div>
+  <div class="cat-item" data-cat="asian">🥡<span>Asiatique</span></div>
+  <div class="cat-item" data-cat="dessert">🍩<span>Dessert</span></div>
+  <div class="cat-item" data-cat="italien">🍝<span>Italien</span></div>
+  <div class="cat-item" data-cat="sandwich">🥪<span>Sandwich</span></div>
+  <div class="cat-item" data-cat="bbq">🍖<span>Barbecue</span></div>
+</div>
+
+
+
+<!-- Filtres façon Uber -->
+<div class="filters-bar">
+  <button class="filter-btn" data-target="filter-price">Prix</button>
+  <button class="filter-btn" data-target="filter-delivery"> Frais de livraison</button>
+  <button class="filter-btn" data-target="filter-sort"> Trier</button>
+  <button class="filter-btn" data-target="filter-diet">Diététique</button>
+</div>
+
+<!-- Panneaux déroulants -->
+<div id="filter-panels">
+
+<!-- Prix -->
+<div class="filter-panel" id="filter-price">
+  <div class="price-row">
+    <label for="priceMin">Min (€)</label>
+    <input type="number" id="priceMin">
+
+    <label for="priceMax">Max (€)</label>
+    <input type="number" id="priceMax">
+  </div>
+  <div class="filter-actions">
+<button id="resetFiltersFood">Réinitialiser</button>
+<button id="applyFiltersFood">Appliquer</button>
+  </div>
+</div>
+
+  <!-- Frais de livraison -->
+  <div class="filter-panel" id="filter-delivery">
+    <label><input type="radio" name="deliveryFee" value="0"> Gratuit</label>
+    <label><input type="radio" name="deliveryFee" value="2"> 2€</label>
+    <label><input type="radio" name="deliveryFee" value="3"> 3€</label>
+    <label><input type="radio" name="deliveryFee" value="3+"> 3€+</label>
+    <div class="filter-actions">
+<button id="resetFiltersFoodDelivery">Réinitialiser</button>
+  <button id="applyFiltersFoodDelivery">Appliquer</button>
+    </div>
+  </div>
+
+  <!-- Tri -->
+  <div class="filter-panel" id="filter-sort">
+    <label><input type="radio" name="sort" value="best"> Mieux notés</label>
+    <label><input type="radio" name="sort" value="worst"> Moins bien notés</label>
+    <div class="filter-actions">
+ <button id="resetFiltersFoodSort">Réinitialiser</button>
+  <button id="applyFiltersFoodSort">Appliquer</button>
+    </div>
+  </div>
+
+  <!-- Diététique -->
+  <div class="filter-panel" id="filter-diet">
+    <label><input type="checkbox" value="vegetarien"> Végétarien</label>
+    <label><input type="checkbox" value="vegan"> Vegan</label>
+    <label><input type="checkbox" value="sansgluten"> Sans gluten</label>
+    <div class="filter-actions">
+<button id="resetFiltersFoodDiet">Réinitialiser</button>
+  <button id="applyFiltersFoodDiet">Appliquer</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- Résumé résultats -->
+<p id="resultsCount">0 résultat</p>
+<!-- Blocs façon Uber -->
+
+<!-- Les enseignes -->
+<h2>Les enseignes</h2>
+<div id="section-enseigne" class="cards-row"></div>
+
+<!-- Magasins près de chez vous -->
+<h2>Magasins près de chez vous</h2>
+<div id="section-pres" class="cards-row"></div>
+
+<!-- Populaire près de chez vous -->
+<h2>Populaire près de chez vous</h2>
+<div id="section-pop" class="cards-row"></div>
+
+<!-- Vous êtes pressé ? -->
+<h2>Vous êtes pressé ?</h2>
+<p class="muted-small">Voici la livraison la plus rapide pour vous</p>
+<div id="section-rapide" class="cards-row"></div>
+
+<!-- Les plus populaires -->
+<h2>Les plus populaires</h2>
+<div id="section-populaires" class="cards-row"></div>
+
+<!-- Tous les magasins -->
+<h2>Tous les magasins</h2>
+<div id="section-all" class="cards-grid"></div>
+
+
+  </div>
+</section>
+
+<!-- PAGE MODE -->
+<section id="view-cat-fashion" class="view">
+  <div class="page">
+    
+    <!-- Barre de recherche -->
+    <div class="search-bar">
+      <input type="text" id="fashionSearch" placeholder="Que cherchez-vous ? (robe, chaussures…)">
+    </div>
+
+    <!-- Catégories mode -->
+<div class="categories fashion-cats">
+  <div class="cat-item" data-cat="accessoires">🧢<br><span>Accessoires</span></div>
+  <div class="cat-item" data-cat="tshirts">👕<br><span>T-shirts</span></div>
+  <div class="cat-item" data-cat="sweats">👔<br><span>Sweats</span></div>
+  <div class="cat-item" data-cat="pantalons">👖<br><span>Pantalons</span></div>
+  <div class="cat-item" data-cat="shorts">🩳<br><span>Shorts</span></div>
+  <div class="cat-item" data-cat="lingerie">👙<br><span>Lingerie</span></div>
+  <div class="cat-item" data-cat="sacs">👜<br><span>Sacs</span></div>
+</div>
+
+
+    <!-- Filtres -->
+    <div class="filters-bar">
+      <button class="filter-btn" data-target="filter-fashion-price">Prix</button>
+      <button class="filter-btn" data-target="filter-fashion-delivery">Frais de livraison</button>
+      <button class="filter-btn" data-target="filter-fashion-sort">Trier</button>
+      <button class="filter-btn" data-target="filter-fashion-diet">Tailles / Marques</button>
+    </div>
+
+
+<!-- Panneaux déroulants pour Mode -->
+<div id="fashion-filter-panels">
+  <!-- Prix -->
+  <div class="filter-panel" id="filter-fashion-price">
+    <label>Min (€) : <input type="number" id="fashionPriceMin"></label>
+    <label>Max (€) : <input type="number" id="fashionPriceMax"></label>
+    <div class="filter-actions">
+ <button id="resetFiltersFashionPrice">Réinitialiser</button>
+    <button id="applyFiltersFashionPrice">Appliquer</button>
+    </div>
+  </div>
+
+  <!-- Frais de livraison -->
+  <div class="filter-panel" id="filter-fashion-delivery">
+    <label><input type="radio" name="fashionDeliveryFee" value="0"> Gratuit</label>
+    <label><input type="radio" name="fashionDeliveryFee" value="2"> 2€</label>
+    <label><input type="radio" name="fashionDeliveryFee" value="3"> 3€</label>
+    <label><input type="radio" name="fashionDeliveryFee" value="4"> 3€+</label>
+    <div class="filter-actions">
+<button id="resetFiltersFashionDelivery">Réinitialiser</button>
+    <button id="applyFiltersFashionDelivery">Appliquer</button>
+    </div>
+  </div>
+
+  <!-- Trier -->
+  <div class="filter-panel" id="filter-fashion-sort">
+    <label><input type="radio" name="fashionSort" value="best"> Mieux notés</label>
+    <label><input type="radio" name="fashionSort" value="fast"> Livraison rapide</label>
+    <div class="filter-actions">
+<button id="resetFiltersFashionSort">Réinitialiser</button>
+    <button id="applyFiltersFashionSort">Appliquer</button>
+    </div>
+  </div>
+
+  <!-- Diététique (inutile pour mode mais je mets pour cohérence) -->
+  <div class="filter-panel" id="filter-fashion-diet">
+    <label><input type="checkbox" value="eco"> Eco-responsable</label>
+    <label><input type="checkbox" value="bio"> Bio</label>
+    <div class="filter-actions">
+ <button id="resetFiltersFashionEco">Réinitialiser</button>
+    <button id="applyFiltersFashionEco">Appliquer</button>
+    </div>
+  </div>
+</div>
+
+
+
+    <!-- Résultats dynamiques -->
+    <div id="fashionResults"></div>
+
+<p id="fashionResultsCount">0 résultat</p>
+
+    <!-- Blocs sections comme Uber -->
+    <h2>Les enseignes mode</h2>
+    <div id="fashion-enseignes"></div>
+
+    <h2>Magasins près de chez vous</h2>
+    <div id="fashion-nearby"></div>
+
+    <h2>Populaire près de chez vous</h2>
+    <div id="fashion-popular"></div>
+
+    <h2>Vous êtes pressé ?</h2>
+    <p class="muted-small">Voici la livraison la plus rapide pour vous</p>
+    <div id="fashion-fast"></div>
+
+    <h2>Les plus populaires</h2>
+    <div id="fashion-top"></div>
+
+    <h2>Tous les magasins</h2>
+    <div id="fashion-all"></div>
+
+  </div>
+</section>
+
+
+<!-- PAGE MAISON -->
+<section id="view-cat-home" class="view">
+  <div class="page">
+
+    <!-- Barre de recherche -->
+    <div class="search-bar">
+      <input type="text" id="homeSearch" placeholder="Que cherchez-vous pour la maison ?">
+    </div>
+
+    <!-- Catégories maison -->
+    <div class="categories">
+      <div class="cat-item" data-cat="meubles">🛋️<span>Meubles</span></div>
+      <div class="cat-item" data-cat="decor">🖼️<span>Décoration</span></div>
+      <div class="cat-item" data-cat="electromenager">🔌<span>Électroménager</span></div>
+      <div class="cat-item" data-cat="linge">🛏️<span>Linge de maison</span></div>
+      <div class="cat-item" data-cat="jardin">🌿<span>Jardin</span></div>
+      <div class="cat-item" data-cat="bricolage">🛠️<span>Bricolage</span></div>
+      <div class="cat-item" data-cat="rangement">📦<span>Rangement</span></div>
+    </div>
+
+<!-- Filtres façon Uber (Maison) -->
+<div class="filters-bar">
+  <button class="filter-btn" data-target="filter-home-price">Prix</button>
+  <button class="filter-btn" data-target="filter-home-delivery">Frais de livraison</button>
+<button class="filter-btn" data-target="filter-condition">État du produit</button>
+<button class="filter-btn" data-target="filter-eco">Écologique / Durable</button>
+</div>
+
+<!-- Panneaux déroulants (Maison) -->
+<div id="filter-home-price" class="filter-panel">
+  <label>Min (€) : <input type="number" id="homePriceMin"></label>
+  <label>Max (€) : <input type="number" id="homePriceMax"></label>
+  <div class="filter-actions">
+<button id="resetFiltersHomePrice">Réinitialiser</button>
+<button id="applyFiltersHomePrice">Appliquer</button>
+  </div>
+</div>
+
+<div id="filter-home-delivery" class="filter-panel">
+  <label><input type="radio" name="homeDeliveryFee" value="0"> Gratuit</label>
+  <label><input type="radio" name="homeDeliveryFee" value="2"> 2 €</label>
+  <label><input type="radio" name="homeDeliveryFee" value="3"> 3 €</label>
+  <label><input type="radio" name="homeDeliveryFee" value="3+"> 3 €+</label>
+  <div class="filter-actions">
+<button id="resetFiltersHomeDelivery">Réinitialiser</button>
+<button id="applyFiltersHomeDelivery">Appliquer</button>
+  </div>
+</div>
+
+<!-- État du produit -->
+<div id="filter-condition" class="filter-panel">
+  <label><input type="checkbox" value="neuf"> Neuf</label>
+  <label><input type="checkbox" value="occasion"> Occasion</label>
+  <label><input type="checkbox" value="reconditionne"> Reconditionné</label>
+  <div class="filter-actions">
+<button id="resetFiltersHomeCondition">Réinitialiser</button>
+<button id="applyFiltersHomeCondition">Appliquer</button>
+  </div>
+</div>
+
+<!-- Écologique / Durable -->
+<div id="filter-eco" class="filter-panel">
+  <label><input type="checkbox" value="local"> Fabriqué localement</label>
+  <label><input type="checkbox" value="recycle"> Matières recyclées</label>
+  <div class="filter-actions">
+<button id="resetFiltersHomeEco">Réinitialiser</button>
+<button id="applyFiltersHomeEco">Appliquer</button>
+  </div>
+</div>
+
+    <!-- Résultats -->
+    <div id="homeResultsCount" class="results-count">0 résultat</div>
+
+    <!-- Sections -->
+    <h2>Les enseignes maison</h2>
+    <div id="home-enseignes" class="cards-grid"></div>
+
+    <h2>Magasins près de chez vous</h2>
+    <div id="home-pres" class="cards-grid"></div>
+
+    <h2>Populaire près de chez vous</h2>
+    <div id="home-populaires" class="cards-grid"></div>
+
+    <h2>Vous êtes pressé ?</h2>
+    <p class="muted-small">Voici la livraison la plus rapide pour vous</p>
+    <div id="home-rapide" class="cards-grid"></div>
+
+    <h2>Les plus populaires</h2>
+    <div id="home-best" class="cards-grid"></div>
+
+    <h2>Tous les magasins</h2>
+    <div id="home-tous" class="cards-grid"></div>
+
+  </div>
+</section>
+
+<!-- PAGE HIGH-TECH -->
+<section id="view-cat-tech" class="view">
+  <div class="page">
+
+    <!-- Barre de recherche -->
+    <div class="search-bar">
+      <input type="text" id="hightechSearch" placeholder="Que cherchez-vous en High-Tech ?">
+    </div>
+
+    <!-- Catégories High-Tech -->
+<div class="categories">
+      <div class="cat-item" data-cat="smartphone">📱<br><span>Smartphones</span></div>
+      <div class="cat-item" data-cat="ordinateur">💻<br><span>Ordinateurs</span></div>
+      <div class="cat-item" data-cat="tour">🖥️<br><span>Tours fixes</span></div>
+      <div class="cat-item" data-cat="audio">🎧<br><span>Audio</span></div>
+      <div class="cat-item" data-cat="montre">⌚<br><span>Montres</span></div>
+      <div class="cat-item" data-cat="console">🎮<br><span>Consoles</span></div>
+      <div class="cat-item" data-cat="tv">📺<br><span>TV & Cinéma</span></div>
+      <div class="cat-item" data-cat="photo">📷<br><span>Appareils photo</span></div>
+      <div class="cat-item" data-cat="accessoires">🔌<br><span>Accessoires</span></div>
+    </div>
+
+    <!-- Filtres façon Uber -->
+    <div class="filters-bar">
+      <button class="filter-btn" data-target="filter-price-hightech">Prix</button>
+      <button class="filter-btn" data-target="filter-delivery-hightech">Frais de livraison</button>
+      <button class="filter-btn" data-target="filter-etat">État du produit</button>
+      <button class="filter-btn" data-target="filter-garantie">Garantie</button>
+    </div>
+
+    <!-- Panneaux déroulants -->
+    <div id="filter-panels">
+
+      <!-- Prix -->
+      <div class="filter-panel" id="filter-price-hightech">
+        <label>Min (€) : <input type="number" id="priceMinHigh"></label>
+        <label>Max (€) : <input type="number" id="priceMaxHigh"></label>
+        <div class="filter-actions">
+          <button class="resetFilters">Réinitialiser</button>
+          <button class="applyFilters">Appliquer</button>
+        </div>
+      </div>
+
+      <!-- Frais de livraison -->
+      <div class="filter-panel" id="filter-delivery-hightech">
+        <label><input type="radio" name="deliveryFeeHigh" value="0"> 0 €</label>
+        <label><input type="radio" name="deliveryFeeHigh" value="2"> 2 €</label>
+        <label><input type="radio" name="deliveryFeeHigh" value="3"> 3 €</label>
+        <label><input type="radio" name="deliveryFeeHigh" value="3+"> 3 €+</label>
+        <div class="filter-actions">
+          <button class="resetFilters">Réinitialiser</button>
+          <button class="applyFilters">Appliquer</button>
+        </div>
+      </div>
+
+      <!-- État du produit -->
+      <div class="filter-panel" id="filter-etat">
+        <label><input type="checkbox" value="neuf"> Neuf</label>
+        <label><input type="checkbox" value="occasion"> Occasion</label>
+        <label><input type="checkbox" value="reconditionne"> Reconditionné</label>
+        <div class="filter-actions">
+          <button class="resetFilters">Réinitialiser</button>
+          <button class="applyFilters">Appliquer</button>
+        </div>
+      </div>
+
+      <!-- Garantie -->
+      <div class="filter-panel" id="filter-garantie">
+        <label><input type="checkbox" value="garantie"> Avec garantie</label>
+        <label><input type="checkbox" value="sans-garantie"> Sans garantie</label>
+        <div class="filter-actions">
+          <button class="resetFilters">Réinitialiser</button>
+          <button class="applyFilters">Appliquer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Résultats -->
+    <p id="resultsCountHigh">0 résultat</p>
+    <div id="hightechResults" class="results"></div>
+
+    <!-- Sections (comme Food/Fashion/Home) -->
+    <h2>Les enseignes High-Tech</h2>
+    <div class="card-grid" id="hightech-enseignes"></div>
+
+    <h2>Magasins près de chez vous</h2>
+    <div class="card-grid" id="hightech-pres"></div>
+
+    <h2>Populaire près de chez vous</h2>
+    <div class="card-grid" id="hightech-pop"></div>
+
+    <h2>Vous êtes pressé ?</h2>
+    <p>Voici la livraison la plus rapide pour vous</p>
+    <div class="card-grid" id="hightech-rapide"></div>
+
+    <h2>Les plus populaires</h2>
+    <div class="card-grid" id="hightech-top"></div>
+
+    <h2>Tous les magasins</h2>
+    <div class="card-grid" id="hightech-all"></div>
+  </div>
+</section>
+
+
+
+
+<!-- PAGE CAT-GIFTS -->
+<section id="view-cat-gifts" class="view">
+  <div class="page">
+
+    <!-- Barre de recherche -->
+    <div class="search-bar">
+      <input type="text" id="giftSearch" placeholder="Que cherchez-vous comme cadeau ?">
+    </div>
+<!-- Catégories -->
+      <div class="categories">    
+      <div class="cat-item" data-cat="jouets">🎲<span>Jouets</span></div>
+      <div class="cat-item" data-cat="fleurs">🌹<span>Fleurs</span></div>
+      <div class="cat-item" data-cat="bijoux">💍<span>Bijoux</span></div>
+      <div class="cat-item" data-cat="parfums">🌸<span>Parfums</span></div>
+      <div class="cat-item" data-cat="peluches">🧸<span>Peluches</span></div>
+      <div class="cat-item" data-cat="chocolats">🍫<span>Chocolats</span></div>
+    </div>
+
+<!-- Filtres -->
+<div class="filters-bar">
+  <button class="filter-btn" data-target="filter-budget-gift">Budget</button>
+  <button class="filter-btn" data-target="filter-delivery-gift">Frais de livraison</button>
+  <button class="filter-btn" data-target="filter-sort-gift">Trier</button>
+  <button class="filter-btn" data-target="filter-destinataire">Destinataire</button>
+</div>
+          
+<!-- Panneaux (même logique que les autres pages cat) -->
+<div id="filter-panels">
+  
+
+<!-- Budget -->
+<div class="filter-panel" id="filter-budget-gift">
+  <label><input type="radio" name="giftBudget" value="-20"> - 20 €</label>
+  <label><input type="radio" name="giftBudget" value="20-50"> 20 – 50 €</label>
+  <label><input type="radio" name="giftBudget" value="50-100"> 50 – 100 €</label>
+  <label><input type="radio" name="giftBudget" value="100+"> 100 € et +</label>
+  <div class="filter-actions">
+    <button class="resetFilters">Réinitialiser</button>
+    <button class="applyFilters">Appliquer</button>
+  </div>
+</div>
+
+
+
+
+  <!-- Frais livraison -->
+  <div class="filter-panel" id="filter-delivery-gift">
+    <label><input type="radio" name="giftDelivery" value="0"> Gratuit</label>
+    <label><input type="radio" name="giftDelivery" value="2"> 2€</label>
+    <label><input type="radio" name="giftDelivery" value="3"> 3€</label>
+    <label><input type="radio" name="giftDelivery" value="3+"> 3€+</label>
+    <div class="filter-actions">
+      <button class="resetFilters">Réinitialiser</button>
+      <button class="applyFilters">Appliquer</button>
+    </div>
+  </div>
+
+  <!-- Trier -->
+  <div class="filter-panel" id="filter-sort-gift">
+    <label><input type="radio" name="giftSort" value="rating"> Les mieux notés</label>
+    <label><input type="radio" name="giftSort" value="fastest"> Livraison la plus rapide</label>
+    <div class="filter-actions">
+      <button class="resetFilters">Réinitialiser</button>
+      <button class="applyFilters">Appliquer</button>
+    </div>
+  </div>
+
+  <!-- Destinataire -->
+  <div class="filter-panel" id="filter-destinataire">
+    <label><input type="checkbox" value="homme"> Homme</label>
+    <label><input type="checkbox" value="femme"> Femme</label>
+    <label><input type="checkbox" value="enfant"> Enfant</label>
+    <div class="filter-actions">
+      <button class="resetFilters">Réinitialiser</button>
+      <button class="applyFilters">Appliquer</button>
+    </div>
+  </div>
+
+</div>
+
+
+    <!-- Résultats -->
+    <p id="resultsCount-gift">0 résultats</p>
+
+    <h2>Les enseignes cadeaux</h2>
+    <div id="gift-enseignes" class="card-grid"></div>
+
+    <h2>Magasins près de chez vous</h2>
+    <div id="gift-nearby" class="card-grid"></div>
+
+    <h2>Populaire près de chez vous</h2>
+    <div id="gift-popular" class="card-grid"></div>
+
+    <h2>Vous êtes pressé ?</h2>
+    <p>Voici la livraison la plus rapide pour vous</p>
+    <div id="gift-fast" class="card-grid"></div>
+
+    <h2>Les plus populaires</h2>
+    <div id="gift-most" class="card-grid"></div>
+
+    <h2>Tous les magasins cadeaux</h2>
+    <div id="gift-all" class="card-grid"></div>
+
+  </div>
+</section>
+
+
+
+
+</main>
+
+
+<footer>
+  <div class="container fcols">
+    <div>   
+      <div class="brand" style="gap:10px;margin-bottom:8px">
+        <div class="brand-badge">⚡️</div><b>FlashBring</b>
+      </div>
+      <div>Livraison locale tout-en-un.</div>
+      <div class="copy">© <span id="y"></span> FlashBring</div>
+    </div>
+    <div>   
+      <b>Entreprise</b>
+      <a href="#about">À propos</a>
+      <a href="#careers">Carrières</a>
+      <a href="#press">Presse</a>
+    </div>  
+    <div> 
+      <b>Légal</b>
+      <a href="#terms">CGU</a>
+      <a href="#privacy">Confidentialité</a>
+      <a href="#cookies">Cookies</a>
+    </div>
+    <div>
+      <b>Contact</b>
+      <a href="#support">Support</a>
+      <a href="#drivers">Devenir livreur</a>
+      <a href="#partners">Devenir partenaire</a>
+    </div>
+  </div>
+</footer>
+
+
+
+
+
+
+<!-- Fiche annonce (vue magasin) -->
+<section id="view-store" class="view" style="display:none;">
+  <div class="page">
+    <h1 id="storeTitle">Nom de l’enseigne</h1>
+    <p>Ici apparaîtra le catalogue/menu plus tard…</p>
+    <button onclick="history.back()">← Retour</button>
+  </div>
+</section>
+
+
+
+
+
+
+<!-- LOGIN / REGISTER MODAL -->
+<div id="authModal"
+     style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);
+            align-items:center;justify-content:center;z-index:9999">
+  <div style="background:#fff;padding:24px;border-radius:16px;max-width:400px;width:90%;
+              box-shadow:0 10px 30px rgba(0,0,0,.2)">
+  
+  
+<div id="loginView">
+  <h2>Connexion</h2>
+     
+  <!-- Boutons Google / Apple -->
+  <div style="display:grid;gap:10px;margin-bottom:12px">
+    <button id="googleLogin" class="btn">Se connecter avec Google</button>
+    <button id="appleLogin" class="btn">Se connecter avec Apple</button>
+  </div>
+
+
+  <p style="margin-top:10px;text-align:center">
+    <a href="#" id="showForgot">Mot de passe oublié ?</a><br>
+    Pas de compte ? <a href="#" id="showRegister">Inscrivez-vous</a>
+  </p>
+<button type="button" id="closeAuth" class="btn ghost">Annuler</button>
+</div> 
+
+    
+<!-- FORMULAIRE INSCRIPTION -->
+<div id="registerView" style="display:none">
+  <h2>Créer un compte</h2>
+  <form id="registerForm" style="display:grid;gap:12px;margin-top:12px">
+    
+    <input type="text" id="registerFirstname" placeholder="Prénom" required 
+           style="padding:10px;border:1px solid #ccc;border-radius:6px">
+    
+    <input type="text" id="registerLastname" placeholder="Nom" required 
+           style="padding:10px;border:1px solid #ccc;border-radius:6px">
+    
+    <input type="email" id="registerEmail" placeholder="Email" required 
+           style="padding:10px;border:1px solid #ccc;border-radius:6px">
+    
+    <input type="password" id="registerPassword" placeholder="Mot de passe" required 
+           style="padding:10px;border:1px solid #ccc;border-radius:6px">
+    
+    <input type="text" id="registerStreet" placeholder="Rue" required 
+           style="padding:10px;border:1px solid #ccc;border-radius:6px">
+    
+    <input type="text" id="registerCity" placeholder="Ville" required 
+           style="padding:10px;border:1px solid #ccc;border-radius:6px">
+    
+    <input type="text" id="registerPostal" placeholder="Code postal" required 
+           style="padding:10px;border:1px solid #ccc;border-radius:6px">
+
+    <button type="submit" class="btn">S'inscrire</button>
+    <p style="font-size:14px;text-align:center">
+      Déjà un compte ? <a href="#" id="showLogin">Se connecter</a>
+    </p>
+  </form>
+</div>
+    
+    <!-- Mot de passe oublié -->
+    <div id="forgotView" style="display:none">
+      <h2>Mot de passe oublié</h2>
+      <form id="forgotForm" style="display:grid;gap:12px;margin-top:12px">
+        <input type="email" id="forgotEmail" placeholder="Votre email" required>
+        <button type="submit" class="btn">Envoyer un lien</button>
+      </form>
+      <p style="margin-top:10px;text-align:center">
+        <a href="#" id="backToLogin">← Retour connexion</a>
+      </p>
+    </div>
+
+  </div>
+</div>
+
+
+
+
+  <script>
+
+document.getElementById('ctaStart').onclick = ()=>{
+  // TODO: mettre l’action réelle ici (ouvrir une modale, scroll, etc.)
+  alert("Action CTA à définir");
+};
+
+document.getElementById('y').textContent = new Date().getFullYear();
+
+
+
+
+
+    // ----- catégories (data + rendu) -----
+    const CATS = [
+      {id:'food',  icon:'🍔', title:'Restaurants', sub:'McDo, Kebab, Sushi…'},
+      {id:'grocery',icon:'🛒', title:'Courses', sub:'Carrefour, Monoprix…'},
+      {id:'fashion',icon:'👟', title:'Mode', sub:'Foot Locker, Zara…'},
+      {id:'pharma', icon:'💊', title:'Pharmacie', sub:'Parapharmacie, Médicaments…'},
+      {id:'tech',   icon:'📱', title:'High-Tech', sub:'Fnac, Boulanger…'},
+      {id:'gifts',  icon:'🎁', title:'Cadeaux', sub:'Fleurs, jeux, jouets…'},
+      {id:'home',   icon:'🏠', title:'Maison', sub:'IKEA, Darty…'},
+      {id:'others', icon:'✨', title:'Autres', sub:'Dis-nous ce que tu veux'}
+    ];
+
+
+function renderCats(){
+  const wrap = document.getElementById('catGrid');
+  wrap.innerHTML = CATS.map(c=>`
+    <a class="tile" href="#cat-${c.id}" data-cat="${c.id}">
+      <div class="icon">${c.icon}</div>
+      <div><b>${c.title}</b><span>${c.sub}</span></div>
+    </a>`).join('');
+  wrap.querySelectorAll('.tile').forEach(t=>{
+    t.addEventListener('click', (e)=>{
+      e.preventDefault();
+      const id = t.getAttribute('data-cat');
+      location.hash = "#cat-" + id;
+      renderRoute();   // 👈 s’assurer que la route est appliquée
+    });
+  });
+}
+
+ renderCats();
+
+window.addEventListener("hashchange", renderRoute);
+    // ----- placeholders pour branchement API plus tard -----
+    // - Géocodage adresse -> suggestions / zone desservie
+    // - Liste magasins selon adresse/catégorie
+    // - Auth / panier / paiement
+    // Les points d’intégration seront : /api/stores, /api/quote, /api/orders
+  
+  // ... (ton JS existant)
+
+// --- Mini router pages internes ---
+const ROUTES = {
+  // Footer
+  '#about': 'view-about',
+  '#careers': 'view-careers',
+  '#press': 'view-press',
+  '#terms': 'view-terms',
+  '#privacy': 'view-privacy',
+  '#cookies': 'view-cookies',
+  '#support': 'view-support',
+  '#drivers': 'view-drivers',
+  '#partners': 'view-partners',
+
+  // User menu
+  '#account': 'view-account',
+  '#orders': 'view-orders',
+  '#refer': 'view-refer',
+  "#cart": "view-cart",
+
+  // Catégories
+  '#cat-food': 'view-cat-food',
+  '#cat-fashion': 'view-cat-fashion',
+  '#cat-home': 'view-cat-home',
+  '#cat-tech': 'view-cat-tech',
+  '#cat-gifts': 'view-cat-gifts'
+};
+
+
+
+// Quand on récupère les infos de l'utilisateur
+async function populateAccountForm() {
+  const token = localStorage.getItem("token");
+  if (!token) return;
+
+  try {
+const res = await fetchWithAuth("http://localhost:3000/api/auth/me");
+
+    const data = await res.json();
+    const u = data.user || data;
+
+    if (u) {
+      // remplir le formulaire
+      document.getElementById("firstname").value = u.firstname || "";
+      document.getElementById("lastname").value  = u.lastname || "";
+      document.getElementById("email").value     = u.email || "";
+      document.getElementById("street").value    = u.street || "";
+      document.getElementById("city").value      = u.city || "";
+      document.getElementById("postal").value    = u.postal || "";
+
+      // ✅ mettre à jour Bonjour XXX
+      if (u.firstname) {
+        localStorage.setItem("firstname", u.firstname);
+        document.getElementById("welcomeName").innerText =
+          capitalizeFirst(u.firstname);
+      }
+    }
+  } catch (err) {
+    console.error("Impossible de récupérer le profil:", err);
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// --- Logique bouton Voir le magasin (placé EN DEHORS de renderRoute) ---
+document.addEventListener("click", e => {
+  if (e.target.classList.contains("btn-store")) {
+    // exemple : redirige vers le magasin Domino's
+    location.hash = "#store-123";
+  }
+});
+
+
+// === AUTH MODAL HANDLER ===
+const authModal   = document.getElementById("authModal");
+const loginView   = document.getElementById("loginView");
+const registerView= document.getElementById("registerView");
+const forgotView  = document.getElementById("forgotView");
+
+// Bouton "Se connecter" → ouvre le modal
+document.getElementById("btnLogin").addEventListener("click", () => {
+  authModal.style.display = "flex";
+  loginView.style.display = "block";
+  registerView.style.display = "none";
+  forgotView.style.display = "none";
+});
+
+// Liens navigation dans le modal
+document.getElementById("showRegister").onclick = () => {
+  loginView.style.display = "none";
+  registerView.style.display = "block";
+};
+document.getElementById("showLogin").onclick = () => {
+  registerView.style.display = "none";
+  forgotView.style.display = "none";
+  loginView.style.display = "block";
+};
+document.getElementById("showForgot").onclick = () => {
+  loginView.style.display = "none";
+  forgotView.style.display = "block";
+};
+document.getElementById("backToLogin").onclick = () => {
+  forgotView.style.display = "none";
+  loginView.style.display = "block";
+};
+
+
+// Clic à l'extérieur = fermer
+authModal.addEventListener("click", (e) => {
+  if (e.target === authModal) {
+    authModal.style.display = "none";
+    loginView.style.display = "block";
+    registerView.style.display = "none";
+    forgotView.style.display = "none";
+  }
+});
+
+// Connexion Google
+document.getElementById("googleLogin").onclick = () => {
+window.location.href = "https://localhost:3000/api/auth/google";
+};
+
+// Connexion Apple
+document.getElementById("appleLogin").addEventListener("click", () => {
+window.location.href = "http://localhost:3000/api/auth/apple";
+});
+
+// Déconnexion
+// Correct
+document.getElementById("logoutBtn").addEventListener("click", () => {
+  localStorage.removeItem("token");
+  localStorage.removeItem("firstname");
+
+  document.getElementById("btnLogin").style.display = "block";
+  document.getElementById("userMenu").style.display = "none";
+
+  location.reload();
+});
+
+
+const sidebar = document.getElementById("userSidebar");
+const overlay = document.getElementById("sidebarOverlay");
+const welcome = document.getElementById("welcomeMsg");
+
+// Ouvrir / fermer en cliquant sur "Bonjour XX"
+welcome.addEventListener("click", () => {
+  const isOpen = sidebar.classList.contains("open");
+  sidebar.classList.toggle("open");
+  overlay.classList.toggle("active", !isOpen);
+});
+
+// Fermer si on clique sur l’overlay
+overlay.addEventListener("click", () => {
+  sidebar.classList.remove("open");
+  overlay.classList.remove("active");
+});
+
+// Fermer si on clique sur un lien du menu utilisateur
+document.querySelectorAll("#userSidebar a").forEach(link => {
+  link.addEventListener("click", () => {
+    sidebar.classList.remove("open");
+    overlay.classList.remove("active");
+  });
+});
+
+
+
+
+
+
+
+
+
+
+
+async function loadCart() {
+  try {
+const cart = await apiFetch("/api/cart");
+
+    const itemsContainer = document.getElementById("cartItems");
+    itemsContainer.innerHTML = "";
+
+    let subtotal = 0;
+    cart.forEach(item => {
+      subtotal += item.price * item.quantity;
+      const div = document.createElement("div");
+      div.className = "cart-item";
+      div.innerHTML = `
+        <img src="${item.image_url || 'https://via.placeholder.com/50'}" width="50">
+        <div class="info">
+          <b>${item.name}</b><br>
+          <span>${item.price.toFixed(2)} €</span>
+        </div>
+        <span>x${item.quantity}</span>
+      `;
+      itemsContainer.appendChild(div);
+    });
+
+    document.getElementById("cartCount").textContent = cart.length;
+    document.getElementById("subtotal").textContent = subtotal.toFixed(2) + " €";
+
+    // Frais de service (fixe 0.5€)
+    const fees = 0.5;
+    document.getElementById("fees").textContent = fees.toFixed(2) + " €";
+
+    // Calcul livraison selon choix radio
+    const selected = document.querySelector("input[name='deliveryOption']:checked")?.value;
+    const deliveryFee = selected === "priority" ? 2.99 : 0;
+    document.getElementById("deliveryFee").textContent = deliveryFee.toFixed(2) + " €";
+
+    // Grand total
+    const grandTotal = subtotal + fees + deliveryFee;
+    document.getElementById("grandTotal").textContent = grandTotal.toFixed(2) + " €";
+  } catch (err) {
+    console.error("Erreur loadCart", err);
+  }
+}
+
+document.addEventListener("change", e => {
+  if (e.target.name === "delivery") {
+    loadCart(); // recalcule si on change priorité/standard
+  }
+});
+
+// Au clic sur Payer
+document.getElementById("payBtn")?.addEventListener("click", async () => {
+  try {
+    const selected = document.querySelector("input[name='deliveryOption']:checked")?.value;
+    const res = await fetch("/api/cart/checkout", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ deliveryOption: selected })
+    });
+    const data = await res.json();
+    alert(`Total à payer : ${data.total.toFixed(2)} €`);
+    // ⚡ ensuite brancher Stripe / Apple Pay ici
+  } catch (err) {
+    console.error("Erreur paiement", err);
+  }
+});
+
+
+
+</script>
+<script>
+// === UTILITAIRE ===
+function capitalizeFirst(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+
+// === STOCKAGE DU TOKEN GOOGLE / APPLE ===
+const params = new URLSearchParams(window.location.search);
+const token     = params.get("token");
+const firstname = params.get("firstname");
+const lastname  = params.get("lastname");
+const email     = params.get("email");
+
+if (token) {
+  localStorage.setItem("token", token);
+  if (firstname) localStorage.setItem("firstname", firstname);
+  if (lastname)  localStorage.setItem("lastname", lastname);
+  if (email)     localStorage.setItem("email", email);
+
+  // Nettoyer l’URL
+  window.history.replaceState({}, document.title, window.location.pathname);
+}
+
+
+
+// === FETCH AVEC AUTH ===
+async function fetchWithAuth(url, options = {}) {
+  const token = localStorage.getItem("token");
+  return fetch(url, {
+    ...options,
+    headers: {
+      ...(options.headers || {}),
+      Authorization: token ? "Bearer " + token : "",
+    },
+  });
+}
+
+// === ACTIONS ===
+
+
+</script>
+<script>
+
+// --- Capture token renvoyé par Google ---
+const urlParams = new URLSearchParams(window.location.search);
+const tokenFromUrl = urlParams.get("token");
+const firstnameFromUrl = urlParams.get("firstname");
+
+if (tokenFromUrl) {
+  // Sauvegarder token + prénom
+  localStorage.setItem("token", tokenFromUrl);
+  if (firstnameFromUrl) {
+    localStorage.setItem("firstname", firstnameFromUrl);
+  }
+
+  // Nettoyer l’URL pour enlever ?token=...
+  window.history.replaceState({}, document.title, window.location.pathname);
+}
+
+// === Gestion affichage connexion ===
+window.addEventListener("DOMContentLoaded", () => {
+  const firstname = localStorage.getItem("firstname");
+
+  if (firstname) {
+    document.getElementById("btnLogin").style.display = "none";
+    document.getElementById("userMenu").style.display = "block";
+    document.getElementById("welcomeMsg").innerText = "Bonjour " + firstname;
+  } else {
+    document.getElementById("btnLogin").style.display = "block";
+    document.getElementById("userMenu").style.display = "none";
+  }
+});
+
+// === Déconnexion ===
+document.getElementById("btnLogout").addEventListener("click", () => {
+  localStorage.removeItem("token");
+  localStorage.removeItem("firstname");
+  location.reload();
+});
+
+</script>
+
+
+
+<script>
+  function fillAccountForm() {
+    const firstname = localStorage.getItem("firstname");
+    const lastname = localStorage.getItem("lastname");
+    const email = localStorage.getItem("email");
+
+    if (firstname) document.getElementById("firstname").value = firstname;
+    if (lastname) document.getElementById("lastname").value = lastname;
+    if (email) document.getElementById("email").value = email;
+  }
+
+  // Quand on ouvre la page #account → remplir le formulaire
+  window.addEventListener("hashchange", () => {
+    if (window.location.hash === "#account") {
+      fillAccountForm();
+    }
+  });
+
+  // Si l’utilisateur arrive déjà sur #account au chargement
+  window.addEventListener("DOMContentLoaded", () => {
+    if (window.location.hash === "#account") {
+      fillAccountForm();
+    }
+  });
+</script>
+<script>
+// --- Exemple de "base" temporaire ---
+
+// --- Exemple de "base" temporaire ---
+const RESTAURANTS = [
+  { name: "🍕 Domino's Pizza", tags: ["pizza", "italien"], price: 2, fee: 2, rating: 4.1, diet: [] },
+  { name: "🍣 Sushi Shop", tags: ["sushi", "japonais", "poisson"], price: 3, fee: 3, rating: 4.4, diet: ["sans-gluten"] },
+  { name: "🍟 McDonald's", tags: ["burger", "fastfood", "frites"], price: 1, fee: 0, rating: 3.9, diet: [] },
+  { name: "🥙 Kebab Istanbul", tags: ["kebab", "turc", "viande", "halal"], price: 2, fee: 1, rating: 4.0, diet: ["halal"] },
+  { name: "🥗 Green Life", tags: ["salade", "vegan", "healthy"], price: 2, fee: 2, rating: 4.5, diet: ["vegan","vegetarien"] },
+];
+
+// --- MAJ compteur ---
+function updateResultsCount(count) {
+  document.getElementById("resultsCount").textContent =
+    count + " résultat" + (count > 1 ? "s" : "");
+}
+
+// --- Afficher les résultats ---
+function displayResults(list) {
+  // Tous les magasins
+  document.getElementById("section-all").innerHTML = list.map(r =>
+    `<div class="card">${r.name}<br>⭐ ${r.rating} — Frais : ${r.fee}€</div>`
+  ).join("");
+
+  // Enseignes (exemple : top 2)
+  document.getElementById("section-enseigne").innerHTML = list.slice(0,2).map(r =>
+    `<div class="card">${r.name}</div>`
+  ).join("");
+
+  // Populaire (par note > 4.3)
+  document.getElementById("section-pop").innerHTML = list.filter(r=>r.rating>4.3).map(r =>
+    `<div class="card">${r.name}<br>⭐ ${r.rating}</div>`
+  ).join("");
+
+  // Rapide (par frais < 2)
+  document.getElementById("section-rapide").innerHTML = list.filter(r=>r.fee<=1).map(r =>
+    `<div class="card">${r.name}<br>Frais ${r.fee}€</div>`
+  ).join("");
+
+  // Magasins près (on simulera avec frais <= 2)
+  document.getElementById("section-pres").innerHTML = list.filter(r=>r.fee<=2).map(r =>
+    `<div class="card">${r.name}</div>`
+  ).join("");
+
+  updateResultsCount(list.length);
+}
+
+
+// =======================
+// LOGIQUE "CAT HOME"
+// =======================
+
+// --- Exemple de "base" temporaire ---
+const HOME_STORES = [
+  { name: "🛋️ IKEA", tags: ["meubles", "deco"], price: 2, fee: 2, rating: 4.3, brand: "ikea" },
+  { name: "🪑 Conforama", tags: ["meubles", "cuisine"], price: 3, fee: 3, rating: 4.0, brand: "conforama" },
+  { name: "🛏️ BUT", tags: ["linge", "meubles"], price: 2, fee: 1, rating: 4.1, brand: "but" },
+  { name: "🛠️ Leroy Merlin", tags: ["bricolage", "outils"], price: 3, fee: 3, rating: 4.5, brand: "leroy" },
+];
+
+// --- MAJ compteur ---
+function updateHomeResultsCount(count) {
+  document.getElementById("homeResultsCount").textContent =
+    count + " résultat" + (count > 1 ? "s" : "");
+}
+
+// --- Afficher les résultats (placeholder pour tests) ---
+function displayHomeResults(list) {
+  const resultsContainer = document.getElementById("home-enseignes");
+resultsContainer.innerHTML = list.length
+  ? list.map(r => `
+      <div class="card">
+        <img src="https://via.placeholder.com/150" alt="${r.name}">
+        <div class="card-body">
+          <h3>${r.name} <button class="like-btn">❤️</button></h3>
+          <p>⭐ ${r.rating} — Frais de livraison : ${r.fee}€</p>
+          <p>⏱️ xx min</p>
+        </div>
+      </div>
+    `).join("")
+  : "<p>Aucun magasin trouvé.</p>";
+
+
+  updateHomeResultsCount(list.length);
+}
+
+
+
+
+// === FILTRAGE PAGE CADEAUX ===
+
+// Quand on clique sur Appliquer
+document.querySelectorAll("#view-cat-gift .applyFilters").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const budget = document.querySelector("input[name='giftBudget']:checked")?.value;
+    const destinataires = [...document.querySelectorAll("#filter-destinataire input[type='checkbox']:checked")].map(el => el.value);
+
+    // Exemple de base produits cadeaux (à compléter plus tard en vrai)
+    const GIFTS = [
+      { name: "Coffret chocolat", price: 15, destinataire: "homme" },
+      { name: "Bougie parfumée", price: 25, destinataire: "femme" },
+      { name: "Jeu éducatif", price: 30, destinataire: "enfant" },
+      { name: "Montre connectée", price: 120, destinataire: "homme" }
+    ];
+
+    let results = GIFTS;
+
+    // --- Filtrage par budget ---
+    if (budget) {
+      if (budget === "-20") results = results.filter(p => p.price < 20);
+      if (budget === "20-50") results = results.filter(p => p.price >= 20 && p.price <= 50);
+      if (budget === "50-100") results = results.filter(p => p.price > 50 && p.price <= 100);
+      if (budget === "100+") results = results.filter(p => p.price > 100);
+    }
+
+    // --- Filtrage par destinataire ---
+    if (destinataires.length) {
+      results = results.filter(p => destinataires.includes(p.destinataire));
+    }
+
+    // Afficher résultats
+    const container = document.querySelector("#view-cat-gift #searchResults");
+    container.innerHTML = results.length
+      ? results.map(r => `<div class="result-item"><b>${r.name}</b> — ${r.price} €</div>`).join("")
+      : "<p>Aucun produit trouvé.</p>";
+
+    // Mettre à jour le compteur
+    const countEl = document.querySelector("#view-cat-gift #resultsCount");
+    if (countEl) countEl.textContent = results.length + " résultat" + (results.length > 1 ? "s" : "");
+  });
+});
+
+// Quand on clique sur Réinitialiser
+document.querySelectorAll("#view-cat-gift .resetFilters").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll("#view-cat-gift input").forEach(el => {
+      if (el.type === "radio" || el.type === "checkbox") el.checked = false;
+      if (el.type === "number") el.value = "";
+    });
+    document.querySelector("#view-cat-gift #searchResults").innerHTML = "";
+    const countEl = document.querySelector("#view-cat-gift #resultsCount");
+    if (countEl) countEl.textContent = "0 résultat";
+  });
+});
+
+
+
+
+
+
+// --- Recherche avec la barre ---
+document.getElementById("homeSearch").addEventListener("keyup", e => {
+  if (e.key === "Enter") {
+    const query = e.target.value.toLowerCase();
+    const results = HOME_STORES.filter(r =>
+      r.tags.some(tag => tag.includes(query))
+    );
+    displayHomeResults(results);
+  }
+});
+
+// --- Clic sur catégorie ---
+document.querySelectorAll("#view-cat-home .cat-item").forEach(item => {
+  item.addEventListener("click", () => {
+    const cat = item.getAttribute("data-cat");
+    const results = HOME_STORES.filter(r =>
+      r.tags.some(tag => tag.includes(cat))
+    );
+    displayHomeResults(results);
+
+    // Activer style sélectionné
+    document.querySelectorAll("#view-cat-home .cat-item").forEach(i => i.classList.remove("active"));
+    item.classList.add("active");
+  });
+});
+
+// Initialisation
+displayHomeResults(HOME_STORES);
+
+
+
+// --- Recherche avec la barre ---
+document.getElementById("restaurantSearch").addEventListener("keyup", e => {
+  if (e.key === "Enter") {
+    const query = e.target.value.toLowerCase();
+    const results = RESTAURANTS.filter(r =>
+      r.tags.some(tag => tag.includes(query))
+    );
+    displayResults(results);
+  }
+});
+
+// --- Clic sur catégorie ---
+document.querySelectorAll(".cat-item").forEach(item => {
+  item.addEventListener("click", () => {
+    const cat = item.getAttribute("data-cat");
+    const results = RESTAURANTS.filter(r =>
+      r.tags.some(tag => tag.includes(cat))
+    );
+    displayResults(results);
+
+    // Activer style sélectionné
+    document.querySelectorAll(".cat-item").forEach(i => i.classList.remove("active"));
+    item.classList.add("active");
+  });
+});
+
+
+
+// === BASE MODE (Fashion) ===
+const FASHION = [
+  { name: "👕 T-Shirt Basic", tags: ["tshirt", "haut", "mode"], price: 10, fee: 2, rating: 4.2 },
+  { name: "👖 Jean Slim", tags: ["pantalon", "jean"], price: 40, fee: 3, rating: 4.5 },
+  { name: "👗 Robe Chic", tags: ["robe", "femme"], price: 50, fee: 2, rating: 4.7 },
+  { name: "🎒 Sac à dos", tags: ["sac", "accessoire"], price: 25, fee: 1, rating: 4.0 },
+  { name: "👚 Sweat Hoodie", tags: ["sweat", "pull"], price: 35, fee: 2, rating: 4.3 },
+];
+
+// --- MAJ compteur Fashion ---
+function updateFashionResultsCount(count) {
+  document.getElementById("fashionResultsCount").textContent =
+    count + " résultat" + (count > 1 ? "s" : "");
+}
+
+// --- Afficher les résultats Fashion ---
+function displayFashionResults(list) {
+  const resultsContainer = document.getElementById("fashionSearchResults");
+  resultsContainer.innerHTML = list.length
+    ? list.map(r => `
+        <div class="result-item">
+          <b>${r.name}</b><br>
+          ⭐ ${r.rating} — Frais de livraison : ${r.fee}€
+        </div>
+      `).join("")
+    : "<p>Aucun article trouvé.</p>";
+
+  updateFashionResultsCount(list.length);
+}
+
+// --- Recherche avec la barre (Fashion) ---
+document.getElementById("fashionSearch").addEventListener("keyup", e => {
+  if (e.key === "Enter") {
+    const query = e.target.value.toLowerCase();
+    const results = FASHION.filter(r =>
+      r.tags.some(tag => tag.includes(query))
+    );
+    displayFashionResults(results);
+  }
+});
+
+// --- Clic sur catégorie (Fashion) ---
+document.querySelectorAll(".fashion-cat-item").forEach(item => {
+  item.addEventListener("click", () => {
+    const cat = item.getAttribute("data-cat");
+    const results = FASHION.filter(r =>
+      r.tags.some(tag => tag.includes(cat))
+    );
+    displayFashionResults(results);
+
+    // Activer style sélectionné
+    document.querySelectorAll(".fashion-cat-item").forEach(i => i.classList.remove("active"));
+    item.classList.add("active");
+  });
+});
+
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  const resetBtn = document.getElementById("resetFilters");
+  const applyBtn = document.getElementById("applyFilters");
+
+// --- Toggle panneaux filtres ---
+document.querySelectorAll(".filter-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const targetId = btn.getAttribute("data-target");
+    const panel = document.getElementById(targetId);
+   
+    if (!panel) return;
+
+    if (panel.style.display === "block") {
+      panel.style.display = "none";
+    } else {
+      // Fermer tous les autres panneaux
+      document.querySelectorAll(".filter-panel").forEach(p => p.style.display = "none");
+      // Ouvrir celui cliqué
+      panel.style.display = "block";
+    }
+  });
+});
+
+
+  if (resetBtn) {
+    resetBtn.addEventListener("click", () => {
+      document.querySelectorAll("#filter-panels input").forEach(el => {
+        if (el.type === "radio" || el.type === "checkbox") el.checked = false;
+        if (el.type === "number") el.value = "";
+      });
+      alert("Filtres réinitialisés ✅");
+    });
+  }
+
+  if (applyBtn) {
+    applyBtn.addEventListener("click", () => {
+      const priceMin = document.getElementById("priceMin")?.value;
+      const priceMax = document.getElementById("priceMax")?.value;
+      const deliveryFee = document.querySelector("input[name='deliveryFee']:checked")?.value;
+      const sort = document.querySelector("input[name='sort']:checked")?.value;
+      const diets = [...document.querySelectorAll("#filter-diet input[type='checkbox']:checked")].map(el => el.value);
+
+      console.log("Filtres appliqués :", { priceMin, priceMax, deliveryFee, sort, diets });
+      alert("Filtres appliqués ✅\n" + JSON.stringify({ priceMin, priceMax, deliveryFee, sort, diets }, null, 2));
+    });
+  }
+});
+
+
+
+// --- Clic sur carte restaurant ---
+document.querySelectorAll(".card").forEach(card => {
+  card.addEventListener("click", () => {
+    const storeId = card.getAttribute("data-store");
+    const storeName = card.querySelector(".card-header b")?.textContent || "Magasin";
+
+    // changer l'URL
+    location.hash = "store-" + storeId;
+
+    // mettre à jour le titre de la fiche
+    document.getElementById("storeTitle").textContent = storeName;
+  });
+});
+
+
+
+
+// --- RECHERCHE GLOBALE PAGE D'ACCUEIL ---
+function handleGlobalSearch(query) {
+  query = query.toLowerCase();
+
+  let targetCat = null;
+
+  // Déterminer la catégorie selon le mot-clé
+  if (["pizza","burger","sushi","kebab","restaurant","resto","food"].some(k => query.includes(k))) {
+    targetCat = "#cat-food";
+  } else if (["chaise","table","canapé","maison","meuble"].some(k => query.includes(k))) {
+    targetCat = "#cat-home";
+  } else if (["tshirt","pantalon","sweat","mode","lingerie","sac"].some(k => query.includes(k))) {
+    targetCat = "#cat-fashion";
+  } else if (["ordinateur","pc","smartphone","tech","console","camera"].some(k => query.includes(k))) {
+    targetCat = "#cat-tech";
+  } else if (["cadeau","jouet","anniversaire","fête","gift"].some(k => query.includes(k))) {
+    targetCat = "#cat-gift";
+  }
+
+  if (targetCat) {
+    // Rediriger vers la bonne page cat
+    location.hash = targetCat;
+
+    // Attendre que la page cat charge puis lancer la recherche
+    setTimeout(() => {
+      const searchInput = document.querySelector(targetCat + " input[type='text']");
+      if (searchInput) {
+        searchInput.value = query;
+        const event = new KeyboardEvent("keyup", { key: "Enter" });
+        searchInput.dispatchEvent(event);
+      }
+    }, 300);
+  } else {
+    alert("Aucune catégorie trouvée pour : " + query);
+  }
+}
+
+// Bouton rechercher
+document.getElementById("btnSearch").addEventListener("click", () => {
+  const query = document.getElementById("keyword").value.trim();
+  if (query) handleGlobalSearch(query);
+});
+
+// Touche Entrée
+document.getElementById("keyword").addEventListener("keyup", (e) => {
+  if (e.key === "Enter") {
+    const query = e.target.value.trim();
+    if (query) handleGlobalSearch(query);
+  }
+});
+
+
+
+
+
+</script>
+
+<script>
+  // --- Init Algolia ---
+  const searchClient = algoliasearch("69AXOM6SIF", "295ee3fd01e146a3922a3292b9f1d7b4"); 
+  const index = searchClient.initIndex("products");
+
+  function searchQuery(query) {
+    index.search(query).then(({ hits }) => {
+      if (!hits.length) {
+        alert("Aucun résultat trouvé");
+        return;
+      }
+
+      const first = hits[0];
+      // redirection selon la catégorie renvoyée par ton index
+      if (first.category === "food") {
+        location.hash = "#cat-food";
+      } else if (first.category === "home") {
+        location.hash = "#cat-home";
+      } else if (first.category === "fashion") {
+        location.hash = "#cat-fashion";
+      } else if (first.category === "tech") {
+        location.hash = "#cat-tech";
+      } else if (first.category === "gifts") {
+        location.hash = "#cat-gifts";
+      }
+
+      console.log("Résultats Algolia:", hits);
+    });
+  }
+
+  // bouton "Rechercher"
+  document.getElementById("btnSearch").addEventListener("click", () => {
+    const query = document.getElementById("keyword").value.trim();
+    if (query) searchQuery(query);
+  });
+
+  // touche "Entrée"
+  document.getElementById("keyword").addEventListener("keyup", (e) => {
+    if (e.key === "Enter") {
+      const query = e.target.value.trim();
+      if (query) searchQuery(query);
+    }
+  });
+</script>
+
+<!-- Modal Parrainage -->
+<div id="referralModal" style="display:none;position:fixed;inset:0;z-index:999;background:rgba(0,0,0,0.5);align-items:center;justify-content:center">
+  <div style="background:#fff;padding:24px;border-radius:16px;max-width:500px;width:90%;position:relative">
+    <span id="closeReferralModal" style="position:absolute;top:10px;right:14px;cursor:pointer;font-size:18px">✖</span>
+    <h2>Inviter des amis</h2>
+    <p>
+      Lorsqu'un nouvel utilisateur applique votre code unique, il obtient une promotion pour sa première commande de livraison. 
+      Une fois qu'il a appliqué votre code et que sa commande est terminée, vous gagnez une promotion pour une utilisation future. 
+      Voir les détails de la promotion pour connaître les conditions spécifiques.
+    </p>
+  </div>
+</div>
+
+<script>
+  // Ouvrir / fermer le modal
+  document.getElementById("openReferralDetails").onclick = (e)=>{
+    e.preventDefault();
+    document.getElementById("referralModal").style.display = "flex";
+  };
+  document.getElementById("closeReferralModal").onclick = ()=>{
+    document.getElementById("referralModal").style.display = "none";
+  };
+  document.getElementById("referralModal").addEventListener("click",(e)=>{
+    if(e.target.id==="referralModal"){
+      document.getElementById("referralModal").style.display="none";
+    }
+  });
+
+  // Copier le code
+  document.getElementById("copyReferral").onclick = ()=>{
+    const code = document.getElementById("referralCode").textContent;
+    navigator.clipboard.writeText(code).then(()=>{
+      alert("Code copié : " + code);
+    });
+  };
+</script>
+
+<script>
+document.querySelectorAll(".accordion-header").forEach(button => {
+  button.addEventListener("click", () => {
+    const item = button.parentElement;
+    item.classList.toggle("active");
+  });
+});
+</script>
+<script>
+document.getElementById("driverContactForm").addEventListener("submit", async (e) => {
+  e.preventDefault(); // 🚫 empêche le refresh
+
+  const data = {
+    firstname: document.getElementById("firstname").value,
+    lastname: document.getElementById("lastname").value,
+    email: document.getElementById("email").value,
+    message: document.getElementById("message").value
+  };
+
+  try {
+    const res = await fetch("/api/contact", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+    });
+
+    const result = await res.json();
+
+    if (result.success) {
+      alert("✅ Message envoyé avec succès !");
+      e.target.reset();
+    } else {
+      alert("❌ Erreur : " + result.error);
+    }
+  } catch (err) {
+    console.error("Erreur:", err);
+    alert("❌ Impossible d’envoyer le message.");
+  }
+});
+</script>
+
+<script>
+// ----------- Compte / Adresse -----------
+async function loadAccountAddress() {
+  try {
+const user = await apiFetch("/api/auth/me");
+    document.getElementById("deliveryAddress").textContent =
+      `${user.street || ""}, ${user.city || ""} ${user.postal || ""}`;
+    document.getElementById("deliveryInstructions").textContent =
+      user.instructions || "Rendez-vous devant ma porte";
+  } catch (err) {
+    console.error("Erreur adresse", err);
+  }
+}
+
+// ----------- Panier -----------
+async function loadCart() {
+  try {
+const cart = await apiFetch("/api/cart");
+
+    const itemsContainer = document.getElementById("cartItems");
+    itemsContainer.innerHTML = "";
+
+    let subtotal = 0;
+
+    cart.forEach(item => {
+      subtotal += item.price * item.quantity;
+      const div = document.createElement("div");
+      div.className = "cart-item";
+      div.innerHTML = `
+        <img src="${item.image || 'https://via.placeholder.com/50'}" width="50">
+        <div class="info">
+          <b>${item.name}</b><br>
+          <span>${item.price.toFixed(2)} €</span>
+        </div>
+        <span>x${item.quantity}</span>
+      `;
+      itemsContainer.appendChild(div);
+    });
+
+    document.getElementById("cartCount").textContent = cart.length;
+    document.getElementById("subtotal").textContent = subtotal.toFixed(2) + " €";
+
+    // frais fixes
+    const fees = 0.5;
+    document.getElementById("fees").textContent = fees.toFixed(2) + " €";
+
+    // calcul livraison
+    let deliveryFee = 0;
+    const selected = document.querySelector("input[name='delivery']:checked")?.value;
+    if (selected === "priority") deliveryFee = 2.99;
+
+    document.getElementById("deliveryFee").textContent = deliveryFee.toFixed(2) + " €";
+
+    // total
+    const grandTotal = subtotal + fees + deliveryFee;
+    document.getElementById("grandTotal").textContent = grandTotal.toFixed(2) + " €";
+
+  } catch (err) {
+    console.error("Erreur chargement panier", err);
+  }
+}
+
+// recalcule si on change le mode livraison
+document.addEventListener("change", e => {
+  if (e.target.name === "delivery") {
+    loadCart();
+  }
+});
+
+</script>
+<script>
+// 👉 Helper pour requêtes sécurisées avec JWT
+async function apiFetch(url, options = {}) {
+  const token = localStorage.getItem("token");
+  options.headers = {
+    ...(options.headers || {}),
+    "Content-Type": "application/json",
+  };
+  if (token) {
+    options.headers["Authorization"] = "Bearer " + token;
+  }
+  const res = await fetch(url, options);
+  if (res.status === 401) {
+    alert("Session expirée. Merci de vous reconnecter.");
+    localStorage.removeItem("token");
+    location.hash = ""; // retour page d'accueil
+    return;
+  }
+  return res.json();
+}
+</script>
+<script>
+
+/* 👉 Ajoute tes deux fonctions ici */
+function loadOrders() {
+  console.log("TODO: charger les commandes depuis le backend");
+  document.querySelector("#view-orders .orders-page").innerHTML =
+    "<p>Historique des commandes bientôt disponible.</p>";
+}
+
+function loadDrivers() {
+  console.log("TODO: charger les livreurs depuis le backend");
+  document.querySelector("#drivers-list").innerHTML =
+    "<p>Liste des livreurs bientôt disponible.</p>";
+}
+
+
+
+
+function renderRoute() {
+  // reset
+  document.body.classList.remove("page-open");
+  document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
+
+  const hash = (location.hash || "").toLowerCase();
+  const viewId = ROUTES[hash];
+console.log("ROUTE:", hash, "→", viewId);
+
+  if (viewId) {
+    document.body.classList.add("page-open");
+    const v = document.getElementById(viewId);
+console.log("FOUND SECTION:", v);
+    if (v) {
+      v.classList.add("active");
+console.log("ACTIVATED:", viewId);
+      // 👉 PAGE ACCOUNT
+      if (hash === "#account") {
+        populateAccountForm?.();
+        listPaymentMethods?.();
+        loadAccount?.();
+      }
+
+      // 👉 PAGE ORDERS
+      if (hash === "#orders") {
+        loadOrders?.();
+      }
+
+      // 👉 PAGE DRIVERS
+      if (hash === "#drivers") {
+        loadDrivers?.();
+      }
+
+      // 👉 PAGE CART
+      if (hash === "#cart") {
+        loadAccountAddress?.();
+        loadCart?.();
+      }
+
+      // 👉 Bouton Panier visible seulement sur pages cat
+      if (
+        hash === "#cat-food" ||
+        hash === "#cat-fashion" ||
+        hash === "#cat-home" ||
+        hash === "#cat-tech" ||
+        hash === "#cat-gifts"
+      ) {
+        document.getElementById("btnCart").style.display = "inline-flex";
+      } else {
+        document.getElementById("btnCart").style.display = "none";
+      }
+    }
+  }
+}
+
+function showViewFromHash() {
+  // Récupère le hash actuel
+  const hash = window.location.hash || "#";
+  
+  // Masque toutes les vues
+  document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
+  document.body.classList.remove("page-open");
+
+  if (hash === "#" || hash === "") {
+    // On est sur la home
+    document.querySelectorAll(".home-section").forEach(s => s.style.display = "");
+  } else {
+    // Cache la home
+    document.querySelectorAll(".home-section").forEach(s => s.style.display = "none");
+    document.body.classList.add("page-open");
+
+    // Affiche la vue correspondante si elle existe
+    const view = document.querySelector(hash.replace("#", "#view-"));
+    if (view) {
+      view.classList.add("active");
+    }
+  }
+}
+
+// Écoute les changements de hash
+window.addEventListener("hashchange", showViewFromHash);
+// Exécute au chargement initial
+window.addEventListener("DOMContentLoaded", showViewFromHash);
+
+// Sidebar utilisateur
+const userSidebar = document.getElementById("userSidebar");
+const sidebarOverlay = document.getElementById("sidebarOverlay");
+
+// Exemple : ouverture quand on clique sur le message "Bonjour ..."
+const welcomeMsg = document.getElementById("welcomeMsg");
+if (welcomeMsg) {
+  welcomeMsg.addEventListener("click", () => {
+    userSidebar.classList.add("open");
+    sidebarOverlay.classList.add("active");
+  });
+}
+
+// Fermeture si on clique sur l’overlay
+if (sidebarOverlay) {
+  sidebarOverlay.addEventListener("click", () => {
+    userSidebar.classList.remove("open");
+    sidebarOverlay.classList.remove("active");
+  });
+}
+// Fermeture sidebar après clic sur un lien (y compris "Gérer le compte")
+document.querySelectorAll("#userSidebar a").forEach(link => {
+  link.addEventListener("click", () => {
+    userSidebar.classList.remove("open");
+    sidebarOverlay.classList.remove("active");
+  });
+});
+</script>
+</body>
+</html>

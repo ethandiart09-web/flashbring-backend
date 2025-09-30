@@ -1,0 +1,4113 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+  <!-- ✅ SEO principal -->
+  <title>FlashBring Nancy — Livraison courses, restaurants, mode, high-tech & cadeaux en 2h</title>
+  <meta name="description" content="Commandez vos courses, repas, vêtements, high-tech et cadeaux sur FlashBring Nancy. Composez un seul panier et recevez tout chez vous en moins de 2h." />
+  <meta name="keywords" content="livraison Nancy, courses à domicile, repas Nancy, livraison express Nancy, vêtements, high-tech, cadeaux, restaurants" />
+  <link rel="canonical" href="https://www.flashbring.com/nancy" />
+  <meta name="robots" content="index, follow" />
+
+  <!-- ✅ Open Graph (Facebook, LinkedIn, WhatsApp) -->
+  <meta property="og:title" content="FlashBring Nancy — Livraison express en 2h : courses, mode, tech & restaurants" />
+  <meta property="og:description" content="Un seul panier pour vos courses, repas, vêtements, high-tech et cadeaux. Livraison rapide à domicile à Nancy en moins de 2h." />
+  <meta property="og:image" content="https://www.flashbring.com/images/og-image.jpg" />
+  <meta property="og:url" content="https://www.flashbring.com/nancy" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="fr_FR" />
+
+  <!-- ✅ Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="FlashBring Nancy — Livraison courses, repas, mode & high-tech en 2h" />
+  <meta name="twitter:description" content="Composez un seul panier avec vos courses, repas, vêtements, high-tech et cadeaux. Livraison express à Nancy en 2h." />
+  <meta name="twitter:image" content="https://www.flashbring.com/images/og-image.jpg" />
+
+  <!-- ✅ Données structurées schema.org (Organisation + LocalBusiness + DeliveryService) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "LocalBusiness",
+      "name": "FlashBring Nancy",
+      "url": "https://www.flashbring.com/nancy",
+      "telephone": "+33 6 33 93 36 90",
+      "priceRange": "€€",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Centre-ville",
+        "addressLocality": "Nancy",
+        "postalCode": "54000",
+        "addressCountry": "FR"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 48.6921,
+        "longitude": 6.1844
+      },
+      "openingHoursSpecification": [{
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"
+        ],
+        "opens": "09:00",
+        "closes": "19:00"
+      }],
+      "areaServed": {
+        "@type": "GeoCircle",
+        "geoMidpoint": {
+          "@type": "GeoCoordinates",
+          "latitude": 48.6921,
+          "longitude": 6.1844
+        },
+        "geoRadius": 15000
+      }
+    },
+    {
+      "@type": "DeliveryService",
+      "name": "FlashBring Livraison Nancy",
+      "serviceType": [
+        "Livraison express de courses",
+        "Livraison de repas",
+        "Livraison de mode",
+        "Livraison high-tech",
+        "Livraison de cadeaux"
+      ],
+      "areaServed": {
+        "@type": "GeoCircle",
+        "geoMidpoint": {
+          "@type": "GeoCoordinates",
+          "latitude": 48.6921,
+          "longitude": 6.1844
+        },
+        "geoRadius": 15000
+      },
+      "provider": {
+        "@type": "LocalBusiness",
+        "name": "FlashBring Nancy"
+      }
+    }
+  ]
+}
+</script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡️</text></svg>">
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+  <style>
+    :root{
+      --bg:#ffffff;
+      --ink:#0f0f0f;
+      --muted:#6b6b6b;
+      --line:#eaeaea;
+      --card:#fafafa;
+      --brand:#111111;
+      --radius:18px;
+      --shadow:0 10px 30px rgba(0,0,0,.06);
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font:16px/1.5 Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+    a{color:inherit;text-decoration:none}
+    .container{max-width:1200px;margin:0 auto;padding:0 20px}
+
+    /* Header */
+    header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.8);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+    .nav{display:flex;align-items:center;justify-content:space-between;gap:16px;height:68px}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:800}
+    .brand-badge{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;background:#111;color:#fff}
+    .tagline{display:none;color:var(--muted)}
+    .actions{display:flex;gap:10px}
+    .btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--ink);padding:10px 14px;border-radius:12px;background:#111;color:#fff;font-weight:600;cursor:pointer}
+    .btn.ghost{background:#fff;color:#111}
+    .btn:active{transform:translateY(1px)}
+
+    /* Hero */
+    .hero{padding:56px 0 32px}
+    .hero-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:24px;align-items:center}
+    .h1{font-size:44px;line-height:1.05;margin:0 0 10px;font-weight:900}
+    .sub{color:var(--muted);margin:0 0 18px}
+    .hero-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
+    .hero-points{display:grid;gap:8px;margin-top:12px;color:var(--muted)}
+    .hero-img{border-radius:var(--radius);border:1px solid var(--line);overflow:hidden;box-shadow:var(--shadow)}
+    .hero-img > div{aspect-ratio:4/3;background:
+      radial-gradient(100% 100% at 0% 0%, #f2f2f2, #eaeaea);display:grid;place-items:center;color:#999;font-weight:700}
+
+    /* Categories */
+    .section{padding:28px 0}
+    .section h2{margin:0 0 12px;font-size:24px}
+    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:14px}
+    .tile{grid-column:span 3;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;display:flex;align-items:center;gap:12px;transition:.15s;cursor:pointer}
+    .tile:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+    .tile .icon{width:42px;height:42px;border-radius:12px;background:#fff;border:1px solid var(--line);display:grid;place-items:center;font-size:22px}
+    .tile b{display:block}
+    .tile span{color:var(--muted);font-size:13px}
+
+    /* How it works */
+    .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .step{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px}
+    .step h3{margin:6px 0}
+    .step p{margin:6px 0;color:var(--muted)}
+
+    /* Trust */
+    .trust{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+    .trust .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;color:#2a2a2a}
+    .trust .muted{color:var(--muted);font-size:14px}
+
+    /* CTA */
+.cta {
+  margin:34px auto;   /* <-- centre horizontalement */
+  background:#111;
+  color:#fff;
+  border-radius:20px;
+  padding:24px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  max-width:900px;    /* <-- largeur max */
+  width:90%;          /* <-- adaptatif */
+}
+
+
+    /* Footer */
+    footer{border-top:1px solid var(--line);padding:22px 0;color:var(--muted);font-size:14px}
+    .fcols{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:16px}
+    .fcols a{display:block;color:var(--muted);margin:6px 0}
+    .copy{margin-top:8px}
+
+
+    /* Responsive */
+    @media (max-width: 1024px){
+      .hero-grid{grid-template-columns:1fr}
+      .tagline{display:inline}
+      .tile{grid-column:span 4}
+      .steps{grid-template-columns:1fr 1fr}
+      .trust{grid-template-columns:1fr 1fr}
+      .fcols{grid-template-columns:1fr 1fr}
+    }
+    @media (max-width: 640px){
+      .tile{grid-column:span 6}
+      .steps{grid-template-columns:1fr}
+      .trust{grid-template-columns:1fr}
+      .fcols{grid-template-columns:1fr}
+      .h1{font-size:34px}
+    }
+
+    /* Small helper badges */
+    .badge{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);padding:6px 10px;border-radius:999px;color:var(--muted);font-size:13px;background:#fff}
+  
+
+
+
+/* Style premium unifié pour tous les inputs */
+
+.mock-visuel img {
+  width: 515px;       /* taille carrée */
+  height: 415px;      /* taille carrée */
+  object-fit: cover;  /* garde le contenu bien centré */
+  border-radius: 20px; /* bords arrondis */
+}
+
+
+
+/* Catégories food */
+.categories {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  gap: 20px;
+  margin: 20px 0;
+}
+
+.cat-item {
+  flex: 1;
+  text-align: center;
+  cursor: pointer;
+  font-size: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: background 0.2s;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.cat-item span {
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.cat-item.active {
+  background: #f2f2f2;
+}
+
+/* --- Filtres version Uber compact --- */
+.filters-bar {
+  display: flex;
+  gap: 8px;
+  margin: 12px 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.filters-bar::-webkit-scrollbar { display: none; }
+
+.filter-btn {
+  padding: 6px 14px;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  background: #fff;
+  cursor: pointer;
+  font-size: 13px;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+.filter-btn:hover { background: #f8f8f8; }
+.filter-btn.active {
+  background: #000;
+  color: #fff;
+  border-color: #000;
+}
+
+/* Panneaux (plus compacts et centrés) */
+.filter-panel {
+  display: none;
+  max-width: 400px;
+  margin: 8px auto; /* centré */
+  padding: 12px;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  animation: fadeIn 0.15s ease;
+  font-size: 13px;
+}
+
+.filter-panel h4 {
+  margin-bottom: 6px;
+  font-size: 14px;
+  color: #111;
+}
+
+/* options inline */
+.filter-options {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 10px; /* espace avant boutons */
+}
+.filter-options label {
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: #fafafa;
+}
+.filter-options input { display: none; }
+.filter-options input:checked + span {
+  background: #000;
+  color: #fff;
+  border-color: #000;
+}
+
+/* Actions compactes */
+.filter-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+}
+.filter-actions button {
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: none;
+  font-size: 13px;
+  cursor: pointer;
+}
+.price-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.price-row input {
+  width: 80px;
+}
+
+
+
+#resetFilters { background: #f2f2f2; }
+#applyFilters { background: #000; color: #fff; }
+
+.cards-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+  margin: 15px 0;
+}
+
+
+.card {
+  width: 250px;       /* un peu plus étroit */
+  height: 200px;      /* hauteur fixe plus petite */
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  background: #fff;
+  margin: 8px;
+  display: flex;
+  flex-direction: column;
+}
+
+.card img {
+  height: 80px;        /* image réduite */
+  object-fit: cover;
+}
+
+.card-info {
+  padding: 4px;
+  font-size: 12px;     /* texte plus petit */
+  line-height: 1.2;
+}
+
+.card-header {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-weight:400; /* correct */
+  font-size:14px;
+}
+
+
+
+.like {
+  cursor: pointer;
+}
+
+
+/* === SIDEBAR SIMPLE === */
+.sidebar {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 260px;
+  height: 100vh;
+  background: #fff;
+  box-shadow: -2px 0 8px rgba(0,0,0,0.1);
+  transition: right 0.3s ease;
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar.open {
+  right: 0;
+}
+
+/* HEADER */
+.sidebar-header {
+  padding: 16px;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.close-btn {
+  font-size: 20px;
+  color: #444;
+  cursor: pointer;
+}
+
+/* USER */
+.sidebar-user {
+  padding: 16px;
+  border-bottom: 1px solid #eee;
+}
+
+#sidebarName {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.manage-account {
+  font-size: 14px;
+  color: #1e90ff;
+  text-decoration: none;
+}
+.manage-account:hover {
+  text-decoration: underline;
+}
+
+/* LINKS */
+.sidebar-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex: 1;
+}
+
+.sidebar-links a {
+  display: block;
+  padding: 14px 18px;
+  font-size: 15px;
+  color: #222;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.sidebar-links a:hover {
+  background: #f8f8f8;
+}
+
+/* LOGOUT */
+.sidebar-links a#logoutBtn {
+  color: #d9534f;
+  font-weight: 600;
+}
+.sidebar-links a#logoutBtn:hover {
+  background: #fff5f5;
+}
+
+/* OVERLAY */
+.sidebar-overlay {
+  position: fixed;
+  top: 0; 
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.35);
+  z-index: 150;
+  display: none;
+}
+.sidebar-overlay.active {
+  display: block;
+}
+
+
+
+
+/* === Grille des commandes === */
+.orders-page {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 24px 16px;
+}
+
+#orders-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+/* Carte commande */
+.order-card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+/* Image produit en haut */
+.order-card img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+}
+
+/* Bloc magasin + date */
+.order-info {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.order-info h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.order-info .muted {
+  font-size: 13px;
+  color: #777;
+}
+
+/* Produits */
+.order-items {
+  font-size: 14px;
+  line-height: 1.4;
+  padding: 0 12px;
+}
+
+/* Frais */
+.order-fees {
+  font-size: 13px;
+  color: #555;
+  padding: 8px 12px 0;
+}
+
+/* Footer : uniquement total */
+.order-footer {
+  margin-top: auto;
+  padding: 8px 12px 12px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.order-footer strong {
+  font-size: 15px;
+}
+
+
+
+/* Encadrement invisible pour la page Parrainage */
+#view-refer .page {
+  max-width: 455px;   /* largeur de la "colonne invisible" */
+  margin: 0 auto;     /* centre sur la page */
+  padding: 20px;
+  text-align: center;
+}
+
+#view-refer h1 {
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+#view-refer h2 {
+  font-size: 20px;
+  margin: 30px 0 15px 0;
+}
+
+#view-refer p {
+  font-size: 15px;
+  line-height: 1.6;
+  margin: 12px 0;
+}
+
+/* Conteneur pour centrer les boutons */
+#view-refer .share-buttons {
+  display: flex;
+  justify-content: center; /* 👉 centre horizontalement */
+  gap: 12px;               /* espace entre les boutons */
+  margin-top: 0px;
+}
+
+/* Style des boutons */
+#view-refer .share-btn {
+  background: #000;      /* 👉 fond noir */
+  color: #fff;           /* 👉 texte blanc */
+  border: none;
+  padding: 6px 22px;
+  border-radius: 100px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+#view-refer .share-btn:hover {
+  background: #333;
+}
+
+
+/* === Séparations page Parrainer === */
+#view-refer .section {
+  padding: 15px 0;
+  border-bottom: 1px solid #eee;  /* fine ligne grise */
+}
+
+#view-refer .section:last-child {
+  border-bottom: none; /* pas de ligne après le dernier bloc */
+}
+
+
+/* Bloc du code parrainage */
+#view-refer .referral-box {
+  background: #f2f2f2;     /* gris clair */
+  padding: 12px 16px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin: 20px 0;
+}
+
+/* Le code lui-même */
+#view-refer .referral-box #referralCode {
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: 1px;
+}
+
+/* Le bouton copier */
+#view-refer .referral-box #copyReferral {
+  background: #fff;          /* bouton blanc */
+  border: 1px solid #ddd;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.2s;
+}
+
+#view-refer .referral-box #copyReferral:hover {
+  background: #f9f9f9;
+}
+
+/* STYLES PAGES INTERNES */
+
+#view-drivers .page {
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+}
+      
+#view-drivers {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+      
+#view-drivers .driver-section {
+  width: 100%;
+  min-height: 100vh;          /* occupe toute la hauteur */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;    /* contenu centré verticalement */
+  align-items: center;
+  padding: 0;                 /* pas de marge qui réduit */
+  box-sizing: border-box;
+}
+      
+    
+#view-drivers .driver-section:nth-child(even) {
+  background: #f9f9f9;       /* alterne fond gris clair */
+}
+
+#view-drivers .driver-section h1,
+#view-drivers .driver-section h2 {
+  font-size: 3rem;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+#view-drivers .driver-section p {
+  font-size: 1.2rem;
+  max-width: 600px;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  text-align: left;
+}
+  
+/* image côté droit ou gauche */
+#view-drivers .driver-section img {
+  max-width: 400px;
+  height: auto;
+  border-radius: 8px;
+}
+#view-drivers .driver-section .btn-start {
+  font-size: 1.3rem;      /* texte plus gros */
+  padding: 15px 40px;     /* bouton plus grand */
+}
+  
+ 
+/* Bloc plein écran */
+/* Bloc demi-écran (2 et 3) */
+.driver-section.half-height {
+  height: 50vh !important;      /* force la moitié d’écran */
+  min-height: 50vh !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 10%;
+  box-sizing: border-box;
+}
+  
+.driver-section.driver-more h2 {
+  font-size: 2.6rem !important;   /* ✅ plus grand */
+  text-align: center !important;
+  margin: 0 auto 18px auto;
+  max-width: 800px;   
+  line-height: 1.3;
+}
+  
+.driver-section.driver-more p {
+  text-align: center !important;
+  font-size: 1.1rem;  
+  line-height: 1.5; 
+  max-width: 700px;
+  margin: 0 auto;
+}
+ 
+/* === Personnalisation bloc par bloc (Drivers) === */
+
+/* Bloc 1 : Hero avec fond noir */
+.driver-hero {
+  background: #000;       /* fond noir */
+  color: #fff;            /* texte en blanc */
+}
+  
+/* Ajuste le texte */
+.driver-hero h1,
+.driver-hero p {
+  color: #fff;            /* force le texte en blanc */
+} 
+
+
+
+/* Bouton Commencez spécifique au Hero */
+.driver-hero .btn-start {
+  background: #fff;       /* fond blanc */
+  color: #000;            /* texte noir */
+  border: none;
+  font-weight: 600;
+  padding: 15px 40px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+  
+.driver-hero .btn-start:hover {
+  background: #f2f2f2;    /* léger gris au survol */
+} 
+/* Bloc 2 : En savoir plus */
+.driver-more {
+  width: 100%;
+  min-height: 100vh;
+  padding: 80px 12%;
+  background: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.driver-more h2 { font-size: 2.5rem; margin-bottom: 20px; }
+
+/* Bloc 3 : Avantages */
+.driver-advantages {
+  width: 100%;
+  min-height: 100vh;
+  padding: 80px 8%;
+  background: #f9f9f9;
+}
+.driver-advantages h3 { font-size: 1.8rem; margin-bottom: 10px; }
+  
+/* Bloc 3 - Réduit l’espace sous le grand titre */
+.driver-advantages > div:first-child h2 {
+  margin-bottom: 0px !important;   /* réduit l’espace */
+  font-size: 2.2rem !important;    /* taille déjà réduite */
+  line-height: 1.2;
+}
+
+.driver-separator {
+  border: 0;  
+  border-top: 2px solid #ddd;  /* fine ligne grise */
+  width: 40%;                  /* centrée et pas trop large */
+  margin: 0px auto;            /* espace au-dessus/dessous + centré */
+}
+  
+/* Bloc 6 : Commencer */  
+.driver-start {
+  width: 100%;
+  min-height: 100vh;
+  padding: 80px 10%;
+  background: #fff;
+}
+  
+/* Bloc 6 : titres plus grands */
+.driver-start h3 { 
+  font-size: 2rem;       /* augmente la taille du titre */
+  font-weight: 550;      /* plus gras */
+  margin-bottom: 10px;   /* espace sous le titre */
+} 
+
+  
+/* Bloc 7 : FAQ */
+.driver-faq {
+  width: 100%;
+  min-height: 100vh;
+  padding: 80px 10%;
+  background: #f9f9f9;
+}
+  
+  
+ 
+  
+
+/* === Accordéon FAQ === */
+.accordion {  
+  border-top: 1px solid #ddd;
+}
+.accordion-item {  
+  border-bottom: 1px solid #ddd;
+} 
+.accordion-header {
+  width: 100%;
+  text-align: left;
+  padding: 14px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+.accordion-header:hover {
+  background: #f2f2f2;
+}
+.accordion-content {  
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease, padding 0.3s ease;
+  padding: 0 14px;
+} 
+/* Forcer la taille réduite des réponses dans la FAQ */
+.driver-faq .accordion-content p {
+  font-size: 0.85rem !important;   /* réduit la taille */
+  line-height: 1.4 !important;     /* resserre l’interligne */
+  color: #000;                     /* optionnel : gris doux */
+  margin: 8px 0;   
+}
+  
+
+.accordion-item.active .accordion-content {
+  max-height: 200px; /* ajuste selon contenu */
+  padding: 10px 14px;
+}
+  
+  
+/* Bloc 9 : Contact */
+.driver-contact {
+  width: 100%;
+  min-height: 100vh;
+  padding: 80px 12%;
+  background: #f9f9f9;
+  text-align: center;
+}
+.driver-contact button {
+  font-size: 1.2rem;
+  padding: 14px 28px;
+}
+.contact-form {
+  max-width: 500px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+ 
+.contact-form label {
+  font-weight: 600;
+  font-size: 14px;
+}
+  
+.contact-form input,
+.contact-form textarea {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  width: 100%;
+  box-sizing: border-box;
+}
+.contact-form button {
+  background: #111;
+  color: #fff;
+  padding: 12px;
+  font-size: 15px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+  
+.contact-form button:hover {
+  background: #222;
+}
+
+
+#driverContactForm {
+  display: grid;
+  gap: 16px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+#driverContactForm .row {
+  display: flex;
+  gap: 12px;
+}
+
+#driverContactForm .row div {
+  flex: 1;
+}
+
+#driverContactForm label {
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 4px;
+  display: block;
+}
+
+#driverContactForm .form-input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 15px;
+}
+
+#driverContactForm textarea.form-input {
+  resize: vertical;
+}
+
+
+
+
+/* Chaque vue interne est cachée par défaut */
+.view {
+  display: none;
+  padding: 0;
+  margin: 0;
+}
+  
+/* Vue active (page affichée) */
+.view.active {
+  display: block; 
+}
+/* Conteneur interne bien centré */
+.view .page {
+  max-width: 900px;   
+  margin: 0 auto;         /* centre horizontalement */
+  padding: 24px 16px;     /* espace intérieur agréable */
+  box-sizing: border-box;
+}
+  
+/* Titres et textes */
+.view h1 {
+  margin: 0 0 16px;
+} 
+.view p {
+  color: var(--muted);
+  line-height: 1.6;
+}
+.muted-small {
+  color: var(--muted);
+  font-size: 14px;
+}
+  
+/* Cache uniquement la home quand une page interne est ouverte */
+body.page-open .hero,
+body.page-open .cta {
+  display: none;
+}
+
+#drivers-list {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid #eee;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+#drivers-list div {
+  padding: 8px 0;
+  border-bottom: 1px solid #f2f2f2;
+}
+#drivers-list div:last-child {
+  border-bottom: none;
+}
+
+
+
+
+/* Checkout layout */
+.checkout-container {
+  display: flex;
+  gap: 40px;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 20px;
+}
+.checkout-left, .checkout-right {
+  flex: 1;
+}
+.checkout-section {
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+.checkout-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 0;
+}
+.cart-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 10px 0;
+}
+.cart-item img {
+  border-radius: 8px;
+}
+.cart-item .info {
+  flex: 1;
+}
+.checkout-row.total {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.sidebar-user {
+  text-align: center;
+  padding: 20px;
+}
+#sidebarName {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.about-banner {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.about-banner-img {
+  width: 100%;         /* occupe toute la largeur */
+  height: 550px;       /* ajuste la hauteur à ta convenance */
+  object-fit: cover;   /* garde un rendu propre même si ça coupe un peu */
+  border-radius: 0;    /* pas d’arrondis */
+  display: block;
+}
+/* --- Amélioration page About --- */
+#view-about .page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 60px 20px;
+  line-height: 1.7;
+  color: #333;
+}
+
+#view-about h1 {
+  font-size: 2.4rem;
+  font-weight: 800;
+  margin-bottom: 20px;
+  text-align: center;
+  position: relative;
+}
+
+#view-about h1::after {
+  content: "";
+  display: block;
+  width: 60px;
+  height: 4px;
+  background: #111;
+  margin: 14px auto 0;
+  border-radius: 4px;
+}
+
+#view-about h3 {
+  font-size: 1.6rem;
+  margin-top: 40px;
+  margin-bottom: 12px;
+  font-weight: 700;
+  color: #111;
+}
+
+/* Paragraphes lisibles */
+#view-about p {
+  font-size: 1.05rem;
+  margin-bottom: 18px;
+  color: #555;
+}
+
+/* Mettre en avant les mots clés */
+#view-about strong {
+  color: #000;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  #view-about .page {
+    padding: 40px 14px;
+  }
+  #view-about h1 {
+    font-size: 2rem;
+  }
+  #view-about h3 {
+    font-size: 1.3rem;
+  }
+}
+
+/* Carrières : mise en page pro */
+.careers-container {
+  display: grid;
+  grid-template-columns: 2fr 1fr; /* texte plus large que l’image */
+  gap: 3rem;
+  align-items: start;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.careers-text {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: #333;
+}
+
+.careers-text h1 {
+  font-size: 2.2rem;
+  font-weight: 800;
+  margin-bottom: 20px;
+}
+
+.careers-text h2 {
+  font-size: 1.5rem;
+  margin-top: 30px;
+  margin-bottom: 12px;
+  color: #111;
+}
+
+.careers-text p, 
+.careers-text li {
+  margin-bottom: 14px;
+}
+
+.careers-text ul {
+  padding-left: 20px;
+  list-style: disc;
+}
+
+/* Image pro alignée à droite */
+.careers-image {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+}
+
+.careers-image img {
+  max-width: 90%;
+  height: auto;
+  border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+}
+
+/* Responsive : pile texte + image */
+@media (max-width: 900px) {
+  .careers-container {
+    grid-template-columns: 1fr;
+  }
+  .careers-image {
+    justify-content: center;
+    margin-top: 20px;
+  }
+  .careers-image img {
+    max-width: 100%;
+  }
+}	
+
+/* === Pop-up Auth === */
+#loginView {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  max-width: 400px;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.15);
+  padding: 24px;
+  z-index: 300; /* au-dessus du reste */
+  display: none; /* caché par défaut */
+  animation: fadeIn 0.25s ease;
+}
+
+#loginView.active {
+  display: block; /* quand ouvert */
+}
+
+#loginView h2 {
+  text-align: center;
+  margin: 0 0 20px;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+#loginView form {
+  display: grid;
+  gap: 12px;
+}
+
+#loginView input[type="text"],
+#loginView input[type="email"],
+#loginView input[type="password"] {
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  font-size: 15px;
+}
+
+#loginView .checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #555;
+}
+
+#loginView button.btn {
+  width: 100%;
+  justify-content: center;
+}
+
+#loginView .divider {
+  text-align: center;
+  margin: 16px 0;
+  color: #888;
+  font-size: 14px;
+  position: relative;
+}
+
+#loginView .divider::before,
+#loginView .divider::after {
+  content: "";
+  height: 1px;
+  background: #ddd;
+  flex: 1;
+}
+
+#loginView .divider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#loginView .social-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  background: #fafafa;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+#loginView .social-btn:hover {
+  background: #f2f2f2;
+}
+/* Boutons sociaux : Google & Apple */
+#googleLogin,
+#appleLogin {
+  background: #fff !important;
+  color: #111;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 4px rgba(0,0,0,.08);
+  transition: all 0.2s ease;
+}
+
+#googleLogin:hover,
+#appleLogin:hover {
+  background: #f9f9f9;
+  border-color: #ccc;
+}
+#loginView {
+  width: 500px;      /* largeur fixe sur desktop */
+  max-width: 90%;    /* évite que ça déborde sur mobile */
+  margin: 0 auto;    /* centre le bloc horizontalement */
+}
+.checkbox-terms {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: #333;
+  cursor: pointer;
+  user-select: none;
+}
+
+.checkbox-terms input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: #111; /* ✅ pour un carré noir stylé */
+  cursor: pointer;
+}
+
+.checkbox-terms:hover {
+  color: #000; /* petit effet hover */
+}
+
+/* Bouton "Se connecter" premium */
+#btnLogin {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 28px;
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 50px; /* pill-shape */
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  color: #fff;
+  background: linear-gradient(145deg, #1c1c1c, #2a2a2a);
+  box-shadow: inset 0 1px 1px rgba(255,255,255,0.1),
+              0 4px 12px rgba(0,0,0,0.35);
+  transition: all 0.3s ease;
+}
+
+#btnLogin:hover {
+  background: linear-gradient(145deg, #2a2a2a, #1c1c1c);
+  transform: translateY(-2px);
+  box-shadow: inset 0 1px 2px rgba(255,255,255,0.15),
+              0 6px 18px rgba(0,0,0,0.45);
+}
+
+#btnLogin:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+}
+
+#favorites-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.fav-card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.fav-card img {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+}
+
+.fav-info {
+  padding: 10px 12px;
+}
+
+.fav-info h3 {
+  margin: 0 0 4px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.fav-info .muted {
+  font-size: 13px;
+  color: #777;
+}
+
+
+
+
+.search {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+/* --- CONTAINER --- */
+.search-input-wrapper {
+  flex: 1;
+  min-width: 260px;
+  position: relative; /* pour suggestions */
+}
+
+
+/* --- INPUT --- */
+.search-input {
+  width: 100%;
+  padding: 14px 18px; /* on enlève le padding gauche prévu pour la loupe */
+  font-size: 16px;
+  border: 1px solid #e0e0e0;
+  border-radius: 30px; /* arrondi plus doux */
+  background-color: #fff;
+  outline: none;
+  transition: border 0.25s ease, box-shadow 0.25s ease;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.search-input:focus {
+  border-color: #ccc; /* reste neutre */
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+/* --- SUGGESTIONS --- */
+.suggestions {
+  position: absolute;
+  top: 100%; /* juste sous l’input */
+  left: 0;
+  right: 0;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-top: none; /* pas de bord entre input et suggestions */
+  border-radius: 0 0 25px 25px; /* arrondi uniquement en bas */
+  max-height: 220px;
+  overflow-y: auto;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+  z-index: 150;
+}
+
+/* --- ITEM --- */
+.suggestion {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 500;
+  color: #333;
+  transition: background 0.2s ease, color 0.2s ease;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.suggestion:last-child {
+  border-bottom: none;
+}
+
+.suggestion:hover {
+  background: #f9f9f9;
+}
+
+.suggestion-banner {
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  object-fit: cover;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08); /* petit relief pro */
+}
+
+/* cache complètement la box si elle est vide */
+.suggestions:empty {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  body {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .container {
+    flex-direction: column; /* tout passe en colonne */
+  }
+
+  button {
+    width: 100%; /* gros boutons plein écran */
+  }
+}
+
+</style>
+
+
+</head>
+<body>
+<main>
+<div class="page-container">  
+<!-- Header -->
+<header>
+  <div class="container nav">
+<a class="brand" href="#" onclick="event.preventDefault(); location.hash=''; window.location.reload();">
+      <div class="brand-badge">⚡️</div>
+      <div>
+        <div style="font-size:18px;letter-spacing:-.3px">FlashBring</div>
+        <div class="tagline">Tout, livré en 2h</div>
+      </div>
+    </a>
+<div class="actions">
+  <button id="btnLogin" class="btn">Se connecter</button>
+  <div id="userMenu" style="display:none;position:relative; display:flex; align-items:center; gap:12px;">
+    <span id="welcomeMsg" style="cursor:pointer;font-weight:600;font-size:15px;">
+      Bonjour <span id="welcomeName"></span>
+    </span>
+   <a href="cart.html" id="btnCart" class="btn ghost" style="display:none">🛒 Panier</a>
+  </div>
+</div>
+
+
+<!-- Overlay gris derrière le side cart -->
+<div id="sidebarOverlay" class="sidebar-overlay"></div>
+
+<!-- 👉 Le vrai conteneur du side cart -->
+<div id="userSidebar" class="sidebar">
+<div class="sidebar-user">
+  <div id="sidebarName">
+    Bonjour
+  </div>
+<a href="account.html" class="manage-account">Gérer le compte</a>
+</div>
+
+  <ul class="sidebar-links">
+    <li><a href="#orders">Mes commandes</a></li>
+    <li><a href="cart.html">Mon panier</a></li>
+    <li><a href="#favorites">Favoris</a></li>
+    <li><a href="#refer">Parrainer</a></li>
+    <li><a href="#faq">Aide</a></li>
+    <li><a href="/parametre.html">Paramètres</a></li> <!-- 🔥 redirection magasin id=1 -->
+    <li><a href="#" id="logoutBtn">Se déconnecter</a></li>
+
+    <!-- Séparation fine -->
+    <li style="border-top:2px solid #eee; margin:10px 0"></li>
+
+    <!-- Nouveaux liens -->
+    <li><a href="#partners">Ajouter votre restaurant</a></li>
+    <li><a href="#drivers">Inscrivez-vous pour livrer</a></li>
+  </ul>
+</div> <!-- ferme .sidebar -->
+</div> 
+  </header>
+
+
+<!-- HERO -->
+<section class="hero home-section">
+  <div class="container hero-grid">
+
+    <!-- Colonne gauche -->
+    <div>
+      <h1 class="h1">
+        Tout ce dont vous avez envie,<br>
+        en un seul panier.
+      </h1>
+      <p class="sub">
+        Une pizza, un smartphone et une chaise de bureau… réunis dans le même panier, livrés ensemble en moins de 3h.
+      </p>
+  
+      <div class="hero-card">
+        <div class="search-input-wrapper">
+          <input
+            class="search-input"
+            id="keyword"  
+            type="text"
+            placeholder="Rechercher sur Flashbring"
+          >
+          <div class="suggestions"></div>
+        </div>   
+      </div>  
+    </div>
+    
+    <!-- Colonne droite -->
+    <div class="mock-visuel">
+      <img src="visuel-flashbring.jpg" alt="Vos envies, chez vous en un éclair" class="mock-visuel">
+    </div>
+  
+  </div>  
+</section>
+
+<!-- CATEGORIES -->
+<section class="section home-section">
+  <div class="container">
+    <h2>Catégories </h2>
+    <div class="grid" id="catGrid">
+      <!-- items injectés par JS -->
+    </div>
+  </div>
+</section>
+
+    <!-- HOW IT WORKS -->
+<section class="section home-section">
+      <div class="container">
+        <h2>On vous explique</h2>
+        <div class="steps">
+          <div class="step">
+            <div class="badge">1</div>
+<h3>Tout en un, sans effort</h3>
+ <p>Oubliez la galère des applis multiples : avec nous, restos, courses, technologie et déco se mélangent dans un seul panier, livré directement chez vous. </p>
+          </div>
+          <div class="step">
+            <div class="badge">2</div>
+            <h3> On simplifie votre vie </h3>
+            <p>Plus besoin de courir partout ni de perdre des heures : on allège vos journées et vous redonnons le luxe de profiter de vos proches, de vous détendre et de vivre l’essentiel.
+</p>
+          </div>
+          <div class="step">
+            <div class="badge">3</div>
+            <h3>Votre sécurité, notre priorité</h3>
+            <p>Commandez en toute confiance : paiements ultra-sécurisés, livreurs certifiés et un service pensé pour votre tranquillité.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+<!-- TRUST / POURQUOI NOUS -->
+<section class="section home-section">
+  <div class="container">
+    <h2>Pourquoi nous</h2>
+    <div class="trust">
+      <div class="card">
+        <b>On vous fait gagner du temps</b>
+        <div class="muted">Commandez en quelques clics et libérez-vous des trajets, de la foule et des files d’attente. Plus de temps pour ce qui compte vraiment.</div>
+      </div>
+      <div class="card">
+        <b>Dépenser moins devient facile</b>
+        <div class="muted">Moins de déplacements, pas de frais cachés. Une seule commande groupée, une seule livraison : votre porte-monnaie vous dira merci.</div>
+      </div>
+      <div class="card">
+        <b>Une livraison simple, sans prise de tête</b>
+        <div class="muted">Plus besoin de porter des sacs lourds ni de jongler avec les horaires. Vous commandez, on s’occupe du reste.</div>
+      </div>
+      <div class="card">
+        <b>Votre satisfaction, notre priorité</b>
+        <div class="muted">Service fiable, suivi en temps réel et support réactif : tout est pensé pour que vous soyez serein du panier jusqu’à la livraison.</div>
+      </div>
+    </div>
+  </div>  
+</section>
+
+
+
+<section id="view-about" class="view">
+<!-- Bannière plein écran -->
+  <div class="about-banner">
+    <img src="about-banner.jpg" alt="FlashBring - Livraison universelle" class="about-banner-img">
+  </div>
+
+  <div class="page">
+
+  <h1>Qui sommes-nous ?</h1>
+    <p>
+      Chez <strong>FlashBring</strong>, nous avons une mission claire : rendre la livraison
+      plus <strong>simple</strong>, plus <strong>rapide</strong> et plus <strong>accessible</strong>.
+      Fini les dizaines d’applications et les délais interminables : avec nous, 
+      <em>tout ce dont vous avez besoin est réuni en un seul panier, livré dans la journée.</em>
+    </p>
+
+    <h3>Notre promesse</h3>
+    <p>
+      Vous faire <strong>gagner du temps</strong> et de la tranquillité d’esprit.
+      Chaque commande est sécurisée, chaque livreur est vérifié,
+      pour que vous puissiez commander en toute confiance.
+    </p>
+
+    <h3>Notre clientèle</h3>
+    <p>
+      Étudiants pressés, familles débordées, jeunes actifs exigeants…
+      <strong>FlashBring s’adresse à toutes celles et ceux qui veulent simplifier leur quotidien</strong>,
+      éviter les déplacements inutiles et profiter de leurs commerces préférés en ligne.
+    </p>
+
+    <h3>Nos commerces partenaires</h3>
+    <p>
+      Du restaurant du coin aux grandes enseignes nationales,
+      nous connectons progressivement l’alimentaire, la mode,
+      le high-tech, la pharmacie et bien plus encore.
+      <em>Notre ambition : 500 commerces actifs dans 50 villes d’ici 2026.</em>
+    </p>
+
+    <h3>Nos livreurs partenaires</h3>
+    <p>
+      Chaque livraison est assurée par des indépendants sélectionnés et formés,
+      respectant nos standards : prise en charge en magasin, contrôle qualité des articles
+      et preuve de remise pour une expérience sans mauvaises surprises.
+    </p>
+
+    <h3>Notre vision</h3>
+    <p>
+      FlashBring, c’est plus qu’une livraison : c’est un <strong>nouveau réflexe de consommation</strong>.
+      Sécurité des paiements, suivi en temps réel, durabilité et soutien aux commerces locaux : 
+      nous innovons chaque jour pour réinventer la façon dont vous commandez et recevez vos produits.
+    </p>
+  </div>
+</section>
+
+<section id="view-careers" class="view">
+<div class="careers-container">
+  <div class="careers-text"> 
+    <h1>Carrières chez FlashBring</h1>
+
+    <p class="intro">
+      Chez <strong>FlashBring</strong>, nous avons une mission claire : rendre la livraison plus simple, plus rapide et plus accessible pour tous.  
+      En moins de 3 heures, nos clients peuvent recevoir aussi bien une pizza qu’un smartphone ou une chaise de bureau — dans le même panier, livré directement chez eux.  
+      Pour atteindre cette ambition, nous avons besoin de talents passionnés, motivés et prêts à construire avec nous le futur de la livraison.
+    </p>
+
+    <h2>Pourquoi nous rejoindre ?</h2>
+    <ul>
+      <li><strong>Un projet ambitieux</strong> : nous voulons devenir la référence de la livraison multi-produits en France.</li>
+      <li><strong>Un impact concret</strong> : simplifier le quotidien de milliers de personnes et soutenir les commerces locaux.</li>
+      <li><strong>Une équipe jeune et motivée</strong> : actuellement 3 personnes, prêtes à accueillir de nouveaux talents.</li>
+      <li><strong>De la flexibilité</strong> : télétravail possible, horaires libres tant que les 7h quotidiennes sont faites.</li>
+      <li><strong>Un environnement de confiance</strong> : autonomie, responsabilités et possibilité d’évoluer rapidement.</li>
+    </ul>
+
+<h2>Nos besoins actuels</h2>
+
+<h3>
+ <a href="#drivers" style="color:#000; text-decoration:underline; cursor:pointer;">
+    ‍️ Livreurs partenaires
+  </a>
+</h3>
+<p>
+  Vous avez un vélo, un scooter ou une voiture ? Rejoignez notre réseau de 
+<a href="#drivers" style="color:#000; text-decoration:underline; cursor:pointer;">livreurs vérifiés</a> 
+  et profitez d’horaires flexibles, d’une rémunération transparente et de la garantie d’un accompagnement humain.
+</p>
+
+<h3>
+<a href="#partners" style="color:#000; text-decoration:underline; cursor:pointer;">
+    ️ Partenariats avec commerces
+  </a>
+</h3>
+<p>
+  Restaurateurs, boutiques de mode, enseignes high-tech, pharmacies, déco… 
+  FlashBring vous aide à toucher une nouvelle clientèle locale.  
+  Intégrer notre plateforme, c’est bénéficier d’une logistique efficace, d’un paiement sécurisé et d’une visibilité accrue.  
+  👉 En savoir plus sur nos 
+<a href="#partners" style="color:#000; text-decoration:underline; cursor:pointer;">partenariats</a>.
+</p>
+
+    <h3> Marketing & Développement Web</h3>
+    <p>
+      Nous cherchons à renforcer notre cœur d’équipe avec :  
+      - Un profil <strong>marketing / growth</strong> pour accélérer notre acquisition clients et optimiser notre communication.  
+      - Un <strong>développeur web</strong> capable de contribuer à l’évolution de notre plateforme.  
+      - Un <strong>profil comptabilité/gestion</strong> pour structurer notre croissance.  
+      Si vous voulez participer à une aventure dès ses débuts et avoir un vrai poids dans les décisions, votre place est ici.
+    </p>
+
+    <h2>Notre vision</h2>
+    <p>
+      Nous croyons en une livraison plus responsable, plus accessible et plus juste, qui profite autant aux clients qu’aux commerces et aux livreurs.  
+      Notre ambition : déployer FlashBring dans toutes les grandes villes françaises et nous imposer comme le service de référence dans les 3 prochaines années.
+    </p>
+
+    <h2>Rejoignez-nous</h2>
+    <p>
+      Si vous vous reconnaissez dans notre projet et souhaitez contribuer à son succès, contactez-nous à :  
+      <a href="mailto:jobs@flashbring.com">jobs@flashbring.com</a>  
+      ou rejoignez directement notre communauté de <a href="#drivers">livreurs</a> et <a href="#partners">partenaires</a>.
+    </p>
+</div>
+   <div class="careers-image">
+      <img src="flashbring_carrieres_pro.jpg" alt="Livreur FlashBring" />
+    </div>
+  </div>
+</section>
+
+<section id="view-press" class="view">
+  <div class="page">
+    <h1>Presse</h1>
+      
+    <!-- Pitch -->
+    <p>
+      <strong>FlashBring</strong> n’est pas qu’une application de livraison, c’est une
+      <strong>nouvelle manière de consommer local</strong>. 
+      En un seul panier, nous réunissons ce que les utilisateurs commandent le plus — 
+      <em>une pizza, un smartphone, une chaise de bureau</em> — et nous le livrons
+      <strong>ensemble en moins de 3 heures</strong>, directement depuis les commerces de leur ville.
+    </p>
+      
+    <!-- Chiffres clés -->
+    <h2>Chiffres clés</h2>
+    <ul>
+      <li><strong>10 magasins partenaires</strong> dès le lancement</li>
+      <li><strong>Nancy et alentours</strong> : première zone de déploiement</li>
+      <li><strong>32 minutes</strong> : délai moyen de livraison observé</li>
+      <li><strong>100% local</strong> : chaque produit vient du secteur de l’utilisateur</li>
+    </ul>
+    
+    <!-- Citation fondateur -->
+    <blockquote>
+      <em>
+        « J’ai créé FlashBring avec une idée simple : 
+        <strong>offrir du temps</strong> aux gens, leur éviter les contraintes,
+        et leur permettre de profiter de l’essentiel. »
+      </em><br>
+      — <strong>Ethan Diart</strong>, fondateur de FlashBring
+    </blockquote>
+
+    <!-- Vision -->
+    <h2>Notre ambition</h2>
+    <p>
+      FlashBring ambitionne d’apporter la simplicité d’Uber Eats à 
+      <strong>tous les produits du quotidien</strong> : nourriture, high-tech, mode,
+      pharmacie, déco… mais avec une vraie différence : 
+      <strong>une approche locale, responsable et accessible</strong>. 
+      Notre objectif est clair : <strong>démocratiser la livraison en France</strong> 
+      et devenir l’alternative incontournable aux géants du secteur.
+    </p>
+
+    <!-- Notre différence -->
+    <h2>Notre différence</h2>
+    <p>
+      Ce qui rend <strong>FlashBring unique</strong>, c’est la possibilité de composer un 
+      <strong>panier mixte</strong> : une pizza, un smartphone et une chaise de bureau, 
+      réunis dans une seule commande, livrés le jour même.  
+      Contrairement aux plateformes classiques, nous travaillons directement avec 
+      <strong>les commerces locaux</strong>, pour garantir proximité, fraîcheur et 
+      rapidité.  
+      Notre engagement : une livraison <strong>accessible à tous</strong>, sans compromis 
+      sur la simplicité ni sur la qualité.
+    </p>
+
+    <!-- Prochaines étapes -->
+    <h2>Prochaines étapes</h2>
+    <p>
+      Après Nancy et sa métropole, FlashBring prépare son déploiement à 
+      <strong>Metz</strong> et <strong>Lunéville</strong>.  
+      Notre ambition : atteindre <strong>1 million d’euros de chiffre d’affaires d’ici 2027</strong> 
+      et devenir le réflexe quotidien de milliers de consommateurs en France.  
+      Nous sommes ouverts aux <strong>investisseurs</strong> et <strong>partenaires stratégiques</strong> 
+      qui souhaitent participer à la construction de la prochaine révolution de la livraison.
+    </p>
+
+    <!-- Contact -->
+    <h2>Contact presse</h2>
+    <p>
+      📩 <a href="mailto:ethan.diart09@gmail.com">ethan.diart09@gmail.com</a>
+    </p>
+  </div>
+</section>
+
+
+<section id="view-terms" class="view">
+  <div class="page">
+
+ <h1>Conditions Générales d’Utilisation (CGU)</h1>
+    <p><strong>Date de mise à jour :</strong> 24 juin 2025</p>
+
+    <h2>Préambule</h2>
+    <p>
+      Les présentes Conditions Générales d’Utilisation (ci-après « CGU ») définissent les modalités
+      d’accès et d’utilisation de la plateforme <strong>FlashBring</strong>, disponible via son site internet
+      et son application mobile (ci-après « l’Application » et le « Site »).
+    </p>
+    <p>
+      FlashBring a pour objet de mettre en relation des utilisateurs, des commerces partenaires
+      et des livreurs indépendants afin de faciliter la commande et la livraison de produits
+      (alimentaires et non-alimentaires) dans un délai optimisé.
+    </p>
+    <p>
+      En créant un compte et en utilisant nos services, vous acceptez sans réserve les présentes CGU.
+    </p>
+
+    <h2>1. Accès et utilisation de FlashBring</h2>
+    <p>
+      1.1. Pour accéder aux services, l’utilisateur doit créer un compte personnel avec des
+      informations exactes et à jour. L’accès est réservé aux personnes âgées d’au moins
+      <strong>18 ans</strong>. Les mineurs entre 13 et 18 ans peuvent utiliser FlashBring uniquement
+      avec l’autorisation et sous la responsabilité de leur représentant légal.
+    </p>
+    <p>
+      1.2. Chaque compte est strictement personnel et ne peut être partagé. L’utilisateur
+      est responsable de la confidentialité de ses identifiants.
+    </p>
+    <p>
+      1.3. FlashBring se réserve le droit de suspendre ou supprimer tout compte en cas
+      de non-respect des présentes CGU ou d’utilisation abusive du service.
+    </p>
+
+    <h2>2. Commandes et services de livraison</h2>
+    <p>
+      2.1. Les utilisateurs peuvent commander une variété de produits proposés par les
+      commerces partenaires disponibles dans leur zone de service.
+    </p>
+    <p>
+      2.2. FlashBring agit en qualité d’intermédiaire logistique : les produits sont préparés
+      par les commerces partenaires et livrés par des livreurs indépendants vérifiés.
+    </p>
+    <p>
+      2.3. Nous mettons tout en œuvre pour assurer une <strong>livraison dans la journée</strong>,
+      sous réserve de disponibilité des produits et de couverture géographique.
+    </p>
+    <p>
+      2.4. Les délais communiqués sont des estimations. Des circonstances exceptionnelles
+      (trafic, météo, rupture de stock…) peuvent entraîner des retards.
+    </p>
+
+    <h2>3. Paiement</h2>
+    <p>
+      3.1. Les commandes sont réglées exclusivement en ligne via notre prestataire sécurisé
+      <strong>Stripe</strong>, par carte bancaire (Visa, Mastercard) ou par Apple Pay / Google Pay.
+    </p>
+    <p>
+      3.2. Aucune donnée bancaire n’est conservée par FlashBring : toutes les informations
+      sont traitées directement par Stripe selon les normes de sécurité PCI-DSS.
+    </p>
+
+    <h2>4. Annulation et remboursement</h2>
+    <p>
+      4.1. Une commande peut être annulée tant qu’elle n’a pas été acceptée par le commerçant.
+    </p>
+    <p>
+      4.2. Une fois acceptée, la commande devient ferme et définitive. L’utilisateur sera
+      facturé du montant total.
+    </p>
+    <p>
+      4.3. Si la commande ne peut être honorée (indisponibilité produit, impossibilité de livraison
+      imputable à FlashBring, au commerçant ou au livreur), l’utilisateur sera remboursé.
+    </p>
+
+    <h2>5. Obligations des utilisateurs</h2>
+    <ul>
+      <li>Fournir des informations exactes et complètes (adresse, téléphone, instructions).</li>
+      <li>Être présent ou s’assurer qu’une personne puisse réceptionner la commande.</li>
+      <li>Respecter les livreurs et commerçants partenaires.</li>
+      <li>Ne pas utiliser FlashBring à des fins frauduleuses ou illicites.</li>
+    </ul>
+
+    <h2>6. Données personnelles</h2>
+    <p>
+      6.1. FlashBring collecte uniquement les données nécessaires à la gestion des commandes :
+      nom, prénom, adresse, email, numéro de téléphone, moyens de paiement (via Stripe),
+      historique de commandes.
+    </p>
+    <p>
+      6.2. Ces données sont utilisées exclusivement dans le cadre de nos services et ne sont
+      jamais revendues à des tiers.
+    </p>
+    <p>
+      6.3. Conformément au RGPD, tout utilisateur dispose d’un droit d’accès, de rectification
+      et de suppression de ses données en écrivant à :
+      <a href="mailto:ethan.diart09@gmail.com">ethan.diart09@gmail.com</a>.
+    </p>
+
+    <h2>7. Responsabilité</h2>
+    <p>
+      7.1. FlashBring agit uniquement comme intermédiaire entre le client, le commerçant
+      et le livreur. La responsabilité de la qualité des produits incombe exclusivement
+      aux commerces partenaires.
+    </p>
+    <p>
+      7.2. FlashBring est responsable de la bonne organisation de la livraison et de la mise
+      en relation avec des livreurs vérifiés. Sa responsabilité ne saurait être engagée
+      en cas de faute imputable à l’utilisateur, au commerçant ou au livreur indépendant.
+    </p>
+
+    <h2>8. Sécurité et confiance</h2>
+    <p>
+      8.1. Tous les livreurs FlashBring sont <strong>vérifiés et identifiés</strong> avant d’intégrer la plateforme.
+    </p>
+    <p>
+      8.2. Tous les paiements transitent par une solution <strong>100% sécurisée</strong> (Stripe).
+    </p>
+    <p>
+      8.3. FlashBring met en place des mesures de contrôle afin de lutter contre la fraude et
+      de garantir la confiance de ses utilisateurs.
+    </p>
+
+    <h2>9. Loi applicable et règlement des litiges</h2>
+    <p>
+      Les présentes CGU sont régies par le droit français.
+      En cas de litige, une tentative de résolution amiable sera privilégiée.
+      À défaut, les tribunaux compétents seront ceux du ressort de Nancy (France),
+      sauf dispositions légales contraires.
+    </p>
+
+  </div>
+</section>
+
+<section id="view-privacy" class="view">
+  <div class="page">
+    <h1>Politique de confidentialité</h1>
+    <p><strong>Date de mise à jour :</strong> 24 juin 2025</p>
+
+    <h2>1. Introduction</h2>
+    <p>
+      La protection de vos données personnelles est une priorité pour <strong>FlashBring</strong>.
+      Nous nous engageons à respecter la réglementation en vigueur, notamment le
+      <strong>Règlement Général sur la Protection des Données (RGPD)</strong> et la loi française.
+    </p>
+
+    <h2>2. Données collectées</h2>
+    <ul>
+      <li><strong>Données de compte :</strong> nom, prénom, adresse email, mot de passe.</li>
+      <li><strong>Données de commande :</strong> adresse de livraison, numéro de téléphone, contenu du panier.</li>
+      <li><strong>Données de paiement :</strong> gérées exclusivement par notre partenaire <strong>Stripe</strong> (carte bancaire, Apple Pay, Google Pay, Visa, Mastercard).</li>
+      <li><strong>Données techniques :</strong> adresse IP, logs de connexion, cookies essentiels.</li>
+    </ul>
+
+    <h2>3. Finalités</h2>
+    <p>Vos données sont utilisées pour :</p>
+    <ul>
+      <li>Traiter et livrer vos commandes.</li>
+      <li>Assurer la sécurité des paiements et prévenir la fraude.</li>
+      <li>Gérer votre compte et vos préférences.</li>
+      <li>Améliorer nos services et votre expérience utilisateur.</li>
+    </ul>
+
+    <h2>4. Partage des données</h2>
+    <ul>
+      <li><strong>Commerçants partenaires :</strong> reçoivent uniquement les informations nécessaires à la préparation de la commande (prénom, nom, produits commandés).</li>
+      <li><strong>Livreurs partenaires :</strong> accèdent uniquement aux informations indispensables à la livraison (nom, prénom, adresse, numéro de téléphone).</li>
+      <li><strong>Stripe :</strong> traite les données de paiement de manière sécurisée, FlashBring n’y a pas accès.</li>
+    </ul>
+
+    <h2>5. Durée de conservation</h2>
+    <ul>
+      <li>Vos données de compte : conservées tant que vous utilisez FlashBring.</li>
+      <li>Factures et données de transaction : conservées <strong>10 ans</strong> (obligation légale).</li>
+      <li>En cas de suppression de votre compte : seules les données obligatoires (facturation, litiges éventuels) sont conservées.</li>
+    </ul>
+
+    <h2>6. Hébergement des données</h2>
+    <p>
+      Vos données sont hébergées sur des serveurs situés en Union Européenne,
+      conformes aux normes de sécurité et au RGPD.
+    </p>
+
+    <h2>7. Vos droits</h2>
+    <p>
+      Conformément à la loi, vous disposez des droits suivants :
+    </p>
+    <ul>
+      <li>Droit d’accès, de rectification et de suppression de vos données.</li>
+      <li>Droit d’opposition et de limitation du traitement.</li>
+      <li>Droit à la portabilité de vos données.</li>
+      <li>Droit de déposer une réclamation auprès de la <a href="https://www.cnil.fr/">CNIL</a>.</li>
+    </ul>
+
+    <h2>8. Cookies</h2>
+    <p>
+      Nous utilisons uniquement des cookies essentiels au bon fonctionnement du service.
+      Vous serez informé si nous mettons en place des cookies de mesure d’audience
+      ou de publicité, avec possibilité de les accepter ou refuser.
+    </p>
+
+    <h2>9. Contact</h2>
+    <p>
+      Pour toute question relative à vos données personnelles, vous pouvez nous écrire à :  
+      📩 <a href="mailto:ethan.diart09@gmail.com">ethan.diart09@gmail.com</a>
+    </p>
+  </div>
+</section>
+
+<section id="view-cookies" class="view">
+  <div class="page">
+    <h1>Politique relative aux cookies</h1>
+    <p><strong>Date de mise à jour :</strong> 24 juin 2025</p>
+
+    <h2>1. Qu’est-ce qu’un cookie ?</h2>
+    <p>
+      Un cookie est un petit fichier texte déposé sur votre terminal (ordinateur, smartphone, tablette) 
+      lorsque vous visitez un site ou utilisez une application. 
+      Ils permettent de garantir le bon fonctionnement du service, d’améliorer l’expérience utilisateur 
+      ou de mesurer la fréquentation.
+    </p>
+
+    <h2>2. Quels cookies utilisons-nous ?</h2>
+    <p>FlashBring utilise uniquement des cookies nécessaires et limités :</p>
+    <ul>
+      <li><strong>Cookies essentiels (obligatoires)</strong> : gestion du panier, sessions utilisateurs, authentification via Google. 
+        Ils sont indispensables au fonctionnement du service et ne peuvent pas être désactivés.</li>
+      <li><strong>Cookies de paiement</strong> : utilisés par <strong>Stripe</strong> pour sécuriser les transactions et lutter contre la fraude.</li>
+      <li><strong>Cookies tiers</strong> : posés par <strong>Google</strong> dans le cadre de la connexion (OAuth) et de la sécurité des comptes.</li>
+    </ul>
+
+    <h2>3. Durée de conservation</h2>
+    <ul>
+      <li>Cookies de session : supprimés automatiquement à la fermeture du navigateur.</li>
+      <li>Cookies persistants (authentification Google) : durée maximale de <strong>13 mois</strong>.</li>
+      <li>Données liées au paiement (Stripe) : conservées le temps légal nécessaire aux obligations comptables et légales.</li>
+    </ul>
+
+    <h2>4. Gestion du consentement</h2>
+    <p>
+      Lors de votre première visite, un bandeau vous informe de l’utilisation de cookies. 
+      Vous pouvez :
+    </p>
+    <ul>
+      <li><strong>Accepter</strong> l’ensemble des cookies.</li>
+      <li><strong>Refuser</strong> les cookies non-essentiels (les cookies nécessaires restent actifs).</li>
+      <li><strong>Personnaliser</strong> vos choix à tout moment via un lien « Préférences cookies » en bas de page.</li>
+    </ul>
+
+    <h2>5. Partenaires</h2>
+    <p>Nous travaillons uniquement avec :</p>
+    <ul>
+      <li><strong>Google</strong> (connexion, authentification sécurisée)</li>
+      <li><strong>Stripe</strong> (paiement en ligne sécurisé)</li>
+    </ul>
+
+    <h2>6. Vos droits</h2>
+    <p>
+      Conformément au RGPD et à la loi Informatique et Libertés, vous disposez d’un droit 
+      d’accès, de rectification, d’opposition et de suppression de vos données personnelles.
+      Pour exercer vos droits, vous pouvez nous contacter à : 
+      <a href="mailto:ethan.diart09@gmail.com">ethan.diart09@gmail.com</a>.
+    </p>
+
+    <h2>7. Modification de la politique cookies</h2>
+    <p>
+      Nous pouvons être amenés à modifier cette politique pour rester conformes aux évolutions légales 
+      ou techniques. Toute modification sera notifiée aux utilisateurs via notre site.
+    </p>
+  </div>
+</section>
+
+<section id="view-cgv" class="view">
+  <div class="page">
+    <h1>Conditions Générales de Vente (CGV)</h1>
+    <p><strong>Date de mise à jour :</strong> 24 juin 2025</p>
+
+    <h2>1. Objet</h2>
+    <p>
+      Les présentes Conditions Générales de Vente (CGV) régissent l’utilisation de la plateforme
+      <strong>FlashBring</strong> et les modalités de commande et de livraison de produits proposés par nos
+      commerçants partenaires. FlashBring agit en tant qu’intermédiaire entre les clients, les
+      commerçants et les livreurs partenaires indépendants.
+    </p>
+
+    <h2>2. Zone de service</h2>
+    <p>
+      FlashBring est disponible à <strong>Nancy et ses alentours</strong>. L’extension du service à d’autres
+      villes sera annoncée progressivement.
+    </p>
+
+    <h2>3. Commandes et paiement</h2>
+    <p>
+      Les commandes se font via l’application ou le site. Le paiement est obligatoire à la validation
+      et s’effectue en ligne par carte bancaire (Visa, Mastercard), Apple Pay ou Google Pay, via notre
+      prestataire <strong>Stripe</strong>.
+    </p>
+
+    <h2>4. Prix</h2>
+    <p>
+      Les prix affichés incluent la TVA. Des frais de livraison et/ou de service peuvent s’ajouter et
+      sont indiqués avant validation de la commande.
+    </p>
+
+    <h2>5. Livraison</h2>
+    <p>
+      Les livraisons sont effectuées par des livreurs partenaires indépendants. Les délais affichés sont
+      indicatifs et peuvent varier en fonction du trafic, de la météo et de la disponibilité des produits.
+    </p>
+
+    <h2>6. Droit de rétractation</h2>
+    <p>
+      Conformément à l’article L221-28 du Code de la consommation, le droit de rétractation ne
+      s’applique pas aux produits périssables (nourriture, boissons). Pour les produits non périssables,
+      l’utilisateur dispose d’un délai de <strong>14 jours</strong> pour exercer ce droit.
+    </p>
+
+    <h2>7. Remboursements</h2>
+    <p>
+      Un remboursement est possible si la commande est annulée avant acceptation par le commerçant,
+      ou si les produits commandés sont indisponibles. Une fois la commande validée et prise en charge,
+      aucun remboursement n’est possible sauf cas exceptionnel.
+    </p>
+
+    <h2>8. Responsabilités</h2>
+    <ul>
+      <li>La qualité et la conformité des produits relèvent de la responsabilité des commerçants.</li>
+      <li>FlashBring assure la mise en relation et la coordination logistique avec les livreurs.</li>
+      <li>Les utilisateurs doivent fournir des informations exactes pour permettre la livraison.</li>
+    </ul>
+
+    <h2>9. Loi applicable</h2>
+    <p>
+      Les présentes CGV sont régies par le droit français. En cas de litige, les tribunaux compétents
+      seront ceux du ressort de <strong>Nancy</strong>.
+    </p>
+  </div>
+</section>
+
+<section id="view-legal" class="view">
+  <div class="page">
+    <h1>Mentions légales</h1>
+    <p><strong>Date de mise à jour :</strong> 24 juin 2025</p>
+
+    <h2>Éditeur du site</h2>
+    <p>
+      Le site <strong>FlashBring</strong> est édité par Ethan Diart.<br>
+      Adresse : En cours de domiciliation<br>
+      Email : <a href="mailto:ethan.diart09@gmail.com">ethan.diart09@gmail.com</a><br>
+      SIRET : En cours d’immatriculation
+    </p>
+
+    <h2>Directeur de la publication</h2>
+    <p>
+      Ethan Diart
+    </p>
+
+    <h2>Hébergement</h2>
+    <p>
+      Le site est hébergé par : <strong>[Nom de l’hébergeur]</strong><br>
+      Adresse : [Adresse complète de l’hébergeur]<br>
+      Téléphone : [Numéro de l’hébergeur]
+    </p>
+
+    <h2>Propriété intellectuelle</h2>
+    <p>
+      L’ensemble du contenu du site <strong>FlashBring</strong>, incluant les textes, images,
+      graphismes, logos et vidéos, est la propriété exclusive de FlashBring, sauf mention contraire.
+      Toute reproduction, distribution, modification ou exploitation, totale ou partielle,
+      est strictement interdite sans autorisation préalable.
+    </p>
+
+    <h2>Responsabilité</h2>
+    <p>
+      FlashBring s’efforce de fournir des informations fiables et à jour sur son site,
+      mais ne saurait être tenu responsable des erreurs, omissions ou indisponibilités.
+      Le site peut contenir des liens vers des sites tiers, sur lesquels FlashBring n’exerce
+      aucun contrôle et décline toute responsabilité.
+    </p>
+
+    <h2>Contact</h2>
+    <p>
+      Pour toute question ou réclamation, vous pouvez nous contacter à l’adresse suivante :<br>
+      📩 <a href="mailto:ethan.diart09@gmail.com">ethan.diart09@gmail.com</a>
+    </p>
+  </div>
+</section>
+
+<section id="view-refunds" class="view">
+  <div class="page">
+    <h1>Politique de remboursement & retours</h1>
+    <p><strong>Date de mise à jour :</strong> 24 juin 2025</p>
+
+    <h2>1. Droit de rétractation</h2>
+    <p>
+      Conformément au droit français, vous disposez d’un délai légal de <strong>14 jours</strong> pour exercer
+      votre droit de rétractation sur certains produits non alimentaires. 
+    </p>
+    <p>
+      Attention : les <strong>produits alimentaires</strong>, déjà ouverts ou consommés, ne sont pas remboursables.
+    </p>
+
+    <h2>2. Produits remboursables</h2>
+    <ul>
+      <li>Produits non alimentaires (ex. high-tech, maison, mode).</li>
+      <li>Produits non ouverts et retournés dans leur état d’origine.</li>
+      <li>Commandes non livrées ou contenant un produit manquant/endommagé.</li>
+    </ul>
+
+    <h2>3. Produits non remboursables</h2>
+    <ul>
+      <li>Produits alimentaires (frais, repas, boissons, etc.).</li>
+      <li>Produits déjà ouverts, utilisés ou personnalisés.</li>
+      <li>Frais de service et de livraison, dès lors que la commande a été remise et validée par le code PIN de 4 chiffres.</li>
+    </ul>
+
+    <h2>4. Procédure de demande</h2>
+    <p>
+      Toute demande de remboursement doit être envoyée par email à :
+      <a href="mailto:ethan.diart09@gmail.com">ethan.diart09@gmail.com</a>
+      dans un délai maximum de <strong>24 heures après la livraison</strong>.
+    </p>
+    <p>
+      Merci d’indiquer dans votre email : numéro de commande, produits concernés, motif de la demande, et toute photo justificative.
+    </p>
+
+    <h2>5. Traitement et remboursement</h2>
+    <p>
+      Après validation, le remboursement est effectué sur le <strong>moyen de paiement utilisé lors de la commande</strong>
+      (Visa, Mastercard, Apple Pay, Google Pay, etc.).
+    </p>
+    <p>
+      Le traitement peut prendre <strong>jusqu’à 7 jours ouvrés</strong> selon les délais bancaires.
+    </p>
+
+    <h2>6. Limites</h2>
+    <p>
+      En cas de remboursement accepté, seuls les produits concernés seront remboursés. 
+      Les frais de service et de livraison restent dus dès lors que la commande a été validée
+      par le client auprès du livreur.
+    </p>
+    <p>
+      FlashBring agit comme intermédiaire entre le client et les commerçants. À ce titre, 
+      une demande de remboursement peut être refusée si elle ne correspond pas aux critères ci-dessus,
+      notamment si le produit a été déjà acheté et validé auprès du commerçant partenaire.
+    </p>
+  </div>
+</section>
+
+<section id="view-commitments" class="view">
+  <div class="page">
+    <h1>Nos engagements</h1>
+    <p class="intro">
+      Chez <strong>FlashBring</strong>, nous croyons qu’une livraison doit être plus qu’un simple service :
+      c’est une promesse de confiance, de simplicité et de proximité. Voici ce que nous vous garantissons.
+    </p>
+
+    <div class="commitment">
+      <h2> Des prix accessibles pour tous</h2>
+      <p>
+        Parce que la livraison ne doit pas être un luxe, nous nous engageons à proposer 
+        des tarifs justes et transparents. Pas de frais cachés, juste un service clair et équitable.
+      </p>
+    </div>
+
+    <div class="commitment">
+      <h2> Soutien aux commerces locaux</h2>
+      <p>
+        Chaque commande contribue à faire vivre les commerces de votre ville.
+        Restaurants, boutiques high-tech, mode, pharmacie… Nous travaillons en priorité avec les enseignes de proximité.
+      </p>
+    </div>
+
+    <div class="commitment">
+      <h2> Sécurité et confiance</h2>
+      <p>
+        Tous nos livreurs sont vérifiés et chaque paiement est 100% sécurisé.
+        Vous commandez en toute sérénité, avec la certitude que vos données et vos achats sont protégés.
+      </p>
+    </div>
+
+    <div class="commitment">
+      <h2> Simplicité au quotidien</h2>
+      <p>
+        Plus besoin de jongler entre plusieurs applications : 
+        un seul panier, un seul paiement, et tout ce dont vous avez envie arrive chez vous.
+      </p>
+    </div>
+
+    <div class="commitment">
+      <h2> Une démarche responsable</h2>
+      <p>
+        En regroupant vos achats dans un seul trajet, nous réduisons les déplacements inutiles.
+        Moins de trajets, c’est moins d’empreinte carbone — pour une livraison plus durable et respectueuse de l’environnement.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section id="view-support" class="view">
+  <div class="page">
+    <h1>Support & Assistance</h1>
+    <p>
+      Une question, un problème avec une commande ou une suggestion ?  
+      Remplissez ce formulaire et notre équipe reviendra vers vous dans les plus brefs délais.
+    </p>
+
+    <form id="support-form" class="support-form">
+      <!-- Nom -->
+      <label for="lastName">Nom *</label>
+      <input type="text" id="lastName" name="lastName" required>
+
+      <!-- Prénom -->
+      <label for="firstName">Prénom *</label>
+      <input type="text" id="firstName" name="firstName" required>
+
+      <!-- Email -->
+      <label for="email">Adresse email *</label>
+      <input type="email" id="email" name="email" placeholder="exemple@mail.com" required>
+
+      <!-- Numéro de commande -->
+      <label for="orderNumber">Numéro de commande (si applicable)</label>
+      <input type="text" id="orderNumber" name="orderNumber" placeholder="Ex: #12345">
+
+      <!-- Motif -->
+      <label for="subject">Motif de la demande *</label>
+      <select id="subject" name="subject" required>
+        <option value="">-- Sélectionnez --</option>
+        <option value="delivery">Problème de livraison</option>
+        <option value="refund">Demande de remboursement</option>
+        <option value="account">Problème de compte</option>
+        <option value="partnership">Partenariat</option>
+        <option value="other">Autre</option>
+      </select>
+
+      <!-- Description -->
+      <label for="message">Description *</label>
+      <textarea id="message" name="message" rows="5" placeholder="Décrivez votre demande..." required></textarea>
+
+      <!-- Bouton -->
+      <button type="submit" class="btn">Envoyer ma demande</button>
+    </form>
+  </div>
+</section>
+
+<style>
+  .support-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+  .support-form label {
+    font-weight: 600;
+  }
+  .support-form input,
+  .support-form select,
+  .support-form textarea {
+    padding: 0.7rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    width: 100%;
+  }
+  .support-form textarea {
+    resize: vertical;
+  }
+  .support-form .btn {
+    background: #000;
+    color: white;
+    font-size: 1.1rem;
+    padding: 0.9rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    text-align: center;
+  }
+  .support-form .btn:hover {
+    background: #333;
+  }
+
+
+
+
+
+/* ========================
+   Bouton "Écrire un avis"
+======================== */
+#btnWriteReview {
+  margin-top: 15px;
+  background: #111;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 15px;
+  border-radius: 8px;
+  cursor: pointer;  
+  transition: background 0.2s ease;
+  display: inline-block;
+}
+
+#btnWriteReview:hover {
+  background: #333;
+}
+
+/* ========================
+   Section Avis - Header
+======================== */
+.reviews-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin: 2rem auto;
+  max-width: 1200px;
+  padding: 0 20px;
+}
+
+#view-testimonials .brand {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #111;
+  letter-spacing: 0.6px;
+}
+
+.reviews-brand .brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.5rem;
+}
+
+.reviews-brand #reviews-count {
+  margin-top: 5px;
+  font-weight: bold;
+  color: #555;
+}
+
+/* ========================
+   Stats des Avis
+======================== */
+.reviews-stats {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.average {
+  text-align: center;
+}
+
+#avg-rating {
+  font-size: 2.5rem;
+  font-weight: bold;
+  display: block;
+}
+
+#avg-stars {
+  font-size: 1.2rem;
+  color: gold;
+}
+
+#total-reviews {
+  color: #666;
+}
+
+/* ========================
+   Barres de Progression
+======================== */
+.rating-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 250px;
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.9rem;
+}
+
+.bar span {
+  width: 70px;
+  font-size: 0.95rem;
+  color: #444;
+}
+
+.progress { 
+  background: #eee; 
+  flex: 1;
+  height: 10px;
+  border-radius: 5px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progress div {   
+  background: #28a745; /* par défaut vert */
+  height: 100%;
+  width: 0; /* rempli par JS */
+  transition: width 0.6s ease; /* animation fluide */
+}
+
+/* ========================
+   Grille des Avis
+======================== */
+.reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  justify-content: center;
+  margin: 2rem auto;
+  max-width: 1000px;
+}
+
+.review-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 15px;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.review-card h4 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.review-card .review-date {
+  font-size: 0.85rem;
+  color: #777;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.review-card .stars {
+  color: gold;
+  margin-bottom: 8px;
+}
+
+.review-card p {
+  font-size: 0.95rem;
+  color: #555;
+  flex-grow: 1;
+}
+.trust .card b {
+  display: block;
+  margin-bottom: 12px; /* espace sous le titre */
+  font-size: 16px;     /* optionnel : taille lisible */
+}
+ #map {
+      width: 100%;
+      height: 500px; /* ✅ donne une vraie taille */
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+
+</style>
+<script>
+document.getElementById("support-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const form = document.getElementById("support-form");
+
+  const data = {
+    lastname: document.getElementById("lastName").value,
+    firstname: document.getElementById("firstName").value,
+    email: document.getElementById("email").value,
+    subject: document.getElementById("subject").value, // ✅ Motif ajouté
+    message: document.getElementById("message").value,
+  };
+
+  const resBox = document.getElementById("support-response");
+
+  try {
+    const res = await fetch("/api/contact", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+
+    const result = await res.json();
+    if (result.success) {
+      resBox.style.color = "green";
+      resBox.textContent = "✅ Votre demande a bien été envoyée.";
+
+      // ✅ Efface tous les champs du formulaire
+      form.reset();
+    } else {
+      resBox.style.color = "red";
+      resBox.textContent = "❌ Erreur : " + (result.error || "Impossible d’envoyer.");
+    }
+  } catch (err) {
+    resBox.style.color = "red";
+    resBox.textContent = "❌ Erreur de connexion au serveur.";
+  }
+});
+</script>
+<!-- PAGE DRIVERS -->
+<section id="view-drivers" class="view">
+
+  <!-- Bloc 1 : Hero -->
+  <section class="driver-section driver-hero">
+    <div style="display:flex;align-items:center;gap:30px;flex-wrap:wrap;max-width:1200px;width:100%;">
+      <div style="flex:1;min-width:260px">
+        <h1>Livrez quand vous voulez, générez des revenus sur mesure</h1>
+        <p>Générez des revenus selon votre emploi du temps.</p>
+        <button class="btn ghost btn-start" style="margin-top:12px;">Commencez</button>
+      </div>
+      <div style="flex:1;min-width:260px">
+<img src="driver-intro.png" alt="Livreur FlashBring" style="max-width:118%;border-radius:12px">
+      </div>
+    </div>  
+  </section>
+
+  <!-- Bloc 2 : En savoir plus -->
+  <section class="driver-section half-height driver-more">
+    <div style="max-width:900px;text-align:center;">
+<h2>En savoir plus sur la livraison avec FlashBring</h2>
+      <p>Livrer avec Flashbring, c’est l’activité idéale pour compléter ses revenus en toute liberté. Vous pouvez livrer où vous voulez, quand vous voulez.</p>
+    </div>  
+  </section>
+
+<!-- Bloc 3 : Avantages -->
+<section class="driver-section half-height driver-advantages">
+  <div style="max-width:1200px; width:100%; text-align:center; margin-bottom:40px;">
+    <h2>Gagnez de l'argent à votre rythme</h2>
+  </div>
+  <div style="display:flex;gap:40px;flex-wrap:wrap;max-width:1200px;margin:0 auto;">
+    <div style="flex:1;min-width:260px">
+      <h3>Votre vélo, vos horaires</h3>
+      <p>Découvrez votre ville tout en livrant à vélo et ce, quand vous le voulez - pour une heure, un weekend, ou tout au long de la semaine.</p>
+    </div>
+    <div style="flex:1;min-width:260px">
+      <h3>Paiement hebdomadaire</h3>
+      <p>Recevez vos paiements chaque début de semaine. Débloquez FlexPay pour être payé chaque jour.</p>
+    </div>
+    <div style="flex:1;min-width:260px">
+      <h3>Découvrez votre ville</h3>
+      <p>Profitez de chaque livraison pour explorer de nouveaux quartiers.</p>
+    </div>
+  </div>  
+</section>
+
+<hr class="driver-separator">
+
+  <!-- Bloc 6 : Commencer -->
+  <section class="driver-section half-height driver-start">
+    <div style="display:flex;gap:40px;flex-wrap:wrap;max-width:1000px;">
+      <div style="flex:1;min-width:260px">
+        <h3>Nouveau sur Flashbring ?</h3>
+        <p>-  S'inscrire en tant que coursier</p>
+<p>- Mettez vos documents en ligne</p>
+<p>- Validez votre sac de livraison</p>
+<p>- Dès que votre profil est activé, vous pouvez commencer à livrer pour Flashbring..</p>
+      </div>
+      <div style="flex:1;min-width:260px">
+        <h3>Déjà partenaire Flashbring ?</h3>
+        <p>- Rendez-vous sur votre espace compte</p>
+ <p>- Acceptez les conditions</p>
+ <p>- Livrez dès que vous le souhaitez.</p>
+      </div>
+    </div>
+  </section>
+
+
+<!-- Bloc 7 : FAQ -->
+<section class="driver-section half-height driver-faq">
+  <div style="max-width:900px;">
+    <h2>FAQ</h2>
+
+    <div class="accordion">
+      <div class="accordion-item">
+        <button class="accordion-header">Comment mettre en ligne mes documents ?</button>
+        <div class="accordion-content">
+          <p>Vous pouvez renseigner vos documents directement depuis votre compte.</p>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <button class="accordion-header">Pourquoi mes documents sont-ils refusés ?</button>
+        <div class="accordion-content">
+          <p>Si votre document est refusé, c’est très certainement pour une des 3 raisons suivantes :</p>
+<p>- C'est une photocopie ou un document en noir et blanc </p>
+<p>- Les quatre bords du document ne sont pas visibles </p>
+<p>- Le document est flou, des reflets, des ombres ou des objets masquent une partie de l’image </p>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <button class="accordion-header">Comment activer mon compte ?</button>
+        <div class="accordion-content">
+          <p>Validez vos documents + sac de livraison conforme.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<div class="driver-section driver-contact">
+  <h2>Vous avez d'autres questions ?</h2>
+  <form class="contact-form" id="driverContactForm">
+    
+    <div class="row">
+      <div>
+        <label for="firstname">Prénom</label>
+        <input type="text" id="firstname" name="firstname" class="form-input" required>
+      </div>
+      <div>
+        <label for="lastname">Nom</label>
+        <input type="text" id="lastname" name="lastname" class="form-input" required>
+      </div>
+    </div>
+    
+    <div>
+      <label for="email">Adresse e-mail</label>
+      <input type="email" id="email" name="email" class="form-input" required>
+    </div>
+    
+    <div>
+      <label for="message">Description du problème</label>
+      <textarea id="message" name="message" class="form-input" rows="5" required></textarea>
+    </div>
+    
+    <div style="display:flex;gap:12px;justify-content:center;margin-top:10px;">
+      <button type="submit" class="btn-primary">Envoyer</button>
+      <button type="reset" class="btn ghost">Effacer</button>
+    </div>
+  </form>
+</div>
+
+<div id="drivers-list"></div>
+
+</section>
+
+
+<section id="view-partners" class="view"><div class="page">
+  <h1>Devenir partenaire</h1>
+  <p>Commerces et enseignes : connectez votre catalogue et commencez à livrer via FlashBring. <a href="mailto:partners@flashbring.com">partners@flashbring.com</a></p>
+</div></section>
+
+
+<section id="view-faq" class="view">
+  <div class="page">
+    <h1>FAQ – Foire Aux Questions</h1>
+    <p>Retrouvez ici les réponses aux questions les plus fréquentes sur FlashBring.</p>
+
+    <div class="faq">
+
+      <!-- Question 1 -->
+      <div class="faq-item">
+        <button class="faq-question">Comment fonctionne FlashBring ?<span class="faq-arrow">▼</span>
+</button>
+        <div class="faq-answer">
+          <p>FlashBring vous permet de commander différents produits (nourriture, high-tech, mode, etc.) depuis vos commerces locaux, et de tout recevoir en une seule livraison, dans la même journée.</p>
+        </div>
+      </div>
+
+      <!-- Question 2 -->
+      <div class="faq-item">
+        <button class="faq-question">Dans quelles villes FlashBring est disponible ?<span class="faq-arrow">▼</span> </button>
+        <div class="faq-answer">
+          <p>Nous commençons par Nancy et ses alentours, puis très vite Metz et Lunéville. Notre ambition est de couvrir toute la France.</p>
+        </div>
+      </div>
+
+      <!-- Question 3 -->
+      <div class="faq-item">
+        <button class="faq-question">Quels types de produits puis-je commander ?<span class="faq-arrow">▼</span> </button>
+        <div class="faq-answer">
+          <p>Alimentaire, high-tech, mode, déco, pharmacie… tout ce dont vous avez besoin au quotidien, provenant directement de vos commerces locaux.</p>
+        </div>
+      </div>
+
+      <!-- Question 4 -->
+      <div class="faq-item">
+        <button class="faq-question">Quels sont les délais de livraison ?<span class="faq-arrow">▼</span> </button>
+        <div class="faq-answer">
+          <p>En moyenne, 32 minutes. Nous garantissons la livraison dans la journée, sous réserve de la disponibilité des produits et de la zone couverte.</p>
+        </div>
+      </div>
+
+      <!-- Question 5 -->
+      <div class="faq-item">
+        <button class="faq-question">Quels sont les moyens de paiement acceptés ?<span class="faq-arrow">▼</span> </button>
+        <div class="faq-answer">
+          <p>Carte bancaire (Visa, Mastercard), Apple Pay, Google Pay. Tous les paiements sont sécurisés via Stripe.</p>
+        </div>
+      </div>
+
+      <!-- Question 6 -->
+      <div class="faq-item">
+        <button class="faq-question">Est-ce que mes données personnelles sont protégées ?<span class="faq-arrow">▼</span> </button>
+        <div class="faq-answer">
+          <p>Oui. Nous respectons le RGPD : vos données ne sont utilisées que pour vos commandes et ne sont jamais revendues.</p>
+        </div>
+      </div>
+
+      <!-- Question 7 -->
+      <div class="faq-item">
+        <button class="faq-question">Comment devenir livreur FlashBring ?<span class="faq-arrow">▼</span> </button>
+        <div class="faq-answer">
+          <p>Il suffit de vous inscrire via la section <a href="#drivers">Devenir livreur</a>. Vous aurez besoin d’un vélo, scooter ou voiture, et nous vérifions chaque profil.</p>
+        </div>
+      </div>
+
+      <!-- Question 8 -->
+      <div class="faq-item">
+        <button class="faq-question">Puis-je devenir partenaire en tant que commerce ?<span class="faq-arrow">▼</span> </button>
+        <div class="faq-answer">
+          <p>Oui. Rejoignez-nous via <a href="#partners">Devenir partenaire</a> et augmentez votre visibilité locale.</p>
+        </div>
+      </div>
+
+      <!-- Question 9 -->
+      <div class="faq-item">
+        <button class="faq-question">Les frais de livraison sont-ils fixes ?<span class="faq-arrow">▼</span> </button>
+        <div class="faq-answer">
+          <p>Les frais varient selon la distance et la taille de la commande. Ils sont toujours affichés avant validation.</p>
+        </div>
+      </div>
+
+      <!-- Question 10 -->
+      <div class="faq-item">
+        <button class="faq-question">Puis-je suivre ma commande en temps réel ?<span class="faq-arrow">▼</span> </button>
+        <div class="faq-answer">
+          <p>Oui, chaque commande est suivie en temps réel depuis l’application ou le site.</p>
+        </div>
+      </div>
+
+      <!-- Question 11 -->
+      <div class="faq-item"
+<div class="faq-item">
+        <button class="faq-question">Que faire si un produit est indisponible ?<span class="faq-arrow">▼</span>
+</button>
+        <div class="faq-answer">
+          <p>Si un produit n’est pas disponible, vous êtes remboursé automatiquement. Vous pouvez également choisir une alternative proposée par le commerçant.</p>
+        </div>
+      </div>
+
+      <!-- Question 12 -->
+      <div class="faq-item">
+        <button class="faq-question">Puis-je commander dans plusieurs magasins en même temps ?<span class="faq-arrow">▼</span> </button>
+        <div class="faq-answer">
+          <p>Oui ! C’est notre force : vous pouvez mélanger nourriture, high-tech et déco dans un seul panier.</p>
+        </div>
+      </div>
+
+      <!-- Question 13 -->
+      <div class="faq-item">
+        <button class="faq-question">Quels sont vos horaires de livraison ?<span class="faq-arrow">▼</span> </button>
+        <div class="faq-answer">
+          <p>Nous livrons 7j/7, de 9h à 22h. Les horaires peuvent varier selon les commerces partenaires.</p>
+        </div>
+      </div>
+
+      <!-- Question 14 -->
+      <div class="faq-item">
+        <button class="faq-question">Que se passe-t-il si je ne suis pas chez moi ?<span class="faq-arrow">▼</span> </button>
+        <div class="faq-answer">
+          <p>Le livreur tentera de vous contacter. En cas d’absence totale, la commande pourra être annulée sans remboursement.</p>
+        </div>
+      </div>
+
+      <!-- Question 15 -->
+      <div class="faq-item">
+        <button class="faq-question">Comment signaler un problème de livraison ?<span class="faq-arrow">▼</span> </button>
+        <div class="faq-answer">
+          <p>Rendez-vous dans la section <a href="#support">Support</a> et remplissez le formulaire. Nous répondons sous 24h.</p>
+        </div>
+      </div>
+
+      <!-- Question 16 -->
+      <div class="faq-item">
+        <button class="faq-question">Puis-je annuler une commande ?<span class="faq-arrow">▼</span> </button>
+        <div class="faq-answer">
+          <p>Oui, tant que le commerçant n’a pas accepté la commande. Après acceptation, l’annulation n’est plus possible.</p>
+        </div>
+      </div>
+
+      <!-- Question 17 -->
+      <div class="faq-item">
+        <button class="faq-question">Quels produits ne sont pas remboursables ?<span class="faq-arrow">▼</span> </button>
+        <div class="faq-answer">
+          <p>Les produits alimentaires et les frais de livraison ne sont pas remboursables une fois livrés.</p>
+        </div>
+      </div>
+
+      <!-- Question 18 -->
+      <div class="faq-item">
+        <button class="faq-question">Comment fonctionne le code PIN à la livraison ?<span class="faq-arrow">▼</span> </button>
+        <div class="faq-answer">
+          <p>À la remise de votre commande, vous donnez au livreur un code PIN à 4 chiffres pour confirmer la réception.</p>
+        </div>
+      </div>
+
+      <!-- Question 19 -->
+      <div class="faq-item">
+        <button class="faq-question">Proposez-vous des réductions ou programmes de fidélité ?<span class="faq-arrow">▼</span> </button>
+        <div class="faq-answer">
+          <p>Des promotions ponctuelles seront disponibles. Nous travaillons également sur un programme fidélité.</p>
+        </div>
+      </div>
+
+      <!-- Question 20 -->
+      <div class="faq-item">
+        <button class="faq-question">Comment contacter FlashBring ?<span class="faq-arrow">▼</span> </button>
+        <div class="faq-answer">
+          <p>Vous pouvez nous écrire via le formulaire <a href="#support">Support</a> ou directement à <a href="mailto:ethan.diart09@gmail.com">ethan.diart09@gmail.com</a>.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+.faq-item {
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 10px;
+}
+.faq-question {
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: left;
+  padding: 12px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.faq-arrow {
+  transition: transform 0.3s ease;
+}
+.faq-question.active .faq-arrow {
+  transform: rotate(180deg); /* flèche vers le haut */
+}
+.faq-answer {
+  display: none;
+  padding: 0 12px 12px;
+  color: #333;
+}
+</style>
+
+<script>
+document.querySelectorAll(".faq-question").forEach(btn => {
+  btn.addEventListener("click", () => {
+    btn.classList.toggle("active");
+    const answer = btn.nextElementSibling;
+    answer.style.display = answer.style.display === "block" ? "none" : "block";
+  });
+});
+</script> 
+
+
+<section id="view-testimonials" class="view">
+
+  <!-- Header -->
+  <div class="reviews-header">
+    <div class="reviews-brand">
+      <div class="brand">
+        <b>FlashBring</b>
+      </div>
+      <div id="reviews-count">Avis (0)</div>
+
+ <!-- Bouton écrire un avis sous FlashBring -->
+      <button id="btnWriteReview" class="btn">✍️ Écrire un avis</button>
+    </div>
+
+    <div class="reviews-stats">
+      <div class="average">
+        <span id="avg-rating">0.0</span>
+        <div id="avg-stars">⭐⭐⭐⭐⭐</div>
+        <p id="total-reviews">(0 avis)</p>
+      </div>
+
+
+<div class="rating-bars">
+  <div class="bar">
+    <span>5 étoiles</span>
+    <div class="progress"><div id="bar-5"></div></div>
+  </div>
+  <div class="bar">
+    <span>4 étoiles</span>
+    <div class="progress"><div id="bar-4"></div></div>
+  </div>
+  <div class="bar">
+    <span>3 étoiles</span>
+    <div class="progress"><div id="bar-3"></div></div>
+  </div>
+  <div class="bar">
+    <span>2 étoiles</span>
+    <div class="progress"><div id="bar-2"></div></div>
+  </div>
+  <div class="bar">
+    <span>1 étoile</span>
+    <div class="progress"><div id="bar-1"></div></div>
+  </div>
+</div>
+  </div>
+</div>
+  <!-- Grille des avis -->
+  <div id="reviews-grid" class="reviews-grid"></div>
+</section>
+
+
+<script>
+async function loadRatings() {
+  try {
+const res = await fetch("/api/reviews/global");
+    const reviews = await res.json();
+
+    if (!Array.isArray(reviews)) return;
+
+    // Initialiser le compteur pour chaque note
+    const counts = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
+    reviews.forEach(r => {
+      if (counts[r.rating] !== undefined) {
+        counts[r.rating]++;
+      }
+    });
+
+    const total = reviews.length || 1; // éviter division par 0
+
+    // Définir les couleurs par étoile
+    const colors = {
+      5: "#28a745",   // vert foncé
+      4: "#5cd65c",   // vert clair
+      3: "#ff9800",   // orange
+      2: "#ff5722",   // orange-rouge
+      1: "#f44336"    // rouge
+    };
+
+    // Calculer les pourcentages et appliquer style
+    Object.keys(counts).forEach(star => {
+      const percent = (counts[star] / total) * 100;
+      const bar = document.getElementById(`bar-${star}`);
+      bar.style.width = percent + "%";
+      bar.style.background = colors[star]; // ✅ couleur dynamique
+    });
+
+    // Mettre à jour le compteur total d’avis
+    document.getElementById("reviews-count").textContent = `${total} avis`;
+    document.getElementById("total-reviews").textContent = `(${total} avis)`;
+
+    // Calculer la moyenne arrondie à 1 décimale
+    const avg = reviews.reduce((sum, r) => sum + r.rating, 0) / total;
+    document.getElementById("avg-rating").textContent = avg.toFixed(1);
+
+    // Afficher les étoiles moyennes (arrondi inférieur pour les pleines)
+    const stars = "★".repeat(Math.floor(avg)) + "☆".repeat(5 - Math.floor(avg));
+    document.getElementById("avg-stars").textContent = stars;
+
+ // Injecter les avis
+    const grid = document.getElementById("reviews-grid");
+    if (grid) {
+      grid.innerHTML = "";
+      reviews.forEach(r => {
+        const card = document.createElement("div");
+        card.className = "review-card";
+
+        const stars = "★".repeat(r.rating) + "☆".repeat(5 - r.rating);
+
+        // Format date
+        const date = new Date(r.created_at).toLocaleDateString("fr-FR", {
+          year: "numeric",
+          month: "long",
+          day: "numeric"
+        });
+
+        card.innerHTML = `
+          <h4>${r.user?.firstname || "Client"} ${r.user?.lastname || ""}</h4>
+          <small class="review-date">${date}</small>
+          <div class="stars">${stars}</div>
+          <p>${r.comment}</p>
+          <div class="review-actions">
+          </div>
+        `;
+
+        grid.appendChild(card);
+      });
+    }
+  } catch (err) {
+    console.error("Erreur lors du chargement des avis:", err);
+  }
+}
+
+
+loadRatings();
+
+
+ document.getElementById("btnWriteReview").addEventListener("click", () => {
+    window.location.href = "write-review.html"; // 🔥 nouvelle page
+  });
+</script>
+
+
+
+<section id="view-orders" class="view">
+  <div class="orders-page">
+    <h1>Mes commandes passées</h1>
+<div id="orders-container">   
+ <!-- Les commandes seront injectées ici par loadOrders() -->
+  </div>
+</section>
+
+
+
+<section id="view-favorites" class="view">
+  <div class="page">
+    <h1>Mes favoris</h1>
+    <div id="favorites-container"></div>
+  </div>
+</section>
+
+
+
+
+
+
+
+
+
+<!-- PAGE PARRAINER -->
+<section id="view-refer" class="view">
+  <div class="page">
+    <h1>Faites économiser vos amis</h1>
+    <p>
+      Vous obtenez tous les deux une promotion lorsque votre ami effectue sa première commande de livraison.
+      <a href="#" id="openReferralDetails">Voir les détails</a>
+    </p>
+    <!-- Ligne fine de séparation -->
+    <hr style="border:0; border-top:1px solid #eaeaea; margin:10px 0;">  
+    <!-- Bloc Parrain -->
+    <h2>Vous obtenez 10 € de crédit</h2>
+    <p> Sur deux de vos commandes, vous pouvez choisir de bénéficier d’une remise de 5 € sur les frais de livraison. Cette offre est valable une seule fois par commande et reste utilisable pendant un an.</p>
+  
+    <!-- Bloc Filleul -->
+    <h2>Ils bénéficient de la livraison gratuite </h2>
+    <p>Frais de livraison gratuits dès 15 € de commande pour la 1ère commande, et -50% sur les frais pour la 2ème dès 30 €.</p>
+  
+<!-- Code parrainage -->
+<div class="referral-box">
+  <b>Votre code :</b>
+  <span id="referralCode">EATS-9K3EBPVOGU</span>
+  <button id="copyReferral">Copier</button>
+</div>
+
+
+
+    <!-- Boutons partage -->
+<div class="share-buttons">
+  <div style="display:flex;gap:12px;flex-wrap:wrap">
+    <a href="https://www.facebook.com/sharer/sharer.php?u=https://flashbring.com" target="_blank" class="share-btn"> Facebook </a>
+    <a href="https://twitter.com/intent/tweet?url=https://flashbring.com&text=Rejoins-moi sur FlashBring avec ce code !" target="_blank" class="share-btn"> Twitter </a>
+    <a href="mailto:?subject=Ton code FlashBring&body=Voici mon code : EATS-9K3EBPVOGU. Télécharge FlashBring et profite d’une réduction !" class="share-btn">️ E-mail </a>
+  </div>
+</div>
+</section>
+
+
+
+<!-- RESULTATS DE RECHERCHE -->
+<section id="view-results" class="view" style="display:none;max-width:1100px;margin:0 auto;padding:24px 16px">
+  <h2 id="resTitle" style="margin:0 0 16px">Résultats</h2>
+
+  <div id="resSummary" class="muted" style="margin-bottom:14px"></div>
+
+  <div id="resMerchants" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px"></div>
+
+  <div id="resProducts" style="margin-top:22px">
+    <h3 style="margin:16px 0 10px">Produits</h3>
+    <div id="resProductsGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px"></div>
+  </div>
+</section>
+
+
+
+</main>
+
+
+<footer>
+  <div class="container fcols">
+    <div>   
+      <div class="brand" style="gap:10px;margin-bottom:8px">
+        <div class="brand-badge">⚡️</div><b>FlashBring</b>
+      </div>
+      <div>Livraison locale tout-en-un.</div>
+      <div class="copy">© <span id="y"></span> FlashBring  - Tous droits réservés </div>
+    </div>
+<div>
+  <b>Entreprise</b>
+  <a href="#about">À propos</a>
+  <a href="#careers">Carrières</a>
+  <a href="#press">Presse</a>
+  <a href="#commitments">Nos engagements</a>
+  <a href="#testimonials">Avis de nos clients</a>
+</div>	
+    <div> 
+<b>Légal</b>
+      <a href="#terms">CGU</a>
+      <a href="#cgv">CGV</a>
+      <a href="#refunds">Remboursements</a>
+      <a href="#privacy">Confidentialité</a>
+      <a href="#cookies">Cookies</a>
+      <a href="#legal">Mentions légales</a>
+   </div>
+<div>
+  <b>Contact</b>
+  <a href="#support">Support</a>
+  <a href="#drivers">Devenir livreur</a>
+  <a href="#partners">Devenir partenaire</a>
+  <a href="#faq">FAQ</a>
+  <a href="#report">Signalement problème</a>
+</div>
+  </div>
+</footer>
+
+
+
+
+
+
+<!-- Fiche annonce (vue magasin) -->
+<section id="view-store" class="view" style="display:none;">
+  <div class="page">
+    <h1 id="storeTitle">Nom de l’enseigne</h1>
+    <p>Ici apparaîtra le catalogue/menu plus tard…</p>
+    <button onclick="history.back()">← Retour</button>
+  </div>
+</section>
+
+
+
+
+
+<!-- LOGIN / REGISTER MODAL -->
+<div id="authModal"
+     style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);
+            align-items:center;justify-content:center;z-index:9999">
+  <div style="background:#fff;padding:24px;border-radius:16px;max-width:400px;width:90%;
+              box-shadow:0 10px 30px rgba(0,0,0,.2)">
+  
+  
+<div id="loginView" class="active">
+<h2 style="text-align:center;margin-bottom:20px;">Commencez avec FlashBring</h2>
+
+
+
+<!-- Formulaire d'inscription -->
+<form id="registerForm" style="display:grid;gap:12px;margin-bottom:20px;">
+
+  <label for="firstname">Prénom</label>
+  <input type="text" id="firstname" name="firstname" placeholder="Votre prénom" required>
+
+  <label for="lastname">Nom</label>
+  <input type="text" id="lastname" name="lastname" placeholder="Votre nom" required>
+
+  <label for="email">Adresse e-mail</label>
+  <input type="email" id="email" name="email" placeholder="exemple@gmail.com" required>
+
+  <label for="password">Mot de passe</label>
+<input type="password" id="password" name="password" 
+       placeholder="Entrer un mot de passe" minlength="8" required>
+<label class="checkbox-terms">
+    <input type="checkbox" id="terms" required>
+    J'accepte les conditions d’utilisation
+  </label>
+
+
+<button type="submit" class="btn" style="font-size:16px;font-weight:600;">
+  M’inscrire
+</button>
+</form>
+
+<!-- OU séparateur -->
+<div style="text-align:center;margin:10px 0;font-weight:600;">ou</div>
+
+<!-- Boutons sociaux -->
+<div style="display:grid;gap:10px;margin-bottom:12px">
+  <button id="googleLogin" class="btn" style="display:flex;align-items:center;justify-content:center;gap:8px;font-size:14px;font-weight:600;">
+    <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" width="20" height="20">
+    Continuer avec Google
+  </button>
+
+<!-- Apple -->
+<button id="appleLogin" class="btn" 
+        style="display:flex;align-items:center;justify-content:center;gap:8px;font-size:14px;font-weight:600;background:#fff;color:#000;border:1px solid #ccc;padding:12px;">
+  <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 448 512" fill="currentColor">
+    <path d="M350.5 129.3c-17.6 0-39.6-11.9-65.1-11.6-26.6.2-52.8 15.5-67.1 15.5-14.1 0-38.2-14.9-62.9-14.5-32.4.5-62.5 19.3-79.1 49-33.8 58.7-8.6 145.5 24.2 193.1 16 23.5 34.9 49.9 60.1 49.1 24-.9 33-15.8 62.1-15.8 29.1 0 37.3 15.8 62.9 15.4 25.9-.4 42.2-23.5 58.1-47.1 18.1-26.5 25.5-52.3 26-53.7-.5-.2-50-19.2-50.5-76.2-.4-47.5 38.5-70.1 40.3-71.3-22-32-55.4-35.5-65-36.4zM290.3 88.7c13.7-16.6 22.8-39.7 20.3-62.7-19.6.8-43.2 13.1-57.2 29.7-12.6 14.6-23.4 38.1-20.5 60.4 21.7 1.7 44-11 57.4-27.4z"/>
+  </svg>
+  Continuer avec Apple
+</button>
+</div>
+
+</div>
+
+    
+
+
+
+
+<script>
+document.getElementById('y').textContent = new Date().getFullYear();
+
+// ----- Catégories (pro + clean) -----
+const CATS = [
+  { id: 'food',    icon: '🍔️', title: 'Restaurants', sub: 'Pizza, burgers, sushi…' },
+  { id: 'grocery', icon: '🛒', title: 'Supermarchés', sub: 'Carrefour, Monoprix, Biocoop…' },
+  { id: 'fashion', icon: '👟', title: 'Mode', sub: 'Zara, H&M, Foot Locker…' },
+  { id: 'pharma',  icon: '💊', title: 'Santé et Médicaments', sub: 'Pharmacie, parapharmacie…' },
+  { id: 'tech',    icon: '💻', title: 'High-Tech', sub: 'Fnac, Apple, Boulanger…' },
+  { id: 'gifts',   icon: '🎁', title: 'Cadeaux et Loisirs', sub: 'Fleurs, chocolats, jouets…' },
+  { id: 'home',    icon: '🏡', title: 'Maison et Déco', sub: 'IKEA, Darty, déco…' },
+  { id: 'others',  icon: '✨', title: 'Autres', sub: 'Tout ce que vous cherchez' }
+];
+
+function renderCats(){
+  const wrap = document.getElementById('catGrid');
+  wrap.innerHTML = CATS.map(c => `
+    <a class="tile" href="${c.id}.html">
+      <div class="icon">${c.icon}</div>
+      <div>
+        <b>${c.title}</b>
+        <span>${c.sub}</span>
+      </div>
+    </a>
+  `).join('');
+}
+
+ renderCats();
+
+window.addEventListener("hashchange", renderRoute);
+    // ----- placeholders pour branchement API plus tard -----
+    // - Géocodage adresse -> suggestions / zone desservie
+    // - Liste magasins selon adresse/catégorie
+    // - Auth / panier / paiement
+    // Les points d’intégration seront : /api/stores, /api/quote, /api/orders
+  
+  // ... (ton JS existant)
+
+// --- Mini router pages internes ---
+const ROUTES = {
+  // Footer
+  '#about': 'view-about',
+  '#careers': 'view-careers',
+  '#press': 'view-press',
+  '#terms': 'view-terms',
+  '#privacy': 'view-privacy',
+  '#cookies': 'view-cookies',
+  '#support': 'view-support',
+  '#drivers': 'view-drivers',
+  '#partners': 'view-partners',
+
+  // User menu
+  '#orders': 'view-orders',
+  '#refer': 'view-refer',
+
+};
+
+</script>
+
+<script>
+
+
+<!-- Modal Parrainage -->
+<div id="referralModal" style="display:none;position:fixed;inset:0;z-index:999;background:rgba(0,0,0,0.5);align-items:center;justify-content:center">
+  <div style="background:#fff;padding:24px;border-radius:16px;max-width:500px;width:90%;position:relative">
+    <span id="closeReferralModal" style="position:absolute;top:10px;right:14px;cursor:pointer;font-size:18px">✖</span>
+    <h2>Inviter des amis</h2>
+    <p>
+      Lorsqu'un nouvel utilisateur applique votre code unique, il obtient une promotion pour sa première commande de livraison. 
+      Une fois qu'il a appliqué votre code et que sa commande est terminée, vous gagnez une promotion pour une utilisation future. 
+      Voir les détails de la promotion pour connaître les conditions spécifiques.
+    </p>
+  </div>
+</div>
+
+<script>
+  // Ouvrir / fermer le modal
+  document.getElementById("openReferralDetails").onclick = (e)=>{
+    e.preventDefault();
+    document.getElementById("referralModal").style.display = "flex";
+  };
+  document.getElementById("closeReferralModal").onclick = ()=>{
+    document.getElementById("referralModal").style.display = "none";
+  };
+  document.getElementById("referralModal").addEventListener("click",(e)=>{
+    if(e.target.id==="referralModal"){
+      document.getElementById("referralModal").style.display="none";
+    }
+  });
+
+  // Copier le code
+  document.getElementById("copyReferral").onclick = ()=>{
+    const code = document.getElementById("referralCode").textContent;
+    navigator.clipboard.writeText(code).then(()=>{
+      alert("Code copié : " + code);
+    });
+  };
+</script>
+
+<script>
+document.querySelectorAll(".accordion-header").forEach(button => {
+  button.addEventListener("click", () => {
+    const item = button.parentElement;
+    item.classList.toggle("active");
+  });
+});
+</script>
+<script>
+document.getElementById("driverContactForm").addEventListener("submit", async (e) => {
+  e.preventDefault(); // 🚫 empêche le refresh
+
+  const data = {
+    firstname: document.getElementById("firstname").value,
+    lastname: document.getElementById("lastname").value,
+    email: document.getElementById("email").value,
+    message: document.getElementById("message").value
+  };
+
+  try {
+    const res = await fetch("/api/contact", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+    });
+
+    const result = await res.json();
+
+    if (result.success) {
+      alert("✅ Message envoyé avec succès !");
+      e.target.reset();
+    } else {
+      alert("❌ Erreur : " + result.error);
+    }
+  } catch (err) {
+    console.error("Erreur:", err);
+    alert("❌ Impossible d’envoyer le message.");
+  }
+});
+</script>
+
+<script>
+
+
+function renderRoute() {
+  // reset
+  document.body.classList.remove("page-open");
+  document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
+
+  const hash = (location.hash || "").toLowerCase();
+  const viewId = ROUTES[hash];
+  console.log("ROUTE:", hash, "→", viewId);
+
+  if (viewId) {
+    document.body.classList.add("page-open");
+    const v = document.getElementById(viewId);
+    console.log("FOUND SECTION:", v);
+
+    if (v) {
+      v.classList.add("active");
+      console.log("ACTIVATED:", viewId);
+
+      // 👉 PAGE ORDERS
+      if (hash === "#orders") {
+        loadOrders?.();
+      }
+
+      // 👉 PAGE DRIVERS
+      if (hash === "#drivers") {
+        loadDrivers?.();
+      }
+    }
+  }
+}
+
+function showViewFromHash() {
+  // Récupère le hash actuel
+  const hash = window.location.hash || "#";
+  
+  // Masque toutes les vues
+  document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
+  document.body.classList.remove("page-open");
+
+  if (hash === "#" || hash === "") {
+    // On est sur la home
+    document.querySelectorAll(".home-section").forEach(s => s.style.display = "");
+  } else {
+    // Cache la home
+    document.querySelectorAll(".home-section").forEach(s => s.style.display = "none");
+    document.body.classList.add("page-open");
+
+    // Affiche la vue correspondante si elle existe
+    const view = document.querySelector(hash.replace("#", "#view-"));
+    if (view) {
+      view.classList.add("active");
+    }
+  }
+}
+</script>
+<script>
+// Écoute les changements de hash
+
+window.addEventListener("hashchange", showViewFromHash);
+// Exécute au chargement initial
+window.addEventListener("DOMContentLoaded", showViewFromHash);
+
+// === SIDEBAR USER (Bonjour XX → sidebar) ===
+const sidebar        = document.getElementById("userSidebar");
+const sidebarOverlay = document.getElementById("sidebarOverlay");
+const welcomeTrigger = document.getElementById("welcomeMsg"); // bouton "Bonjour XX"
+
+if (welcomeTrigger) {
+  welcomeTrigger.addEventListener("click", () => {
+    const isOpen = sidebar.classList.contains("open");
+    sidebar.classList.toggle("open");
+    sidebarOverlay.classList.toggle("active", !isOpen);
+  });
+}
+
+if (sidebarOverlay) {
+  sidebarOverlay.addEventListener("click", () => {
+    sidebar.classList.remove("open");
+    sidebarOverlay.classList.remove("active");
+  });
+}
+
+
+document.querySelectorAll("#userSidebar ").forEach(link => {
+  if (link.id !== "logoutBtn") {
+    link.addEventListener("click", () => {
+      sidebar.classList.remove("open"); 
+      sidebarOverlay.classList.remove("active");
+    });
+  }
+});
+
+// === AUTH MODAL HANDLER ===
+const authModal    = document.getElementById("authModal");
+const loginView    = document.getElementById("loginView");
+const registerView = document.getElementById("registerView");
+const forgotView   = document.getElementById("forgotView");
+const btnLogin     = document.getElementById("btnLogin");
+const closeAuth    = document.getElementById("closeAuth");
+const userMenu     = document.getElementById("userMenu");
+const welcomeName  = document.getElementById("welcomeName"); 
+const sidebarName  = document.getElementById("sidebarName"); 
+const logoutBtn    = document.getElementById("logoutBtn");
+
+// --- Navigation dans le modal ---
+if (document.getElementById("showRegister")) {
+  document.getElementById("showRegister").onclick = () => {
+    loginView.style.display = "none";
+    registerView.style.display = "block";
+  };
+}
+if (document.getElementById("showLogin")) {
+  document.getElementById("showLogin").onclick = () => {
+    registerView.style.display = "none";
+    forgotView.style.display = "none";
+    loginView.style.display = "block";
+  };
+}
+if (document.getElementById("showForgot")) {
+  document.getElementById("showForgot").onclick = () => {
+    loginView.style.display = "none";
+    forgotView.style.display = "block";
+  };
+}
+if (document.getElementById("backToLogin")) {
+  document.getElementById("backToLogin").onclick = () => {
+    forgotView.style.display = "none";
+    loginView.style.display = "block";
+  };
+}
+
+// --- Ouverture modal login ---
+if (btnLogin) {
+  btnLogin.addEventListener("click", () => {
+    authModal.style.display = "flex";
+    loginView.style.display = "block";
+    registerView.style.display = "none";
+    forgotView.style.display = "none";
+  });
+}
+
+// --- Fermeture modal ---
+if (closeAuth) {
+  closeAuth.addEventListener("click", () => {
+    authModal.style.display = "none";
+  });
+}
+window.addEventListener("click", (e) => {
+  if (e.target === authModal) {
+    authModal.style.display = "none";
+    loginView.style.display = "block";
+    registerView.style.display = "none";
+    forgotView.style.display = "none";
+  }
+});
+
+// --- Vérifie la session utilisateur ---
+document.addEventListener("DOMContentLoaded", async () => {
+  try {
+    const res = await fetch("/api/users/me", { credentials: "include" });
+    if (res.ok) {
+      const user = await res.json();
+      btnLogin.style.display = "none";
+      userMenu.style.display = "flex";
+      const displayName = user.firstname || "Utilisateur";
+      if (welcomeName) welcomeName.textContent = displayName;
+      if (sidebarName) sidebarName.textContent = "Bonjour " + displayName;
+    } else {
+      btnLogin.style.display = "inline-flex";
+      userMenu.style.display = "none";
+      if (welcomeName) welcomeName.textContent = "";
+      if (sidebarName) sidebarName.textContent = "";
+    }
+  } catch (err) {
+    console.error("Erreur vérif session:", err);
+  }
+});
+
+// --- Boutons Google / Apple ---
+const googleBtn = document.getElementById("googleLogin");
+const appleBtn  = document.getElementById("appleLogin");
+
+if (googleBtn) {
+  googleBtn.addEventListener("click", () => {
+    window.location.href = "/api/auth/google?prompt=select_account";
+  });
+}
+if (appleBtn) {
+  appleBtn.addEventListener("click", () => {
+    window.location.href = "/api/auth/apple";
+  });
+}
+
+// --- Gestion du formulaire d'inscription ---
+const registerForm = document.getElementById("registerForm");
+
+if (registerForm) {
+  registerForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+const form = document.getElementById("registerForm");
+const firstname = form.querySelector("input[name='firstname']").value.trim();
+const lastname  = form.querySelector("input[name='lastname']").value.trim();
+const email     = form.querySelector("input[name='email']").value.trim();
+const password  = form.querySelector("input[name='password']").value.trim();
+const terms     = document.getElementById("terms").checked;
+    if (!terms) {
+      alert("Vous devez accepter les conditions d’utilisation ✅");
+      return;
+    }
+
+    try {
+      const res = await fetch("/api/users/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ firstname, lastname, email, password }),
+        credentials: "include"
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        console.log("✅ Inscription réussie:", data);
+
+        authModal.style.display = "none";
+        btnLogin.style.display = "none";
+        userMenu.style.display = "flex";
+        if (welcomeName) welcomeName.textContent = data.firstname || "Utilisateur";
+        if (sidebarName) sidebarName.textContent = "Bonjour " + (data.firstname || "Utilisateur");
+
+      } else {
+        const err = await res.json();
+        alert("Erreur inscription: " + (err.error || "Inconnue"));
+      }
+    } catch (err) {
+      console.error("Erreur requête /register:", err);
+      alert("Erreur serveur lors de l'inscription.");
+    }
+  });
+}
+
+
+// --- Déconnexion ---
+if (logoutBtn) {
+  logoutBtn.addEventListener("click", async (e) => {
+    e.preventDefault();
+
+    try {
+      await fetch("/api/users/logout", {
+        method: "POST",
+        credentials: "include" // 👈 important pour envoyer les cookies
+      });
+
+      // Réinitialise l'UI côté front
+      btnLogin.style.display = "block";
+      userMenu.style.display = "none";
+      if (welcomeName) welcomeName.textContent = "";
+      if (sidebarName) sidebarName.textContent = "";
+
+      // 🔄 Recharge propre
+      location.reload();
+    } catch (err) {
+      console.error("Erreur déconnexion:", err);
+    }
+  });
+}
+</script>
+
+<script>
+async function loadOrders() {
+  try {
+    const res = await fetch("/api/orders/me", { credentials: "include" });
+    if (!res.ok) {
+      document.getElementById("orders-container").innerHTML =
+        "<p>❌ Impossible de charger vos commandes.</p>";
+      return;
+    }
+
+    const orders = await res.json();
+
+    if (!orders.length) {
+      document.getElementById("orders-container").innerHTML =
+        "<p>Vous n’avez encore passé aucune commande.</p>";
+      return;
+    }
+
+    const html = orders
+      .filter(order => ["delivered", "cancelled"].includes(order.status)) // ⚡ seulement commandes passées
+      .map(order => {
+        const items = order.items || [];
+        const firstItem = items[0] || {};
+
+        return `
+          <div class="order-card"> 
+            <!-- Image produit en haut -->
+            <img src="${firstItem.image_url || '/placeholder.png'}" alt="">
+
+            <!-- Infos magasin + date -->
+            <div class="order-info">
+              <h3>${order.store?.name || "Magasin"}</h3>
+              <span class="muted">${new Date(order.created_at).toLocaleDateString("fr-FR")}</span>
+            </div>  
+
+            <!-- Produits -->
+            <div class="order-items">
+              ${items.length
+                ? items.map(it => `
+                    ${it.quantity} × ${it.name}
+                    ${it.supplements?.length
+                      ? ` (+ ${it.supplements.map(s => s.name).join(", ")})`
+                      : ""}
+                  `).join("<br>")
+                : "<em>Aucun produit</em>"
+              }
+            </div>
+
+            <!-- Frais -->
+            <div class="order-fees">
+              <span>Livraison : ${(order.delivery_fee || 0).toFixed(2)} €</span><br>
+              <span>Service : ${(order.service_fee || 0).toFixed(2)} €</span>
+            </div>
+
+            <!-- Total -->
+            <div class="order-footer">
+              <strong>Total : ${order.total?.toFixed(2) || "0.00"} €</strong>
+            </div>
+          </div>
+        `;
+      })
+      .join("");
+
+    document.getElementById("orders-container").innerHTML = html;
+  } catch (err) {
+    console.error("⚠️ Erreur loadOrders:", err);
+    document.getElementById("orders-container").innerHTML =
+      "<p>⚠️ Erreur lors du chargement des commandes.</p>";
+  }
+}
+
+document.addEventListener("DOMContentLoaded", loadOrders);
+</script>
+<script>
+async function loadFavorites() {
+  try {
+    const res = await fetch("/api/favorites", { credentials: "include" });
+    const data = await res.json();
+
+    if (!data.success || !data.favorites.length) {
+      document.getElementById("favorites-container").innerHTML =
+        "<p>Vous n’avez encore aucun favori.</p>";
+      return;
+    }
+
+const html = data.favorites.map(store => {
+  // déterminer la bonne page en fonction de la catégorie
+  let page = "";
+  switch (store.category) {
+    case "food":
+      page = "store-food.html";
+      break;
+    case "fashion":
+      page = "store-fashion.html";
+      break;
+    case "tech":
+      page = "store-tech.html";
+      break;
+    case "grocery":
+      page = "store-grocery.html";
+      break;
+    default:
+      page = "store-home.html"; // fallback
+  }
+
+  return `
+    <a href="${page}?id=${store.id}" class="fav-card">
+      <img src="${store.banner_url || "/placeholder.png"}" alt="${store.name}">
+      <div class="fav-info">
+        <h3>${store.name}</h3>
+        <div class="muted">${store.address || "Adresse non renseignée"}</div>
+      </div>
+    </a>
+  `;
+}).join("");
+
+    document.getElementById("favorites-container").innerHTML = html;
+  } catch (err) {
+    console.error("⚠️ Erreur chargement favoris:", err);
+    document.getElementById("favorites-container").innerHTML =
+      "<p>⚠️ Erreur lors du chargement des favoris.</p>";
+  }
+}
+document.addEventListener("DOMContentLoaded", loadFavorites);
+</script>
+<script>
+  const input = document.getElementById("keyword");
+  const suggestionBox = document.createElement("div");
+  suggestionBox.className = "suggestions";
+  input.parentNode.style.position = "relative"; // pour bien placer le dropdown
+  input.parentNode.appendChild(suggestionBox);
+
+  function goToResult(item) {
+    const { id } = item;
+    const store_category = (item.store_category || "").trim().toLowerCase(); // 🔑 normalisation
+
+    const pages = {
+      food: "store-food.html",
+      fashion: "store-fashion.html",
+      grocery: "store-grocery.html",
+      tech: "store-tech.html",
+      gifts: "store-gifts.html"
+    };
+
+    const page = pages[store_category] || "store.html";
+    window.location.href = `https://localhost:3000/${page}?id=${id}`;
+  }
+
+  // suggestions dynamiques
+  input.addEventListener("input", async () => {
+    const q = input.value.trim();
+    if (!q) {
+      suggestionBox.innerHTML = "";
+      return;
+    }
+
+    const res = await fetch(`/api/search?q=${encodeURIComponent(q)}`);
+    const data = await res.json();
+
+ suggestionBox.innerHTML = data.map(item => {
+      let iconHTML = "";
+
+      if (item.type === "store" && item.banner_url) {
+        // image du store
+        iconHTML = `<img src="${item.banner_url}" class="suggestion-banner" alt="${item.label}">`;
+      } else {
+        // loupe SVG identique à l'input
+        iconHTML = `
+          <span class="suggestion-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="#999" viewBox="0 0 24 24" width="18" height="18">
+              <path d="M10 2a8 8 0 0 1 8 8c0 2.21-.84 4.21-2.29 5.71l6 6-1.42 1.42-6-6A7.96 7.96 0 0 1 10 18a8 8 0 1 1 0-16m0 2a6 6 0 1 0 0 12A6 6 0 0 0 10 4Z"/>
+            </svg>
+          </span>
+        `;
+      }
+
+      return `
+        <div class="suggestion"
+             data-type="${item.type}"
+             data-id="${item.id}"
+             data-store_category="${item.store_category}">
+          ${iconHTML}
+          <span>${item.label}</span>
+        </div>
+      `;
+    }).join("");
+
+    suggestionBox.querySelectorAll(".suggestion").forEach(el => {
+      el.addEventListener("click", () => {
+        goToResult({
+          id: el.dataset.id,
+          store_category: el.dataset.store_category
+        });
+      });
+    });
+  });
+
+  // touche Entrée
+  input.addEventListener("keyup", async (e) => {
+    if (e.key === "Enter") {
+      const query = input.value.trim();
+      if (!query) return;
+      const res = await fetch(`/api/search?q=${encodeURIComponent(query)}`);
+      const data = await res.json();
+      if (data.length > 0) goToResult(data[0]);
+    }
+  });
+</script>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<script>
+  // 📍 Localisation du client (ex: Nancy → mais tu peux utiliser user.lat/lng depuis /api/users/me)
+  const clientLatLng = [48.6921, 6.1844];
+  const deliveryRadius = 15000; // 15 km
+
+  // Init map
+  const map = L.map("map").setView(clientLatLng, 12);
+
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    attribution: "© OpenStreetMap",
+  }).addTo(map);
+
+  // Cercle de livraison
+  L.circle(clientLatLng, {
+    color: "blue",
+    fillColor: "#007bff",
+    fillOpacity: 0.2,
+    radius: deliveryRadius
+  }).addTo(map);
+
+  // Marqueur du client
+  L.marker(clientLatLng).addTo(map)
+    .bindPopup("📍 Votre position")
+    .openPopup();
+
+  // ⚡ Récupérer les stores depuis ton backend
+// ⚡ Récupérer TOUS les stores depuis ton backend (sans filtre category)
+async function loadStores() {
+  try {
+    const res = await fetch(`/api/stores?lat=${clientLatLng[0]}&lng=${clientLatLng[1]}`);
+    const stores = await res.json();
+
+    function distance(lat1, lon1, lat2, lon2) {
+      return map.distance([lat1, lon1], [lat2, lon2]);
+    }
+
+    stores.forEach(store => {
+      if (!store.lat || !store.lng) return;
+
+      const dist = distance(clientLatLng[0], clientLatLng[1], store.lat, store.lng);
+
+      // ✅ Couleur en fonction de la zone
+      const iconColor = dist <= deliveryRadius ? "green" : "red";
+
+      const icon = L.divIcon({
+        className: "custom-icon",
+        html: `<div style="width:16px; height:16px; background:${iconColor}; border-radius:50%; border:2px solid #fff;"></div>`
+      });
+
+      L.marker([store.lat, store.lng], { icon }).addTo(map)
+        .bindPopup(`
+          <b>${store.name}</b><br>
+          Catégorie: ${store.category}<br>
+          ${store.address || ""}<br>
+          Distance: ${(dist/1000).toFixed(1)} km<br>
+          ${dist <= deliveryRadius ? "✅ Livraison possible" : "❌ Hors zone"}
+        `);
+    });
+  } catch (err) {
+    console.error("Erreur chargement stores:", err);
+  }
+}
+
+loadStores();
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get("openAuth") === "1") {
+ const modal = document.getElementById("authModal");
+if (modal) modal.style.display = "flex"; // 👉 FLEX et pas block   
+ const overlay = document.getElementById("authOverlay");
+    const loginView = document.getElementById("loginView");
+
+    if (overlay) overlay.classList.add("active"); // affiche l’overlay
+    if (loginView) loginView.classList.add("active"); // affiche le bloc login
+  }
+});
+</script>
+</body>
+</html>

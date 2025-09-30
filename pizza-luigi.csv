@@ -1,0 +1,7 @@
+store_name,product_name,description,price,category
+Pizzeria Luigi,Pizza Margherita,Tomate mozzarella basilic,"9,5",food
+Pizzeria Luigi,Pizza 4 Fromages,Tomate mozzarella gorgonzola chèvre parmesan,"10,5",food
+Pizzeria Luigi,Pizza Reine,Tomate mozzarella jambon champignons,"12,3",food
+Pizzeria Luigi,Pizza Calzone,Tomate mozzarella jambon oeuf champignons,"9,4",food
+Pizzeria Luigi,Coca Cola,Boisson gazeuse 33cl,2,drink
+Pizzeria Luigi,Tiramisu,Dessert italien maison,"1,5",dessert

@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FlashBring — Maison</title>
+<!-- ajoute ça comme dans cart.html -->
+  <script src="/utils/api.js"></script>
+  <script src="/js/cart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2"></script>
+<style>
+:root{
+      --bg:#ffffff;
+      --ink:#0f0f0f;
+      --muted:#6b6b6b;
+      --line:#eaeaea;
+      --card:#fafafa;   
+      --brand:#111111;
+      --radius:18px;
+      --shadow:0 10px 30px rgba(0,0,0,.06);
+    } 
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font:16px/1.5 Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+    a{color:inherit;text-decoration:none}
+    .container{max-width:1200px;margin:0 auto;padding:0 20px}
+  
+ /* Header */
+    header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.8);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+    .nav{display:flex;align-items:center;justify-content:space-between;gap:16px;height:68px}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:800}
+    .brand-badge{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;background:#111;color:#fff}
+    .tagline{display:none;color:var(--muted)}
+    .actions{display:flex;gap:10px}
+    .btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--ink);padding:10px 14px;border-radius:12px;background:#111;color:#fff;font-weight:600;cursor:pointer}
+    .btn.ghost{background:#fff;color:#111}
+    .btn:active{transform:translateY(1px)}
+
+
+.view .page {
+  max-width: 900px;
+  margin: 0 auto;      /* centre horizontalement */
+  padding: 24px 16px;  /* espace intérieur agréable */
+  box-sizing: border-box;
+}
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+  
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1;
+}
+  
+/* Footer */
+footer {
+  border-top: 1px solid #ddd; /* fine ligne de séparation */
+  padding: 30px 0;
+  color: #666;
+  font-size: 14px; 
+  background: #fff;
+ position: relative; 
+} 
+
+footer .container {
+  max-width: 1200px;  /* même largeur que la bannière et le contenu */
+  margin: 0 auto;     /* centre le bloc */
+  padding: 0 20px;    /* petit padding horizontal */
+}
+  
+.fcols {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 30px;
+}
+  
+.fcols a{
+display:block;
+color:var(--muted);
+margin: 10px 0;
+text-decoration: none;
+} 
+
+.copy { 
+  margin-top: 15px;
+  font-size: 13px;
+  color: #999;
+}
+footer .brand b {  
+  font-size: 18px;  
+  color: #000; /* ou la couleur de ton choix */
+} 
+footer .brand + div {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 10px;
+} 
+.footer-support {
+  position: absolute;
+  bottom: 10px;   /* colle en bas */
+  right: 20px;    /* colle à droite */
+  text-align: right;
+  font-size: 14px;
+  color: #000;
+}
+
+.hero {
+  position: relative;
+  width: 100%;
+  height: 325px;   /* 👉 c’est ICI que tu gères la hauteur visible */
+  overflow: hidden;
+  margin-top: 0;
+}
+
+.hero-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;    /* prend 100% de la hauteur définie dans .hero */
+  object-fit: cover; 
+  object-position: center; /* tu peux changer en "top" ou "bottom" pour recadrer */
+}
+
+.benefit-row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 200px;              /* 👉 espace contrôlé entre image et texte */
+  margin: 30px 0;         /* hauteur modérée */
+  padding: 0 60px;        /* espace latéral */
+  box-sizing: border-box;
+}
+
+.benefit-row.reverse {
+  flex-direction: row-reverse;
+}
+
+.benefit-image {
+  flex: 1;
+  max-width: 320px;       /* un peu plus petit */
+}
+
+.benefit-image img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+  object-fit: cover;
+}
+
+.benefit-textblock {
+  flex: 1;
+  max-width: 450px;
+}
+
+.benefit-textblock h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+  color: #111;
+}
+
+.benefit-textblock p {
+  font-size: 16px;
+  line-height: 1.5;
+  color: #444;
+}
+
+
+.plans {
+  text-align: center;
+  margin: 80px auto;
+}
+
+.plans h2 {
+  font-size: 36px;
+  margin-bottom: 50px;
+  color: #111;
+}
+
+
+.plan:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.price {
+  font-size: 28px;
+  font-weight: bold;
+  margin: 20px 0;
+  color: #111;
+}
+
+.plans-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 40px;
+  justify-items: stretch;   /* les colonnes prennent toute la même hauteur */
+  align-items: stretch;     /* force les blocs à s'étirer */
+}
+
+.plan {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* répartit le contenu */
+  background: #fff;
+  border: 2px solid #eee;
+  border-radius: 14px;
+  padding: 40px 30px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.plan h3 {
+  font-size: 26px;
+  margin-bottom: 15px;
+  text-align: center; /* uniformisé */
+}
+
+.plan ul {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  list-style: none;   /* ✅ enlève les puces */
+  padding: 0;         /* ✅ enlève l’indentation par défaut */
+  margin: 0;
+}
+
+.plan ul li {
+  margin: 12px 0;
+  font-size: 17px;
+  color: #444;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ddd;
+  width: 100%;
+  max-width: 260px;
+  text-align: center;
+}
+
+
+.plan .btn {
+  margin-top: 25px;
+  padding: 14px 28px;       /* ✅ plus gros */
+  font-size: 18px;          /* ✅ texte plus grand */
+  font-weight: 600;
+  border-radius: 8px;
+  background: #111;
+  color: #fff;
+  border: none;
+  text-align: center;
+  transition: background 0.3s ease;
+  cursor: pointer;
+  display: block;           /* ✅ force le centrage */
+  margin-left: auto;        /* ✅ centre horizontalement */
+  margin-right: auto;       /* ✅ centre horizontalement */
+}
+.plan .btn:hover {
+  background: #333;
+}
+
+.plan.highlight {
+  border: 2px solid #111;
+  background: #f7f7f7;
+  position: relative; /* nécessaire pour placer le badge */
+}
+
+/* Badge Populaire */
+.plan-badge {
+  position: absolute;
+  top: -14px;   /* au-dessus du bloc */
+  left: 50%;
+  transform: translateX(-50%);
+  background: #111;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 4px 14px;
+  border-radius: 20px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+/* Classe active quand on choisit un autre plan */
+.plan.selected {
+  border: 2px solid #111;
+}
+
+.plan ul li {
+  margin: 12px 0;
+  font-size: 17px;
+  color: #444;
+  padding-bottom: 10px;         /* espace sous le texte */
+  border-bottom: 1px solid #ddd; /* ligne de séparation */
+}
+
+.plan ul li:last-child {
+  border-bottom: none; /* pas de ligne sur le dernier */
+}
+
+
+.see-more {
+  font-size: 12px;     /* ✅ plus petit */
+  color: #888;         /* ✅ plus discret */
+  text-decoration: underline;
+  cursor: pointer;
+  margin-top: 6px;     /* ✅ rapproche du dernier <li> */
+  margin-bottom: 4px;
+  text-align: center;
+  transition: color 0.3s ease;
+}
+.see-more:hover {
+  color: #000;
+}
+
+/* --- Styles popups --- */
+.popup {
+  display: none; /* caché par défaut */
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.6);
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+
+.popup-close {
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  font-size: 22px;
+  cursor: pointer;
+  color: #333;
+}
+
+.popup p {
+  margin: 8px 0;
+  color: #444;
+}
+
+.popup-content {
+  background: #fff;
+  padding: 25px;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 600px; /* tu peux changer librement */
+  text-align: center;
+}
+
+.popup-title {
+  font-size: 22px;
+  margin-bottom: 20px;
+  color: #111;
+}
+
+.subscription-options {
+  border: 1px solid #ccc;   /* contour gris */
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.subscription-options hr {
+  border: none;
+  border-top: 1px solid #ccc; /* même couleur que le contour */
+  margin: 0;                 /* colle bien aux options */
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 20px;
+}
+
+
+.option-left {
+  text-align: left;
+}
+
+.option h4 {
+  margin: 0;
+  font-size: 18px;
+  color: #111;
+}
+
+.option .highlight {
+  color: #555;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.option .price {
+  font-size: 16px;
+  font-weight: bold;
+  margin: 4px 0;
+}
+
+.option .saving {
+  font-size: 13px;
+  color: #666;
+  margin-top: 4px;
+}
+
+.badge {
+  display: inline-block;
+  font-size: 12px;
+background: #4da6ff; 
+border: 1px solid #4da6ff;
+color: #fff;
+  border-radius: 8px;
+  padding: 2px 8px;
+  margin-bottom: 6px;
+}
+
+/* Radio custom */
+.option-right input[type="radio"] {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 2px solid #ccc;   /* même couleur que contour */
+  border-radius: 50%;
+  outline: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.option-right input[type="radio"]:checked {
+  background-color: #111;   /* noir */
+  border-color: #111;
+}
+
+.option-right input[type="radio"]:checked::after {
+  content: "";
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #fff;  /* rond blanc au centre */
+}
+
+.option-right input {
+  transform: scale(1.3);
+}
+
+
+
+.payment-section {
+  margin-top: 20px;
+}
+
+.payment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#payment-label {
+  font-size: 15px;
+  color: #111;
+}
+
+.btn-small {
+  font-size: 14px;
+  padding: 6px 12px;
+}
+
+.saved-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.saved-card img {
+  width: 26px;
+  height: auto;
+}
+
+.saved-card span {
+  font-size: 15px;
+  color: #333;
+}
+
+
+.billing-info {
+  margin-top: 20px;
+  padding: 10px 0;
+  font-size: 13px;   /* réduit la taille */
+  color: #444;
+  line-height: 1.4;
+  text-align: left;  /* texte aligné à gauche */
+}
+
+.billing-info strong {
+  color: #111;
+  font-weight: 600;
+}
+
+.billing-info .small-text {
+  font-size: 12px;   /* réduit encore plus pour la note */
+  color: #666;
+  margin-top: 6px;
+  display: block;
+}
+
+
+.billing-action {
+  margin-top: 20px;
+  width: 100%;
+}
+
+.btn-primary {
+  display: block;
+  width: 100%;
+  background: #111;
+  color: #fff;
+  padding: 14px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.btn-primary:hover {
+  background: #333;
+}
+
+</style>
+</head>
+<body>
+<main>
+<div class="page-container">
+<!-- Header -->
+<header>
+  <div class="container nav">
+      <a class="brand" href="https://localhost:3000">
+      <div class="brand-badge">⚡️</div>
+      <div>  
+        <div style="font-size:18px;letter-spacing:-.3px">FlashBring</div>
+        <div class="tagline">Tout, livré en 2h</div>
+      </div>
+    </a>
+<div class="actions">
+<div id="userMenu" style="display:none; position:relative; align-items:center; gap:12px;">
+    <span id="welcomeMsg" style="cursor:pointer;font-weight:600;font-size:15px;">
+      Bonjour <span id="welcomeName"></span>
+    </span>
+  </div>
+</div>
+</div>
+  </header>
+
+
+<section class="hero">
+  <img src="banner-subscriptions.jpg" alt="Abonnements livraison" class="hero-bg">
+  <div class="hero-overlay"></div>
+</section>
+
+
+<!-- Section 1 -->
+<section class="benefit-row">
+  <div class="benefit-image">
+    <img src="delivery.jpg" alt="Livraison gratuite">
+  </div>
+  <div class="benefit-textblock">
+    <h2>Chaque mois, une livraison gratuite rien que pour vous</h2>
+    <p>Tous les mois, bénéficiez d’une livraison offerte sur vos commandes. Avec nous, pas de conditions cachées : vous payez uniquement vos produits, et nous prenons en charge le reste. C’est simple, clair et pensé pour vous.</p>
+  </div>
+</section>
+
+<!-- Section 2 -->
+<section class="benefit-row reverse">
+  <div class="benefit-image">
+    <img src="cashback.jpg" alt="Cashback">
+  </div>
+  <div class="benefit-textblock">
+    <h2>Cumulez du cashback</h2>
+    <p>Cumulez du cashback automatiquement à chaque achat et utilisez-le librement sur vos prochaines commandes. Un moyen simple et concret de faire baisser vos dépenses du quotidien. </p>
+  </div>
+</section>
+
+<section class="plans container">
+  <h2>Nos abonnements</h2>
+  <div class="plans-grid">
+    
+    <!-- Plan Essentiel -->
+    <div class="plan">
+      <h3>Essentiel</h3>
+      <p class="price">4,99 €/mois</p>
+      <ul>
+        <li>-10 % sur les frais de livraison</li>
+        <li>1 livraison gratuite</li>
+        <li>10 % offert sur les frais de service</li>
+      </ul>
+      <p id="see-essentiel" class="see-more">Voir plus</p>
+  <button id="open-essentiel" class="btn">Choisir Essentiel</button>
+    </div>
+
+    <!-- Plan Flash+ -->
+    <div class="plan highlight"> 
+      <div class="plan-badge">Populaire</div>
+      <h3>Flash+</h3>
+      <p class="price">12,99 €/mois</p>
+      <ul>
+        <li>-20 % sur les frais de livraison</li>
+        <li>5 % cashback</li>
+        <li>5 € offert</li>
+      </ul>
+      <p id="see-flashplus" class="see-more">Voir plus</p>
+  <button id="open-flashplus" class="btn">Choisir Flash+</button>
+    </div>  
+
+    <!-- Plan Premium -->
+    <div class="plan">
+      <h3>Premium</h3>
+      <p class="price">19,99 €/mois</p>
+      <ul>
+        <li>-50 % sur les frais de livraison</li>
+        <li>10 % cashback</li>
+        <li>Une surprise exclusive</li>
+      </ul>
+      <p id="see-premium" class="see-more">Voir plus</p>
+  <button id="open-premium" class="btn">Choisir Premium</button>
+    </div>
+
+  </div>
+</section>
+
+<!-- Popup Essentiel -->
+<div id="popup-essentiel" class="popup">
+  <div class="popup-content">
+    <span class="popup-close" data-close="popup-essentiel">&times;</span>
+    
+    <!-- Titre -->
+    <h3 class="popup-title">Rejoignez Flashbring Essentiel</h3>
+
+    <!-- Bloc abonnements -->
+    <div class="subscription-options">
+
+      <!-- Option mensuel -->
+      <div class="option">
+        <div class="option-left">
+          <h4>Mensuel</h4>
+          <p class="highlight">1er mois offert</p>
+          <p class="price">4,99 €/mois</p>
+        </div>
+        <div class="option-right">
+    <input type="radio" name="essentiel-plan" value="mensuel">
+        </div>
+      </div>
+
+      <hr>
+
+<!-- Option annuel -->
+<div class="option">
+  <div class="option-left">
+    <span class="badge">Meilleur rapport qualité / prix</span>
+    <h4>Annuel</h4>
+    <p class="highlight">1er mois offert</p>
+    <p class="price">3,99 €/mois <br><small>(facturé 47,99 €/an)</small></p>
+    <p class="saving">Économisez 20% par an par rapport à un abonnement mensuel.</p>
+  </div>
+  <div class="option-right">
+    <input type="radio" name="essentiel-plan" value="annuel" checked>
+  </div>
+</div>
+</div>
+
+<div id="payment-section" class="payment-section">
+  <div class="payment-header">
+    <span id="payment-label">Ajouter un moyen de paiement</span>
+    <button id="modifyCardBtn" class="btn btn-small" disabled>Modifier</button>
+  </div>
+  
+  <div id="saved-cards"></div>
+</div>
+
+
+<!-- Section Infos Facturation -->
+<div id="billing-info" class="billing-info">
+  <p>
+    La somme de <strong id="billing-amount">x,xx €/mois</strong>
+    vous sera facturée à partir du <strong id="billing-date"></strong>.
+    Annulation sans frais ni pénalités.
+  </p>
+<p id="billing-details" class="small-text">
+  En rejoignant Flashbring, vous autorisez Flashbring à vous facturer le montant indiqué,
+  puis chaque mois après cela. Vous pouvez annuler depuis l’application jusqu’à 24 heures
+  avant la fin de votre essai gratuit. 
+    <a id="cgv-link" href="/#cgv">Voir les conditions générales</a>.
+
+</p>
+<!-- Bouton d'action -->
+<div class="billing-action">
+  <button id="subscribeBtn" class="btn-primary">Essayez maintenant</button>
+</div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================
+     POPUP FLASH+
+====================== -->
+<div id="popup-flashplus" class="popup">
+  <div class="popup-content">
+    <span class="popup-close" data-close="popup-flashplus">&times;</span>
+    <h3 class="popup-title">Rejoignez Flashbring Flash+</h3>
+
+    <!-- Bloc abonnements -->
+    <div class="subscription-options">
+      <!-- Option mensuel -->
+      <div class="option">
+        <div class="option-left">
+          <h4>Mensuel</h4>
+          <p class="highlight">1er mois offert</p>
+          <p class="price">9,99 €/mois</p>
+        </div>
+        <div class="option-right">
+          <input type="radio" name="flashplus-plan" value="mensuel">
+        </div>
+      </div>
+
+      <hr>
+
+      <!-- Option annuel -->
+      <div class="option">
+        <div class="option-left">
+          <span class="badge">Meilleur rapport qualité / prix</span>
+          <h4>Annuel</h4>
+          <p class="highlight">1er mois offert</p>
+          <p class="price">9,99 €/mois <br><small>(facturé 119,99 €/an)</small></p>
+          <p class="saving">Économisez 15% par an par rapport à un abonnement mensuel.</p>
+        </div>
+        <div class="option-right">
+          <input type="radio" name="flashplus-plan" value="annuel" checked>
+        </div>
+      </div>
+    </div>
+
+    <!-- Paiement -->
+    <div class="payment-section">
+      <div class="payment-header">
+        <span>Ajouter un moyen de paiement</span>
+        <button class="btn btn-small" disabled>Modifier</button>
+      </div>
+      <div id="saved-cards-flashplus"></div>
+    </div>
+
+    <!-- Facturation -->
+    <div class="billing-info">
+      <p>
+        La somme de <strong id="billing-amount">x,xx €/mois</strong>
+        vous sera facturée à partir du <strong id="billing-date"></strong>.
+      </p>
+      <p id="billing-details" class="small-text">
+        En rejoignant Flashbring, vous autorisez Flashbring à vous facturer le montant indiqué,
+        puis chaque mois après cela. Vous pouvez annuler depuis l’application jusqu’à 24 heures
+        avant la fin de votre essai gratuit.
+        <a href="/#cgv">Voir les conditions générales</a>.
+      </p>
+      <div class="billing-action">
+        <button class="btn-primary">Essayez maintenant</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================
+     POPUP PREMIUM
+====================== -->
+<div id="popup-premium" class="popup">
+  <div class="popup-content">
+    <span class="popup-close" data-close="popup-premium">&times;</span>
+    <h3 class="popup-title">Rejoignez Flashbring Premium</h3>
+
+    <!-- Bloc abonnements -->
+    <div class="subscription-options">
+      <!-- Option mensuel -->
+      <div class="option">
+        <div class="option-left">
+          <h4>Mensuel</h4>
+          <p class="highlight">1er mois offert</p>
+          <p class="price">14,99 €/mois</p>
+        </div>
+        <div class="option-right">
+          <input type="radio" name="premium-plan" value="mensuel">
+        </div>
+      </div>
+
+      <hr>
+
+      <!-- Option annuel -->
+      <div class="option">
+        <div class="option-left">
+          <span class="badge">Meilleur rapport qualité / prix</span>
+          <h4>Annuel</h4>
+          <p class="highlight">1er mois offert</p>
+          <p class="price">14,99 €/mois <br><small>(facturé 179,99 €/an)</small></p>
+          <p class="saving">Économisez 20% par an par rapport à un abonnement mensuel.</p>
+        </div>
+        <div class="option-right">
+          <input type="radio" name="premium-plan" value="annuel" checked>
+        </div>
+      </div>
+    </div>
+
+    <!-- Paiement -->
+    <div class="payment-section">
+      <div class="payment-header">
+        <span>Ajouter un moyen de paiement</span>
+        <button class="btn btn-small" disabled>Modifier</button>
+      </div>
+      <div id="saved-cards-premium"></div>
+    </div>
+
+    <!-- Facturation -->
+    <div class="billing-info">
+      <p>
+        La somme de <strong id="billing-amount">x,xx €/mois</strong>
+        vous sera facturée à partir du <strong id="billing-date"></strong>.
+      </p>
+      <p id="billing-details" class="small-text">
+        En rejoignant Flashbring, vous autorisez Flashbring à vous facturer le montant indiqué,
+        puis chaque mois après cela. Vous pouvez annuler depuis l’application jusqu’à 24 heures
+        avant la fin de votre essai gratuit.
+        <a href="/#cgv">Voir les conditions générales</a>.
+      </p>
+      <div class="billing-action">
+        <button class="btn-primary">Essayez maintenant</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="faq container">
+  <h2>Questions fréquentes</h2>
+
+  <details>
+    <summary>Qu'est-ce que l'abonnement Flashbring ?</summary>
+    <p>
+      Flashbring est un abonnement qui vous permet d’économiser sur vos livraisons et de profiter d’avantages exclusifs. 
+      Selon la formule choisie (mensuelle ou annuelle), vous bénéficiez de :
+    </p>
+    <ul>
+      <li>Des réductions sur les frais de livraison (jusqu’à -50 % selon le plan).</li>
+      <li>Des offres spéciales et du cashback crédité automatiquement sur votre compte.</li>
+      <li>Des bonus de bienvenue (livraison gratuite ou crédit offert).</li>
+    </ul>
+    <p>
+      Avec Flashbring, quelques commandes suffisent pour rentabiliser votre abonnement.
+    </p>
+  </details>
+
+  <details>
+    <summary>Puis-je annuler quand je veux ?</summary>
+    <p>Oui, l'abonnement est sans engagement.</p>
+  </details>
+
+  <details>
+    <summary>Est-ce rentable dès la première commande ?</summary>
+    <p>Oui ! Dès 2-3 commandes par mois, vos économies dépassent le prix de l’abonnement.</p>
+  </details>
+
+  <details>
+    <summary>Comment fonctionne le cashback ?</summary>
+    <p>Le cashback est crédité automatiquement sur votre compte et déduit de vos prochaines commandes.</p>
+  </details>
+</section>
+
+<script>    
+// --- Récupérer utilisateur connecté ---
+  try {
+    const res = await apiFetch("/api/users/me");
+    console.log("DEBUG /me status:", res.status);
+         
+    if (res.ok) {
+      const user = await res.json();
+      console.log("🌐 /me data:", user);
+    
+      const displayName = user.firstname || "Utilisateur";
+      if (userMenu) userMenu.style.display = "flex";
+      if (welcomeName) welcomeName.textContent = displayName;
+      if (sidebarName) sidebarName.textContent = "Bonjour " + displayName;
+
+      if (addressEl) addressEl.textContent = user.street || "Adresse non définie";
+      if (cityEl) cityEl.textContent = user.city || "Ville non définie";
+    } else {
+      console.error("❌ /me pas OK:", await res.text());
+    }
+  } catch (err) {
+    console.error("❌ Erreur récupération utilisateur:", err);
+  }
+  
+   
+</script>
+</main>
+<footer>
+  <div class="container fcols">
+    <div>
+      <div class="brand" style="gap:10px;margin-bottom:8px">
+        <div class="brand-badge">⚡️</div><b>FlashBring</b>
+      </div>
+      <div>Livraison locale tout-en-un.</div>
+      <div class="copy">© <span id="y"></span>2025 FlashBring</div>
+    </div>
+    <div>
+      <b>Entreprise</b>
+<a href="index.html#about">À propos</a>
+<a href="index.html#careers">Carrières</a>
+<a href="index.html#press">Presse</a>
+    </div>
+    <div>
+      <b>Légal</b>
+<a href="index.html#terms">CGU</a>
+<a href="index.html#privacy">Confidentialité</a>
+<a href="index.html#cookies">Cookies</a>
+    </div>
+    <div>
+      <b>Contact</b>
+<a href="index.html#support">Support</a>
+<a href="index.html#drivers">Devenir livreur</a>
+<a href="index.html#partners">Devenir partenaire</a>
+</div>   
+
+  </div>
+</div>
+    
+      
+<div class="footer-support">
+  <div>Service client 7j/7</div>
+  <div>+33 6 33 93 36 90</div>
+</div>
+</footer> 
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  // Associe chaque bouton "Choisir ..." à son popup
+  const chooseMap = {
+    "open-essentiel": "popup-essentiel",
+    "open-flashplus": "popup-flashplus",
+    "open-premium": "popup-premium"
+  };
+        
+  // Ouvrir
+  Object.keys(chooseMap).forEach(id => {
+    const trigger = document.getElementById(id);
+    const popupId = chooseMap[id];
+    const popup = document.getElementById(popupId);
+  
+    if (trigger && popup) {
+      trigger.addEventListener("click", () => {
+        popup.style.display = "flex";
+      });
+    }
+  });
+    
+  // Fermer (bouton X)
+  document.querySelectorAll(".popup-close").forEach(closeBtn => {
+    closeBtn.addEventListener("click", () => {
+      const targetId = closeBtn.getAttribute("data-close");
+      document.getElementById(targetId).style.display = "none";
+    });
+  });
+
+  // Fermer si clic en dehors du contenu   
+  document.querySelectorAll(".popup").forEach(popup => {
+    popup.addEventListener("click", (e) => {
+      if (e.target === popup) {
+        popup.style.display = "none";
+      }
+    }); 
+  });
+});
+</script>
+<script>
+// ======================
+// ✅ Ajouter une carte
+// ======================
+document.getElementById("addCardBtn")?.addEventListener("click", async () => {
+  try {
+    // 1️⃣ Créer la carte côté Stripe
+    const { paymentMethod, error } = await stripe.createPaymentMethod({
+      type: "card",
+      card: cardNumber,
+      billing_details: {   
+        name: document.getElementById("card-holder-name")?.value || "Client",
+        address: { country: document.getElementById("card-country")?.value || "FR" }
+      }
+    });
+        
+    if (error) {
+      showToast("❌ " + error.message);
+      return;
+    }  
+  
+    // 2️⃣ Enregistrer la carte côté backend
+    const res = await apiFetch("/api/payments/add-card", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ paymentMethodId: paymentMethod.id })  
+    }); 
+   
+    const data = await res.json();
+    if (!res.ok) {
+      showToast("❌ Erreur: " + data.error);
+      return;
+    }
+  
+    const newCard = data;
+
+    // 3️⃣ Associer cette carte à la commande en cours
+    await apiFetch(`/api/orders/${CURRENT_ORDER_ID}/payment`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ method: `card:${newCard.id}` })
+    });
+       
+    // 4️⃣ UI + reset
+    showToast("✅ Carte enregistrée");
+    document.getElementById("cardPopup").style.display = "none";
+    document.getElementById("cardPopupOverlay").style.display = "none";
+       
+    await loadSavedCards();
+    await updatePaymentBlock();
+    
+    // 🔄 Reset des champs Stripe Elements + inputs
+    cardNumber.clear();
+    cardExpiry.clear();
+    cardCvc.clear();
+    document.getElementById("card-holder-name").value = "";
+    document.getElementById("card-country").value = "FR";
+  } catch (e) {   
+    console.error("❌ Erreur addCard:", e); 
+    showToast("❌ Impossible d’enregistrer la carte");
+  }  
+});
+
+// ======================
+// ✅ Charger cartes existantes
+// ======================
+async function loadSavedCards() {
+  try {
+    const res = await apiFetch("/api/payments/my-cards");
+    if (!res.ok) return;
+
+    const cards = await res.json();
+    console.log("DEBUG cartes:", cards);
+
+    const label = document.getElementById("payment-label");
+    const modifyBtn = document.getElementById("modifyCardBtn");
+
+// Icône custom toujours affichée
+const baseIcon = `
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="5" width="20" height="14" rx="2" ry="2"></rect>
+        <line x1="2" y1="10" x2="22" y2="10"></line>
+      </svg>
+    `;
+
+
+    // 👉 Si aucune carte
+    if (!cards.length) {
+      label.innerHTML = `
+        <div style="display:flex;align-items:center;gap:10px;">
+          ${baseIcon}
+          <span>Aucune carte enregistrée</span>
+        </div>
+      `;
+      modifyBtn.disabled = true;
+      return;
+    }
+
+    // 👉 Première carte unique
+    const card = cards[0];
+    const brand = card.brand ? card.brand.toLowerCase() : "default";
+    const last4 = card.last4 || "****";
+
+    // ✅ Logo + texte
+
+    label.innerHTML = `
+      <div style="display:flex;align-items:center;gap:10px;">
+        ${baseIcon}
+        <img src="/icons/${brand}.svg" alt="${brand}" style="width:28px;height:auto;" />
+        <span>${brand.toUpperCase()} •••• ${last4}</span>
+      </div>
+    `;
+
+modifyBtn.disabled = false;
+    window.SELECTED_PAYMENT_METHOD = `card:${card.id}`;
+  } catch (err) {
+    console.error("❌ Erreur loadSavedCards:", err);
+  }
+}
+document.addEventListener("DOMContentLoaded", () => {
+  loadSavedCards();
+});
+
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  // Charger les cartes enregistrées (commune à tous)
+  loadSavedCards();
+
+  // Config des plans
+  const plans = {
+    "essentiel": {
+      mensuel: "4,99 €/mois",
+      annuel: "47,99 €/an"
+    },
+    "flashplus": {
+      mensuel: "9,99 €/mois",
+      annuel: "119,99 €/an"
+    },
+    "premium": {
+      mensuel: "14,99 €/mois",
+      annuel: "179,99 €/an"
+    }
+  };
+
+  // Pour chaque type de plan → ajouter listeners
+  Object.keys(plans).forEach(plan => {
+    const radios = document.querySelectorAll(`input[name="${plan}-plan"]`);
+    radios.forEach(input => {
+      input.addEventListener("change", (e) => {
+        const type = e.target.value;
+        updateBillingInfo(plan, plans[plan][type], type);
+      });
+    });
+
+    // Init par défaut = annuel
+    updateBillingInfo(plan, plans[plan].annuel, "annuel");
+  });
+});
+
+function updateBillingInfo(plan, price, planType) {
+  const amountEl = document.querySelector(`#popup-${plan} #billing-amount`);
+  const dateEl = document.querySelector(`#popup-${plan} #billing-date`);
+  const detailsEl = document.querySelector(`#popup-${plan} #billing-details`);
+
+  if (!amountEl || !dateEl || !detailsEl) return;
+
+  // Montant choisi
+  amountEl.textContent = price;
+
+  // Date = aujourd'hui + 1 mois
+  const now = new Date();
+  now.setMonth(now.getMonth() + 1);
+  const options = { day: "2-digit", month: "long", year: "numeric" };
+  dateEl.textContent = now.toLocaleDateString("fr-FR", options);
+
+  // Texte dynamique
+  if (planType === "mensuel") {
+    detailsEl.innerHTML = `
+      En rejoignant Flashbring, vous autorisez Flashbring à vous facturer le montant indiqué,
+      puis <strong>chaque mois</strong> après cela. Vous pouvez annuler depuis l’application
+      jusqu’à 24 heures avant la fin de votre essai gratuit.
+      <a href="/#cgv">Voir les conditions générales</a>.
+    `;
+  } else {
+    detailsEl.innerHTML = `
+      En rejoignant Flashbring, vous autorisez Flashbring à vous facturer le montant indiqué,
+      puis <strong>tous les ans</strong> après cela. Vous pouvez annuler depuis l’application
+      jusqu’à 24 heures avant la fin de votre essai gratuit.
+      <a href="/#cgv">Voir les conditions générales</a>.
+    `;
+  }
+}
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  // Rendre toute l'option cliquable
+  document.querySelectorAll(".option").forEach(option => {
+    option.addEventListener("click", (e) => {
+      const radio = option.querySelector('input[type="radio"]');
+      if (radio) {
+        radio.checked = true;
+        radio.dispatchEvent(new Event("change", { bubbles: true })); // déclenche ton listener updateBillingInfo
+      }
+    });
+  });
+});
+</script>
+</body>
+</html>

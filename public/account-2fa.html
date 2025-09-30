@@ -1,0 +1,390 @@
+<!-- backend/public/account-2fa.html -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Configurer la vérification en deux étapes</title>
+ <style>
+    /* --- Global --- */
+ body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+      color: #333;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      background: #000;
+      color: #fff;
+      padding: 15px 25px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    /* --- En-tête de la page --- */
+.page-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 25px;
+    }
+    .page-title {
+      flex: 1;
+      text-align: center;
+      font-size: 28px;
+      font-weight: 600;
+      color: #000;
+margin: 0 0 0px 0; /* 🔹 espace réduit en dessous */    
+}
+    .back-link {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+      color: #111;
+      font-size: 15px;
+      font-weight: 500;
+    }
+    .header-spacer {
+      width: 60px;
+    }
+
+.page-content {
+  max-width: 500px; 
+  margin: 40px auto;
+  padding: 0 20px;
+  /* ❌ on enlève le fond et le style carte */
+  background: none;     
+  border-radius: 0;     
+  box-shadow: none;     
+}
+
+     .intro-text {
+      text-align: left;
+      font-size: 18px; /* augmenté */
+      color: #333;
+      line-height: 1.5;
+      margin: 10px 0 50px 0; /* 🔹 réduit l’espace haut, garde un peu en bas */
+    }
+.section-title {
+  font-size: 20px;
+  font-weight: 600;
+  margin-top: 40px;
+  margin-bottom: 25px;
+  color: #111;
+}
+
+.method-block { 
+      margin-bottom: 25px;
+    }
+    
+
+.method-title {
+  font-size: 17px;
+  margin-bottom: 8px;
+  color: #000;
+}
+
+
+.method-desc {
+      font-size: 14px; /* ✅ plus petit que le reste */
+      color: #555;
+      text-align: left;
+      margin: 0;
+    }
+
+hr.separator {
+  border: none;
+  border-top: 1px solid #ddd; /* ligne plus fine et grise */
+  margin: 25px 0;
+}
+
+
+.method-card {
+  padding: 0;        /* enlève le bloc blanc */
+  border-radius: 0;
+  background: none;
+  cursor: pointer;
+  transition: none;
+}
+.method-card:hover {
+  background: none;  /* plus d’effet hover */
+}
+
+
+/* === MODAL GLOBAL === */
+.modal {
+  display: none; /* masqué par défaut */
+  position: fixed;
+  inset: 0; /* top, right, bottom, left = 0 */
+  background: rgba(0, 0, 0, 0.4); /* overlay semi-transparent */
+  backdrop-filter: blur(3px);
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* === CONTENU DU MODAL === */
+.modal-content {
+  background: #fff;
+  border-radius: 12px;
+  padding: 25px 30px;
+  max-width: 420px;
+  width: 90%;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+  position: relative;
+  animation: fadeIn 0.25s ease-in-out;
+}
+
+/* === HEADER DU MODAL === */
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.modal-header h2 {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0;
+  color: #111;
+}
+
+.modal-header .close {
+  font-size: 22px;
+  font-weight: bold;
+  color: #666;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.modal-header .close:hover {
+  color: #000;
+}
+
+/* === TEXTE & INPUT === */
+.modal-content p {
+  margin: 10px 0 18px;
+  font-size: 15px;
+  color: #444;
+  line-height: 1.4;
+}
+
+.modal-content input[type="text"],
+.modal-content input[type="email"],
+.modal-content input[type="number"] {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 15px;
+  margin-bottom: 18px;
+  transition: border 0.2s;
+}
+.modal-content input:focus {
+  border-color: #000;
+  outline: none;
+}
+
+/* === BOUTONS === */
+.modal-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.modal-actions .btn {
+  padding: 12px;
+  font-size: 15px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: opacity 0.2s, background 0.2s;
+}
+
+.btn.primary {
+  background: #000;
+  color: #fff;
+  font-weight: 600;
+}
+.btn.primary:hover {
+  opacity: 0.85;
+}
+
+.btn.ghost {
+  background: #f2f2f2;
+  color: #333;
+}
+.btn.ghost:hover {
+  background: #e4e4e4;
+}
+
+/* === ANIMATION === */
+@keyframes fadeIn {
+  from {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Bouton envoyer code simple */
+.btn.send-code {
+  display: block;
+  width: 100%;
+  background: #000;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 500;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: center;
+  transition: background 0.2s;
+}
+
+.btn.send-code:hover {
+  background: #222; /* léger effet au survol */
+}
+
+
+</style>
+</head>
+<body>
+  <header>Compte Flashbring</header>
+
+<div class="page-header">
+    <a href="account.html" class="back-link">← Retour</a>
+    <h1 class="page-title">Activer la vérification en deux étapes</h1>
+    <div class="header-spacer"></div>
+  </div>
+
+  <div class="page-content">
+    <p class="intro-text">
+      Renforcez la sécurité de votre compte grâce à la vérification en deux étapes.
+    </p>
+    <h2 class="section-title">Choisissez une méthode de vérification</h2>
+
+<div class="method-card" id="emailMethod">
+  <h3>Email</h3>
+  <p>Vous recevrez un code de vérification par e-mail lors de la connexion à votre compte.</p>
+</div>
+
+<hr class="separator" />
+
+<div class="method-card" id="appMethod">
+  <h3>Application d’authentification</h3>
+  <p>Scannez un QR code et utilisez une application comme Google Authenticator pour générer vos codes.</p>
+</div>
+  </div>
+
+
+
+
+<!-- Modal Email 2FA -->
+<div id="twofaEmailModal" class="modal">
+  <div class="modal-content">
+    <span id="closeEmailModal" class="close">&times;</span>
+    <h2>Vérification par email</h2>
+    <p>Entrez votre adresse e-mail pour recevoir un code de sécurité.</p>
+    <input type="email" id="twofaEmailInput" placeholder="Votre adresse e-mail" />
+    <button id="sendEmailCodeBtn" class="btn send-code">Envoyer le code</button>
+
+    <div id="emailCodeSection" style="display:none; margin-top:15px;">
+      <p>Un code de vérification a été envoyé à votre adresse e-mail.</p>
+      <input type="text" id="emailCodeInput" placeholder="Code à 6 chiffres" />
+      <button id="verifyEmailCodeBtn" class="btn primary full">Vérifier</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Application -->
+<div id="appModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2>Application d’authentification</h2>
+    <div id="qrcode"></div>
+    <p id="secretKey"></p>
+    <input type="text" placeholder="Code à 6 chiffres" />
+    <button class="btn primary">Vérifier</button>
+  </div>
+</div>
+
+
+<script>
+const twofaEmailModal = document.getElementById("twofaEmailModal");
+const closeEmailModal = document.getElementById("closeEmailModal");
+const chooseEmailBtn = document.getElementById("emailMethod"); // au lieu de chooseEmail
+const sendEmailCodeBtn = document.getElementById("sendEmailCodeBtn");
+const verifyEmailCodeBtn = document.getElementById("verifyEmailCodeBtn");
+
+
+// 👉 Ouvrir le modal
+chooseEmailBtn.addEventListener("click", async () => {
+  // Préremplir l'email de l'utilisateur connecté
+  const res = await fetch("/api/users/me", { credentials: "include" });
+  if (res.ok) {
+    const user = await res.json();
+    document.getElementById("twofaEmailInput").value = user.email;
+  }
+  twofaEmailModal.style.display = "flex";
+});
+
+// 👉 Fermer le modal
+closeEmailModal.addEventListener("click", () => {
+  twofaEmailModal.style.display = "none";
+});
+
+// 👉 Envoyer le code
+sendEmailCodeBtn.addEventListener("click", async () => {
+  const email = document.getElementById("twofaEmailInput").value;
+  if (!email) return alert("Veuillez entrer un e-mail");
+
+  await fetch("/api/2fa/enable", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+    body: JSON.stringify({ method: "email", email }),
+  });
+
+  const res = await fetch("/api/2fa/send-email", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+    body: JSON.stringify({ email }),
+  });
+
+  if (res.ok) {
+    document.getElementById("emailCodeSection").style.display = "block";
+  } else {
+    alert("Erreur lors de l’envoi de l’e-mail");
+  }
+});
+
+// 👉 Vérifier le code
+verifyEmailCodeBtn.addEventListener("click", async () => {
+  const code = document.getElementById("emailCodeInput").value;
+  const res = await fetch("/api/2fa/verify", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+    body: JSON.stringify({ code }),
+  });
+
+  if (res.ok) {
+    alert("✅ Vérification activée avec succès !");
+    twofaEmailModal.style.display = "none";
+  } else {
+    alert("❌ Code invalide");
+  }
+});
+</script>
+
+</body>
+</html>

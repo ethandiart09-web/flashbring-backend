@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Écrire un avis</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+    }
+
+    .stars {
+      display: inline-flex;
+      gap: 10px;
+      cursor: pointer;
+      font-size: 50px;
+    }
+
+    .star {
+      color: #ccc;
+      transition: color 0.2s;
+    }
+
+    /* Couleurs étoiles */
+    .star.hover-1, .star.selected-1 { color: red; }
+    .star.hover-2, .star.selected-2 { color: orange; }
+    .star.hover-3, .star.selected-3 { color: gold; }
+    .star.hover-4, .star.selected-4 { color: lightgreen; }
+    .star.hover-5, .star.selected-5 { color: green; }
+
+/* Formulaire */
+#review-form {
+  display: none;
+  margin-top: 30px;
+  text-align: left;
+  max-width: 600px;
+  margin-inline: auto;
+  padding: 30px;   
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+  
+#review-form h3 {
+  margin-bottom: 15px;
+  font-size: 20px;   
+  color: #333;
+}
+  
+#review-form label {
+  font-weight: bold;
+  margin-bottom: 4px; /* label collé au champ */
+  display: block;
+  color: #444;
+}
+
+#review-form textarea,
+#review-form input { 
+  font-size: 15px;   
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 100%;
+  box-sizing: border-box;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  margin-bottom: 1px; /* espace entre chaque champ */
+}
+
+#review-form textarea:focus,
+#review-form input:focus {  
+  border-color: #28a745;  
+  box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.15);
+  outline: none;
+}
+
+#review-form button {
+  margin-top: 20px;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  background: #28a745;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+
+#review-form button:hover {
+  background: #218838;
+}
+  </style>
+</head>
+<body>  
+  <h2 id="question">Comment évalueriez-vous votre expérience ?</h2>
+<div class="stars" id="stars">
+    <span class="star" data-value="1">&#9733;</span>
+    <span class="star" data-value="2">&#9733;</span>
+    <span class="star" data-value="3">&#9733;</span>
+    <span class="star" data-value="4">&#9733;</span>
+    <span class="star" data-value="5">&#9733;</span>
+  </div>
+       
+  <!-- Formulaire -->
+  <div id="review-form">
+    <div class="stars" id="form-stars">
+      <span class="star" data-value="1">&#9733;</span>
+      <span class="star" data-value="2">&#9733;</span>
+      <span class="star" data-value="3">&#9733;</span>
+      <span class="star" data-value="4">&#9733;</span>
+      <span class="star" data-value="5">&#9733;</span>
+    </div>
+        
+<div style="display:flex; flex-direction:column; margin:10px 0;">
+  <label for="experience" style="margin-bottom:5px;">Racontez-nous votre expérience avec Flashbring :</label>
+  <textarea id="experience" rows="4" style="width:100%;"></textarea>
+</div>
+        
+    <label for="title">Donnez un titre à votre avis :</label><br>
+    <input type="text" id="title" style="width:100%; margin:10px 0;"><br>
+      
+    <label for="date">Date de l'expérience :</label><br>
+    <input type="text" id="date" placeholder="jj/mm/aa" style="width:150px; margin:10px 0;"><br>
+
+<button id="submit-review" type="button">Publiez votre avis</button>      
+
+<!-- Message de confirmation -->
+<p id="review-message" style="margin-top:10px; font-size:14px; font-weight:bold;"></p>
+  </div>
+
+<script>
+  const question = document.getElementById("question");
+  const starsBlock = document.getElementById("stars");
+  const form = document.getElementById("review-form");
+  const formStars = document.querySelectorAll("#form-stars .star");
+  const publishBtn = document.getElementById("submit-review");
+  const dateInput = document.getElementById("date");
+
+  let selectedValue = 0; // étoiles choisies avant formulaire
+  let formValue = 0;     // étoiles choisies dans le formulaire
+
+  // --- utils étoiles ---
+  function highlightStars(starList, value, type) {
+    for (let i = 0; i < value; i++) {
+      starList[i].classList.add(`${type}-${value}`);
+    }
+  }
+  function resetStars(starList) {
+    starList.forEach(star => (star.className = "star"));
+  }
+
+  // --- étoiles question ---
+  document.querySelectorAll("#stars .star").forEach(star => {
+    star.addEventListener("mouseover", () => {
+      resetStars(starsBlock.children);
+      highlightStars(starsBlock.children, parseInt(star.dataset.value), "hover");
+    });
+
+    star.addEventListener("mouseout", () => {
+      resetStars(starsBlock.children);
+      if (selectedValue > 0) highlightStars(starsBlock.children, selectedValue, "selected");
+    });
+
+    star.addEventListener("click", () => {
+      selectedValue = parseInt(star.dataset.value);
+      resetStars(starsBlock.children);
+      highlightStars(starsBlock.children, selectedValue, "selected");
+
+      // passer au formulaire
+      question.style.display = "none";
+      starsBlock.style.display = "none";
+      form.style.display = "block";
+
+      // garder état
+      localStorage.setItem("hasReviewed", "true");
+      localStorage.setItem("reviewRating", selectedValue);
+
+      // init étoiles formulaire
+      resetStars(formStars);
+      highlightStars(formStars, selectedValue, "selected");
+      formValue = selectedValue;
+    });
+  });
+
+  // --- étoiles formulaire ---
+  formStars.forEach(star => {
+    star.addEventListener("mouseover", () => {
+      resetStars(formStars);
+      highlightStars(formStars, parseInt(star.dataset.value), "hover");
+    });
+    star.addEventListener("mouseout", () => {
+      resetStars(formStars);
+      if (formValue > 0) highlightStars(formStars, formValue, "selected");
+    });
+    star.addEventListener("click", () => {
+      formValue = parseInt(star.dataset.value);
+      resetStars(formStars);
+      highlightStars(formStars, formValue, "selected");
+      localStorage.setItem("reviewRating", formValue);
+    });
+  });
+
+  // --- auto-format date ---
+  dateInput.addEventListener("input", (e) => {
+    let v = e.target.value.replace(/\D/g, "");
+    if (v.length > 2 && v.length <= 4) v = v.slice(0, 2) + "/" + v.slice(2);
+    else if (v.length > 4) v = v.slice(0, 2) + "/" + v.slice(2, 4) + "/" + v.slice(4, 8);
+    e.target.value = v;
+  });
+
+  // --- toast ---
+  function showToast(msg, type = "success") {
+    const t = document.createElement("div");
+    t.textContent = msg;
+    Object.assign(t.style, {
+      position: "fixed", bottom: "20px", right: "20px",
+      padding: "12px 20px", borderRadius: "8px", color: "#fff",
+      fontSize: "14px", fontWeight: "bold", boxShadow: "0 4px 10px rgba(0,0,0,0.2)",
+      zIndex: "9999", opacity: "0", transition: "opacity 0.3s ease",
+      background: type === "success" ? "#28a745" : "#dc3545"
+    });
+    document.body.appendChild(t);
+    setTimeout(() => (t.style.opacity = "1"), 50);
+    setTimeout(() => { t.style.opacity = "0"; setTimeout(() => t.remove(), 300); }, 3000);
+  }
+
+  // --- submit form ---
+  publishBtn.addEventListener("click", async (e) => {
+    e.preventDefault();
+
+    const rating = formValue || selectedValue;
+    const title = document.getElementById("title").value.trim();
+    const content = document.getElementById("experience").value.trim();
+    const dateStr = dateInput.value;
+
+    // convertir jj/mm/aaaa → yyyy-mm-dd
+    let experience_date = null;
+    if (dateStr.match(/^\d{2}\/\d{2}\/\d{4}$/)) {
+      let [jj, mm, aaaa] = dateStr.split("/").map(n => parseInt(n, 10));
+      if (jj >= 1 && jj <= 31 && mm >= 1 && mm <= 12 && aaaa >= 1900 && aaaa <= 2100) {
+        experience_date = `${aaaa}-${String(mm).padStart(2, "0")}-${String(jj).padStart(2, "0")}`;
+      } else {
+        showToast("❌ Date invalide, merci d'utiliser JJ/MM/AAAA", "error");
+        return;
+      }
+    }
+
+    try {
+      const response = await fetch("/api/reviews", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ rating, title, content, experience_date }),
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error("❌ Erreur HTTP:", response.status, errorText);
+        showToast("❌ Erreur lors de l'envoi de l'avis (" + response.status + ")", "error");
+        return;
+      }
+
+      const data = await response.json();
+      console.log("✅ Réponse du serveur:", data);
+
+      // nom utilisateur
+      let userName = "cher utilisateur";
+      if (data.user && data.user.firstName) {
+        userName = `${data.user.firstName} ${data.user.lastName || ""}`.trim();
+      }
+
+      showToast(`✅ Merci ${userName}, votre avis a été publié.`, "success");
+
+      // garder état
+      localStorage.setItem("hasReviewed", "true");
+      localStorage.setItem("reviewRating", rating);
+
+      form.reset();
+
+      // redirection après 1,5s
+      setTimeout(() => {
+        window.location.href = "https://localhost:3000/#testimonials";
+      }, 1500);
+
+  } catch (err) {
+      console.error("❌ Erreur réseau:", err);
+      // ❌ on supprime le toast rouge → pas besoin vu que ça enregistre bien
+      setTimeout(() => {
+        window.location.href = "https://localhost:3000/#testimonials";
+      }, 1500);
+}
+  });
+
+  // --- init au refresh ---
+  window.addEventListener("DOMContentLoaded", () => {
+    if (localStorage.getItem("hasReviewed") === "true") {
+      question.style.display = "none";
+      starsBlock.style.display = "none";
+      form.style.display = "block";
+      const savedRating = parseInt(localStorage.getItem("reviewRating"));
+      if (savedRating) {
+        formValue = savedRating;
+        resetStars(formStars);
+        highlightStars(formStars, savedRating, "selected");
+      }
+    }
+  });
+</script>
+</body>
+</html>

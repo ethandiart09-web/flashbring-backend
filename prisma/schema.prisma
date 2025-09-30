@@ -1,0 +1,485 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+}
+
+model deliveries {
+  id              Int      @id @default(autoincrement())
+  order_id        Int
+  driver_id       Int?
+  status          String
+  created_at      DateTime @default(now())
+  lat             Float?
+  lng             Float?
+  delivery_code   String   @default("0000")
+  delivery_option String?
+  instructions    String?
+  delivery_date   DateTime @db.Date
+  delivery_slot   String
+  driver          users?   @relation("UserDeliveries", fields: [driver_id], references: [id])
+  order           orders   @relation(fields: [order_id], references: [id])
+}
+
+model user_delivery_preferences {
+  user_id       Int
+  store_id      Int
+  delivery_date DateTime @db.Date
+  delivery_slot String
+  stores        stores   @relation(fields: [store_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users         users    @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@id([user_id, store_id])
+}
+
+model drivers {
+  id           Int       @id @default(autoincrement())
+  name         String
+  phone        String    @unique
+  vehicle_type String?
+  created_at   DateTime? @default(now()) @db.Timestamp(6)
+  is_available Boolean?  @default(true)
+}
+
+model order_items {
+  id          Int                      @id @default(autoincrement())
+  order_id    Int
+  product_id  Int
+  quantity    Int
+  price       Decimal
+  supplements order_item_supplements[]
+  orders      orders                   @relation(fields: [order_id], references: [id], onDelete: Cascade)
+  products    products                 @relation(fields: [product_id], references: [id])
+}
+
+model orders {
+  id                Int              @id @default(autoincrement())
+  user_id           Int
+  store_id          Int
+  status            String           @default("pending")
+  total             Float
+  created_at        DateTime         @default(now()) @db.Timestamptz(3)
+  category          String?
+  image             String?
+  delivery_option   String?
+  instructions      String?
+  payment_method    String?
+  delivery_fee      Float            @default(0.0)
+  service_fee       Float            @default(0.0)
+  payment_intent_id String?
+  deliveries        deliveries[]
+  order_items       order_items[]
+  store             stores           @relation(fields: [store_id], references: [id])
+  user              users            @relation(fields: [user_id], references: [id])
+  reviews           reviews[]
+  earnings          store_earnings[]
+
+  @@index([user_id], map: "idx_orders_user_id")
+}
+
+model products {
+  id                     Int                      @id @default(autoincrement())
+  store_id               Int
+  name                   String
+  description            String?
+  price                  Decimal
+  stock                  Int                      @default(0)
+  created_at             DateTime                 @default(now())
+  is_active              Boolean                  @default(true)
+  category               String                   @default("food")
+  image_url              String?                  @db.VarChar(500)
+  main_category          main_category_enum?
+  sub_category           String?                  @db.VarChar(100)
+  ingredients            String?
+  order_count            Int                      @default(0)
+  option_title           String?
+  max_dessert            Int?                     @default(0)
+  max_drink              Int?                     @default(0)
+  max_food               Int?                     @default(0)
+  gender                 String?                  @db.VarChar(20)
+  color                  String?                  @db.VarChar(50)
+  material               Material?
+  rating                 Float?                   @default(4.0) @db.Real
+  review_count           Int?                     @default(12)
+  condition              product_condition?       @default(NEUF)
+  brand_id               Int?
+  tech_category_id       Int?
+  accessory_id           Int?
+  servings               Int                      @default(1)
+  embedding              Unsupported("vector")?
+ // relations
+  store                  stores                   @relation(fields: [store_id], references: [id])
+  section_id             Int?
+  section                store_sections?          @relation(fields: [section_id], references: [id], onDelete: SetNull)
+
+  bundle_items           bundle_items[]
+  cart_items             cart_items[]
+  supplements            cart_supplements[]
+  order_item_supplements order_item_supplements[]
+  order_items            order_items[]
+  product_bundles        product_bundles[]
+  product_images         product_images[]
+  product_options        product_options[]
+  product_reviews        product_reviews[]
+  accessory              tech_accessories?        @relation(fields: [accessory_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  brand                  brands?                  @relation(fields: [brand_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  tech_category          tech_categories?         @relation(fields: [tech_category_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  reviews                reviews[]
+
+  @@unique([store_id, name, gender])
+}
+
+model product_images {
+  id         Int       @id @default(autoincrement())
+  product_id Int?
+  image_url  String    @db.VarChar(500)
+  product    products? @relation(fields: [product_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model product_options {
+  id         Int                     @id @default(autoincrement())
+  product_id Int
+  name       String                  @db.VarChar(255)
+  values     product_option_values[]
+  product    products                @relation(fields: [product_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model product_option_values {
+  id        Int             @id @default(autoincrement())
+  option_id Int
+  value     String          @db.VarChar(255)
+  image_url String?         @db.VarChar(500)
+  option    product_options @relation(fields: [option_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model brands {
+  id       Int        @id @default(autoincrement())
+  name     String     @unique @db.VarChar(100)
+  products products[]
+}
+
+model tech_categories {
+  id       Int        @id @default(autoincrement())
+  name     String     @unique @db.VarChar(100)
+  products products[]
+}
+
+model tech_accessories {
+  id       Int        @id @default(autoincrement())
+  name     String     @unique @db.VarChar(100)
+  products products[]
+}
+
+model stores {
+  id                        Int                         @id @default(autoincrement())
+  name                      String
+  address                   String?
+  created_at                DateTime                    @default(now())
+  user_id                   Int
+  sheet_id                  String?                     @db.VarChar(255)
+  banner_url                String?                     @db.VarChar(500)
+  lat                       Float?
+  lng                       Float?
+  max_km                    Int                         @default(10)
+  category                  Category                    @default(food)
+  subcategory               String[]
+  diet_type                 String?                     @db.VarChar(50)
+  is_partner                Boolean?                    @default(false)
+  store_type                String?                     @db.VarChar(100)
+  recommended_for           String[]                    @default([])
+  rating                    Float?                      @default(0) @db.Real
+  review_count              Int?                        @default(0)
+  favorites                 favorites[]
+  orders                    orders[]
+  products                  products[]
+  reviews                   reviews[]
+  earnings                  store_earnings[]
+  store_hours               store_hours[]
+  user                      users                       @relation(fields: [user_id], references: [id])
+  user_delivery_preferences user_delivery_preferences[]
+
+  sections                  store_sections[]   // 👈 relation corrigée
+
+}
+
+
+model store_sections {
+  id         Int        @id @default(autoincrement())
+  store_id   Int
+  name       String
+  position   Int        @default(0)
+  created_at DateTime   @default(now())
+
+  store      stores     @relation(fields: [store_id], references: [id], onDelete: Cascade)
+  products   products[] // 👈 relation inverse
+}
+
+model users {
+  id                        Int                         @id @default(autoincrement())
+  email                     String                      @unique
+  password_hash             String
+  firstname                 String?
+  lastname                  String?
+  street                    String?
+  city                      String?
+  postal                    String?
+  stripe_customer_id        String?
+  refresh_token             String?
+  created_at                DateTime                    @default(now())
+  delivery_code             String                      @default("0000")
+  vehicle                   String?
+  google_id                 String?                     @unique
+  phone                     String?                     @unique @db.VarChar(255)
+  twofa_enabled             Boolean                     @default(false)
+  twofa_method              String?
+  twofa_secret              String?
+  twofa_temp_code           String?
+  webauthn_credentials      Json                        @default("[]")
+  role                      Role
+  last_login                DateTime?
+  lat Decimal? @db.Decimal(9,6)
+lng Decimal? @db.Decimal(9,6)
+  cart_items                cart_items[]
+  deliveries                deliveries[]                @relation("UserDeliveries")
+  favorites                 favorites[]
+  orders                    orders[]
+  payment_methods           payment_methods[]
+  product_reviews           product_reviews[]
+  refresh_tokens            refresh_tokens[]
+  reviews                   reviews[]
+  search_logs               search_logs[]
+  store                     stores[]
+  user_delivery_preferences user_delivery_preferences[]
+  user_logs                 user_logs[]
+}
+
+model user_logs {
+  id         Int      @id @default(autoincrement())
+  user_id    Int
+  action     String
+  created_at DateTime @default(now()) @db.Timestamptz(3)
+  users      users    @relation(fields: [user_id], references: [id])
+}
+
+model driver_earnings {
+  id         Int      @id @default(autoincrement())
+  driver_id  Int
+  order_id   Int
+  amount     Float
+  created_at DateTime @default(now()) @db.Timestamptz(3)
+}
+
+model admin_earnings {
+  id         Int      @id @default(autoincrement())
+  order_id   Int
+  amount     Float
+  created_at DateTime @default(now()) @db.Timestamptz(3)
+}
+
+model refresh_tokens {
+  id         Int      @id @default(autoincrement())
+  user_id    Int
+  token      String   @unique
+  expires_at DateTime
+  users      users    @relation(fields: [user_id], references: [id], onDelete: Cascade)
+}
+
+model store_earnings {
+  id         Int      @id @default(autoincrement())
+  store_id   Int
+  order_id   Int
+  amount     Float
+  created_at DateTime @default(now()) @db.Timestamptz(3)
+  order      orders   @relation(fields: [order_id], references: [id])
+  store      stores   @relation(fields: [store_id], references: [id])
+}
+
+model cart_items {
+  id          Int                @id @default(autoincrement())
+  user_id     Int
+  product_id  Int
+  quantity    Int
+  created_at  DateTime           @default(now()) @db.Timestamptz(3)
+  product     products           @relation(fields: [product_id], references: [id])
+  user        users              @relation(fields: [user_id], references: [id])
+  supplements cart_supplements[]
+}
+
+model favorites {
+  id         Int       @id @default(autoincrement())
+  user_id    Int
+  store_id   Int
+  created_at DateTime? @default(now()) @db.Timestamp(6)
+  stores     stores    @relation(fields: [store_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  users      users     @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([user_id, store_id])
+}
+
+model cart_supplements {
+  id           Int        @id @default(autoincrement())
+  cart_item_id Int
+  product_id   Int
+  quantity     Int        @default(1)
+  created_at   DateTime   @default(now())
+  cart_item    cart_items @relation(fields: [cart_item_id], references: [id], onDelete: Cascade)
+  product      products   @relation(fields: [product_id], references: [id])
+
+  @@unique([cart_item_id, product_id])
+}
+
+model payment_methods {
+  id         Int      @id @default(autoincrement())
+  user_id    Int
+  type       String
+  provider   String
+  token      String
+  last4      String
+  brand      String
+  created_at DateTime @default(now()) @db.Timestamptz(3)
+  is_default Boolean  @default(false)
+  user       users    @relation(fields: [user_id], references: [id])
+
+  @@unique([user_id, brand, last4], map: "unique_card_per_user")
+}
+
+model order_item_supplements {
+  id            Int         @id @default(autoincrement())
+  order_item_id Int
+  product_id    Int
+  quantity      Int         @default(1)
+  price         Decimal     @default(0.0)
+  created_at    DateTime    @default(now())
+  order_item    order_items @relation(fields: [order_item_id], references: [id], onDelete: Cascade)
+  product       products    @relation(fields: [product_id], references: [id])
+
+  @@unique([order_item_id, product_id])
+}
+
+model search_logs {
+  id            Int       @id @default(autoincrement())
+  user_id       Int?
+  query         String
+  created_at    DateTime? @default(now()) @db.Timestamp(6)
+  results_count Int?
+  user          users?    @relation(fields: [user_id], references: [id], onUpdate: NoAction)
+}
+
+model reviews {
+  id              Int       @id @default(autoincrement())
+  user_id         Int?
+  order_id        Int?
+  rating          Int?
+  comment         String?
+  created_at      DateTime? @default(now()) @db.Timestamp(6)
+  approved        Boolean?  @default(false)
+  title           String?
+  experience_date DateTime? @db.Date
+  product_id      Int?
+  store_id        Int?
+  order           orders?   @relation(fields: [order_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  product         products? @relation(fields: [product_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  store           stores?   @relation(fields: [store_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  user            users?    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model product_reviews {
+  id         Int       @id @default(autoincrement())
+  product_id Int
+  user_id    Int?
+  rating     Int
+  comment    String?
+  created_at DateTime? @default(now()) @db.Timestamp(6)
+  product    products  @relation(fields: [product_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  users      users?    @relation(fields: [user_id], references: [id], onUpdate: NoAction)
+}
+
+model bundles {
+  id           Int               @id @default(autoincrement())
+  name         String            @db.VarChar(150)
+  bundle_items bundle_items[]
+  products     product_bundles[]
+}
+
+model product_bundles {
+  id         Int      @id @default(autoincrement())
+  product_id Int
+  bundle_id  Int
+  bundle     bundles  @relation(fields: [bundle_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  product    products @relation(fields: [product_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model bundle_items {
+  id        Int      @id @default(autoincrement())
+  bundle_id Int
+  item_id   Int
+  bundle    bundles  @relation(fields: [bundle_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  item      products @relation(fields: [item_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model store_hours {
+  id       Int      @id @default(autoincrement())
+  store_id Int
+  day      String   @db.VarChar(20)
+  open     DateTime @db.Time(6)
+  close    DateTime @db.Time(6)
+  stores   stores   @relation(fields: [store_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([store_id], map: "idx_store_hours_store_id")
+}
+
+enum main_category_enum {
+  Mobilier
+  Cuisine_Vaisselle @map("Cuisine & Vaisselle")
+  Textile_Deco      @map("Textile & Déco")
+  Salle_de_bain     @map("Salle de bain")
+  Jardin_Terrasse   @map("Jardin & Terrasse")
+  Bricolage_Maison  @map("Bricolage & Maison")
+
+  @@map("main_category_enum")
+}
+
+enum Material {
+  COTON
+  LIN
+  LAINE
+  SOIE
+  POLYESTER
+  VISCOSE
+  DENIM
+}
+
+enum ProductCondition {
+  NEUF
+  OCCASION
+  RECONDITIONNE
+}
+
+enum Category {
+  food
+  fashion
+  gifts
+  tech
+  home
+  grocery
+  pharma
+}
+
+enum Role {
+  client
+  driver
+  store
+  admin
+  pending_store
+  pending_driver
+}
+
+enum product_condition {
+  NEUF
+  OCCASION
+  RECONDITIONNE
+}

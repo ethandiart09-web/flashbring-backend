@@ -1,0 +1,1290 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mon compte - Flashbring</title>
+  
+<style>
+:root{
+      --bg:#ffffff;
+      --ink:#0f0f0f;  
+      --muted:#6b6b6b;
+      --line:#eaeaea;
+      --card:#fafafa;
+      --brand:#111111;
+      --radius:18px;  
+      --shadow:0 10px 30px rgba(0,0,0,.06);
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font:16px/1.5 Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+    a{color:inherit;text-decoration:none}
+    .container{max-width:1200px;margin:0 auto;padding:0 20px}
+
+ /* Header */
+    header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.8);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+    .nav{display:flex;align-items:center;justify-content:space-between;gap:16px;height:68px}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:800}
+    .brand-badge{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;background:#111;color:#fff}
+    .tagline{display:none;color:var(--muted)}
+    .actions{display:flex;gap:10px}
+    .btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--ink);padding:10px 14px;border-radius:12px;background:#111;color:#fff;font-weight:600;cursor:pointer}
+    .btn.ghost{background:#fff;color:#111}
+    .btn:active{transform:translateY(1px)}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  right: -100%;          /* caché en dehors de l’écran */
+  width: 100%;
+  max-width: 300px;      /* 👉 réduit la largeur comme Uber */
+  height: 100vh;         /* 👉 prend toute la hauteur de la page */
+  background: #fff;
+  box-shadow: -2px 0 8px rgba(0,0,0,0.15);
+  transition: right 0.3s ease;
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+}
+.sidebar.open {
+  right: 0;              /* glisse à l’écran */
+}
+  
+.sidebar-header {
+  padding: 16px;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff;
+}
+
+.sidebar-links {  
+  list-style: none;
+  padding: 0;
+  margin: 0;  
+  flex: 1;
+  background: #fff;
+}
+  
+.sidebar-links li {
+  border-bottom: none;
+}
+  
+.sidebar-links a {
+  display: block;
+  padding: 14px 18px;
+  font-size: 15px;
+  color: #111;
+  transition: background 0.2s;
+}   
+
+  
+.sidebar-links a:hover {
+  background: #f8f8f8;
+}
+  
+  
+.close-btn {
+  cursor: pointer;
+  font-size: 18px;
+}
+/* Overlay gris transparent sur toute la page */
+.sidebar-overlay {
+  position: fixed;
+  top: 0; 
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.4); /* gris foncé transparent */
+  z-index: 150;                /* sous le side cart mais au-dessus de tout le reste */
+  display: none;               /* caché par défaut */
+} 
+
+.sidebar-overlay.active {
+  display: block;
+}
+  
+.sidebar-user {
+  padding: 16px;
+  border-bottom: 1px solid #eee;
+} 
+
+#sidebarName {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+  
+.manage-account {
+  font-size: 14px;
+  color: #007bff; 
+  text-decoration: none;
+}
+.manage-account:hover {
+  text-decoration: underline;
+}
+  
+/* Style spécifique pour "Gérer le compte" */
+.sidebar-links a.manage-account {
+  color: #007bff;       /* bleu comme Uber par ex */
+  font-weight: 600;     /* un peu plus gras */
+}
+  
+
+
+
+
+
+
+  body {
+      font-family: system-ui, sans-serif;
+      background: #f9f9f9;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+    main {
+      max-width: 800px;
+      margin: 20px auto;
+      background: white;
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    .tabs {
+      display: flex;
+      border-bottom: 1px solid #eee;
+      margin-bottom: 24px;
+    }
+    .tabs button {
+      flex: 1;
+      padding: 12px;
+      font-size: 15px;
+      border: none;
+      background: none;
+      cursor: pointer;
+      font-weight: 500;
+      color: #555;
+    }
+    .tabs button.active {
+      border-bottom: 2px solid #111;
+      color: #111;
+      font-weight: 600;
+    }
+    .section {
+      display: none;
+    }
+    .section.active {
+      display: block;
+    }
+    .field {
+      margin-bottom: 16px;
+    }
+    .field label {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 6px;
+      font-weight: 500;
+    }
+    .field input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+    .divider {
+      border-top: 1px solid #eee;
+      margin: 24px 0;
+    }
+    .security-item {
+      margin-bottom: 20px;
+    }
+    .security-item h3 {
+      font-size: 16px;
+      margin: 0 0 6px;
+      font-weight: 600;
+    }
+    .security-item p {
+      font-size: 14px;
+      color: #555;
+      margin: 0 0 10px;
+    }
+    .btn {
+      display: inline-block;
+      padding: 8px 16px;
+      font-size: 14px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      background: #111;
+      color: white;
+    }
+    .btn.ghost {
+      background: #f0f0f0;
+      color: #333;
+    }
+    .connected-app {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid #eee;
+    }
+    .connected-app img {
+      width: 20px;
+      height: 20px;
+      margin-right: 8px;
+    }
+    .connected-app .info {
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+    }
+
+.input-with-badge {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-with-badge input {
+  flex: 1;
+  padding-right: 40px; /* espace pour le badge */
+  background-color: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.badge-check {
+  position: absolute;
+  right: 10px;
+  width: 20px;
+  height: 20px;
+  background: #15803d; /* vert foncé */
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* === Modal overlay === */
+.modal {
+  display: none;                  /* caché par défaut */
+  position: fixed;
+  z-index: 500;                   /* au-dessus du reste */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);    /* fond gris transparent */
+  justify-content: center;
+  align-items: center;
+}
+
+/* === Contenu du modal === */
+.modal-content {
+  background: #fff;
+  padding: 24px;
+  border-radius: 12px;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+  animation: fadeIn 0.3s ease;    /* animation définie plus haut */
+}
+
+.modal-content h2 {
+  margin-top: 0;
+  font-size: 20px;
+  margin-bottom: 8px;
+}
+
+.close {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #666;
+  cursor: pointer;
+}
+
+/* Bloc numéro */
+.phone-input-group {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 10px 0;
+}
+
+.phone-input-group .country-code {
+  background: #f3f3f3;
+  padding: 10px 15px;
+  font-weight: 600;
+  border-right: 1px solid #ccc;
+}
+
+.phone-input-group input {
+  flex: 1;
+  border: none;
+  padding: 10px;
+  font-size: 15px;
+  outline: none;
+}
+
+/* Texte secondaire */
+.modal-subtext {
+  font-size: 14px;
+  color: #555;
+  margin: 5px 0 15px;
+}
+
+.modal-subtext.small {
+  font-size: 13px;
+  color: #777;
+}
+
+.field {
+  position: relative; /* important pour que la liste reste collée au champ */
+}
+
+.suggestions {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: #fff;      /* même fond que le formulaire */
+  border: none;          /* ⛔ plus de ligne grise */
+  border-radius: 6px;
+  margin-top: 4px;
+  max-height: 200px;
+  overflow-y: auto;
+  list-style: none;
+  padding: 0;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.08); /* petite ombre douce */
+  z-index: 1000;
+}
+
+.suggestions li {
+  padding: 10px;
+  cursor: pointer;
+}
+.suggestions li:hover {
+  background: #f5f5f5;
+}
+
+
+.passkey-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 15px 0;
+}
+
+.passkey-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 15px;
+  color: #333;
+  background: #f9f9f9;
+  padding: 10px 14px;
+  border-radius: 10px;
+}
+
+.passkey-option .passkey-icon {
+  width: 22px;
+  height: 22px;
+}
+
+
+
+
+
+
+
+
+/* Base */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.5);
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  max-width: 450px;
+  width: 100%;
+  text-align: center;
+}
+
+
+.modal-method .modal-content {
+  border-top: 4px solid #28a745;
+}
+
+.modal-app .modal-content {
+  background: #111;
+  color: #eee;
+  border-top: 4px solid #ff9800;
+}
+
+.modal-email .modal-content {
+  border-top: 4px solid #2196f3;
+}
+
+.modal-recovery .modal-content {
+  border-top: 4px solid #9c27b0;
+  font-family: monospace;
+  text-align: left;
+  white-space: pre-line;
+}
+
+
+
+
+/* Spécifique au premier modal */
+#twofaModal .modal-content {
+  width: 500px;      /* largeur modifiable */
+  max-width: 90%;    /* empêche de dépasser l’écran */
+  height: auto;      /* auto ou fixe (ex: 300px) */
+  min-height: 300px; /* hauteur minimum */
+  margin: auto;      /* centre dans la page */
+  border-top: none;  /* enlève la ligne bleue */
+  border-radius: 12px;
+}
+
+/* Header */
+#twofaModal .modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+#twofaModal .modal-header h2 {
+  font-size: 18px;
+  margin: 0;
+  flex: 1;
+  text-align: center;
+}
+
+#twofaModal .close {
+  font-size: 22px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #333;
+  position: absolute;
+  right: 15px;
+  top: 15px;
+}
+
+/* Texte */
+#twofaModal .modal-text {
+  text-align: left;
+  margin: 10px 0;
+  font-size: 15px;
+  color: #444;
+}
+
+/* Boutons */
+#twofaModal .modal-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+#twofaModal .modal-actions .btn.full {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+}
+
+
+</style>
+</head>
+<body>
+<script>
+async function checkAuth() {
+  try {
+    const res = await fetch("/api/users/me", { credentials: "include" });
+    if (!res.ok) throw new Error("Not connected");
+    return await res.json(); // ✅ user connecté
+  } catch (err) {
+    // ❌ Pas connecté → redirige vers la home avec un paramètre
+    window.location.href = "/index.html?openAuth=1";
+  }
+}
+  
+// ✅ bloque dès le début si pas connecté
+document.addEventListener("DOMContentLoaded", async () => {
+  await checkAuth();
+});
+</script>
+
+<div class="page-container">
+<!-- Header -->
+<header>
+  <div class="container nav">
+      <a class="brand" href="https://localhost:3000">
+      <div class="brand-badge">⚡️</div>
+      <div>
+        <div style="font-size:18px;letter-spacing:-.3px">FlashBring</div>
+        <div class="tagline">Tout, livré en 2h</div>
+      </div>
+    </a>
+<div class="actions">
+  <div id="userMenu" style="display:none;position:relative; display:flex; align-items:center; gap:12px;">
+    <span id="welcomeMsg" style="cursor:pointer;font-weight:600;font-size:15px;">
+      Bonjour <span id="welcomeName"></span>
+    </span>
+  </div>
+</div>
+    
+    
+<!-- Overlay gris derrière le side cart -->
+<div id="sidebarOverlay" class="sidebar-overlay"></div>
+<!-- 👉 Le vrai conteneur du side cart -->
+<div id="userSidebar" class="sidebar">
+<div class="sidebar-user">
+  <div id="sidebarName">
+    Bonjour
+  </div>
+<a href="account.html" class="manage-account">Gérer le compte</a>
+</div>
+      
+<ul class="sidebar-links">
+  <li><a href="/#orders">Mes commandes</a></li>
+  <li><a href="/cart.html">Mon panier</a></li>
+  <li><a href="/#favorites">Favoris</a></li>
+  <li><a href="/#refer">Parrainer</a></li>
+  <li><a href="/#faq">Aide</a></li>
+  <li><a href="/#settings">Paramètres</a></li>
+  <li><a href="#" id="logoutBtn">Se déconnecter</a></li>
+
+  <!-- séparateur -->
+  <li style="border-top:2px solid #eee; margin:10px 0"></li>
+
+  <li><a href="/#partners">Ajouter votre restaurant</a></li>
+  <li><a href="/#drivers">Inscrivez-vous pour livrer</a></li>
+</ul>
+
+
+</div> <!-- ferme .sidebar -->
+</div>
+  </header>
+
+
+  <main>
+    <!-- Onglets -->
+    <div class="tabs">
+      <button class="active" data-tab="infos">Informations personnelles</button>
+      <button data-tab="security">Sécurité</button>
+    </div>
+
+
+<!-- Section Informations personnelles -->
+<section id="infos" class="section active">
+  <!-- Nom complet -->
+  <div class="field">
+    <label>Nom complet</label>
+    <input type="text" id="fullname" placeholder="Prénom et nom">
+  </div>
+
+
+<!-- Numéro de téléphone -->
+<div class="field" id="phoneSection">
+  <label>Numéro de téléphone</label>
+          
+  <!-- État 1 : pas vérifié -->
+  <button id="verifyPhoneBtn" class="btn small">Vérifier votre numéro</button>
+          
+  <!-- État 2 : vérifié (caché par défaut) -->
+  <input type="tel" id="phone" readonly style="display:none;">
+          
+</div>
+
+<!-- Modal Vérification téléphone -->
+<div id="phoneModal" class="modal">
+  <div class="modal-content">
+    <span id="closePhoneModal" class="close">&times;</span>
+
+    <!-- Étape 1 : entrer numéro -->
+    <div id="step1">
+      <h2>Numéro de téléphone</h2>
+      <p class="modal-subtext">
+        Utilisez ce numéro pour recevoir des notifications, vous connecter et récupérer votre compte.
+      </p>
+
+      <div class="phone-input-group">
+        <div class="country-code">+33</div>
+        <input type="tel" id="modalPhoneInput" placeholder="Votre numéro" />
+      </div>
+      <p class="modal-subtext small">Un code de vérification sera envoyé à ce numéro.</p>
+
+      <button id="sendOtpBtn" class="btn primary">Recevoir le code</button>
+    </div>
+
+   
+    <!-- Étape 2 : entrer le code -->
+    <div id="step2" style="display:none;">
+      <h2>Saisissez le code à 4 chiffres envoyé à :</h2>
+      <p class="modal-subtext">
+        Code à 4 chiffres                                       
+      </p>
+    
+      <input type="text" id="otpInput" placeholder="123456" maxlength="6" />
+      <button id="checkOtpBtn" class="btn primary">Valider</button>
+    </div>
+  </div>
+</div>
+
+<div class="field email-field">
+  <label>Adresse e-mail</label>
+  <div class="input-with-badge">
+    <input type="email" id="email" value="prenom.nom@gmail.com" readonly />
+    <div class="badge-check">
+      <!-- Icône check SVG -->
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="white" width="18" height="18">
+        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-7.364 7.364a1 1 0 01-1.414 0L3.293 9.414a1 1 0 011.414-1.414l4.121 4.121 6.657-6.657a1 1 0 011.414 0z" clip-rule="evenodd"/>
+      </svg>
+    </div>
+  </div>
+</div>
+
+  <!-- Adresse -->
+  <div class="field">
+    <label>Adresse</label>
+<input type="text" id="address" placeholder="Rue et numéro" autocomplete="off">
+<ul id="addressSuggestions" class="suggestions"></ul>
+  </div>
+
+  <div class="field">
+    <label>Code postal</label>
+    <input type="text" id="postal" placeholder="Code postal">
+  </div>
+
+  <div class="field">
+    <label>Ville</label>
+    <input type="text" id="city" placeholder="Ville">
+  </div>
+
+  <button id="saveProfileBtn" class="btn primary">Enregistrer</button>
+</section>
+
+    <!-- Section Sécurité -->
+    <section id="security" class="section">
+<div class="security-item">
+    <h2>Sécurité</h2>
+    <p style="font-size:14px; color:#555; margin-top:10px;">
+      ⚠️ Pas disponible pour le moment
+    </p>
+  </div>
+
+<div style="display:none;">    
+  <div class="security-item">
+        <h2>Connexion avec Flashbring</h2>
+      </div>
+
+
+<div class="security-item">
+        <h3>Clés d’accès</h3>
+        <p>Les clés d’accès sont plus simples et plus sûres que les mots de passe.</p>
+<button id="openPasskeyModal" class="btn ghost">Configurer</button>
+      </div>
+
+      <div class="security-item">
+        <h3>Vérification en deux étapes</h3>
+        <p>Renforcez la sécurité de votre compte grâce à la vérification en deux étapes.</p>
+<button id="openTwofaModal" class="btn ghost">Activer</button>
+      </div>
+
+      <div class="security-item">
+        <h3>Numéro de récupération</h3>
+        <p>Ajoutez un numéro de téléphone de récupération pour accéder à votre compte.</p>
+        <button class="btn ghost">Ajouter</button>
+      </div>
+
+      <div class="divider"></div>
+
+      <h2>Applications de réseaux sociaux connectées</h2>
+      <div class="connected-app">
+        <div class="info">
+          <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google">
+          Google
+        </div>
+        <button class="btn ghost">Se déconnecter</button>
+      </div>
+
+      <div class="divider"></div>
+
+      <h2>Activité de connexion</h2>
+      <p style="font-size:14px; color:#555; margin-bottom:12px;">
+        Votre connexion est active ou a été active sur ces appareils au cours des 30 derniers jours. Plusieurs connexions à partir du même appareil peuvent apparaître.
+      </p>
+      <div id="deviceList" style="font-size:14px; color:#777;">
+        (À implémenter : liste des appareils connectés)
+      </div>
+    </section>
+  
+
+
+
+<!-- Modal Clé d’accès -->
+<div id="passkeyModal" class="modal">
+  <div class="modal-content">
+    <span id="closePasskeyModal" class="close">&times;</span>
+    
+    <h2>Créer une clé d’accès</h2>
+    <p class="modal-subtext">
+      Les clés d’accès sont plus simples et plus sûres que les mots de passe.
+    </p>
+    <p class="modal-subtext">
+      Les clés d'accès vous permettent de vous connecter à Flashbring avec :
+    </p>
+
+<div id="passkeyOptions" class="passkey-options">
+  <!-- Face ID -->
+  <div class="passkey-option apple-only" style="display:none;">
+    <span style="font-weight:600;">Face ID</span>
+  </div>
+
+  <!-- Touch ID -->
+  <div class="passkey-option apple-only" style="display:none;">
+    <span style="font-weight:600;">Touch ID</span>
+  </div>
+
+  <!-- Windows Hello -->
+  <div class="passkey-option windows-only" style="display:none;">
+    <span style="font-weight:600;">Windows Hello</span>
+  </div>
+
+  <!-- Empreinte digitale -->
+  <div class="passkey-option android-only" style="display:none;">
+    <span style="font-weight:600;">Empreinte digitale</span>
+  </div>
+</div>
+
+    <div style="display:flex; gap:10px; justify-content:flex-end;">
+      <button id="createPasskeyBtn" class="btn primary">Créer une clé d’accès</button>
+      <button id="cancelPasskeyBtn" class="btn ghost">Annuler</button>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<!-- Modal 2FA -->
+<div id="twofaModal" class="modal modal-start">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Activer la vérification en deux étapes</h2>
+      <span id="closeTwofaModal" class="close">&times;</span>
+    </div>
+    <p class="modal-text">
+      Renforcez la sécurité de votre compte grâce à la vérification en deux étapes et empêchez tout accès non autorisé.
+    </p>
+    <p class="modal-text">
+      La vérification nécessite une étape supplémentaire lors de la connexion.
+    </p>
+    <div class="modal-actions">
+<button id="startTwofaBtn" class="btn primary full">Commencer</button>
+      <button id="cancelTwofaBtn" class="btn ghost full">Annuler</button>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <script>
+    // Gestion onglets
+    document.querySelectorAll(".tabs button").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".tabs button").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
+        document.getElementById(btn.dataset.tab).classList.add("active");
+      });
+    });
+  </script>
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+console.log("✅ Script account.js chargé !");  
+  
+  const userMenu = document.getElementById("userMenu");
+  const welcomeName = document.getElementById("welcomeName"); // header
+  const sidebarName = document.getElementById("sidebarName"); // sidecart
+  const logoutBtn = document.getElementById("logoutBtn");
+  const userSidebar = document.getElementById("userSidebar");
+  const sidebarOverlay = document.getElementById("sidebarOverlay");
+  const welcomeMsg = document.getElementById("welcomeMsg");
+  const saveBtn = document.getElementById("saveProfileBtn");
+ console.log("saveBtn trouvé ?", saveBtn);
+ 
+
+  // --- Vérifie si utilisateur connecté ---
+  try {
+const res = await fetch("/api/users/me", { credentials: "include" });
+    if (res.ok) {
+      const user = await res.json();
+      userMenu.style.display = "flex";
+
+      const displayName = user.firstname || "Utilisateur";
+      if (welcomeName) welcomeName.textContent = displayName;
+      if (sidebarName) sidebarName.textContent = "Bonjour " + displayName;
+
+      // 📝 Remplir le formulaire
+      const fullnameInput = document.getElementById("fullname");
+      if (fullnameInput && user.firstname) {
+        fullnameInput.value = `${user.firstname} ${user.lastname || ""}`.trim();
+      }
+      const emailInput = document.getElementById("email");
+      if (emailInput && user.email) {
+        emailInput.value = user.email;
+        emailInput.setAttribute("readonly", true);
+      }
+// 🏠 Adresse
+if (user.street) {
+  document.getElementById("address").value = user.street;
+}
+if (user.postal) {
+  document.getElementById("postal").value = user.postal;
+}
+if (user.city) {
+  document.getElementById("city").value = user.city;
+}
+    }
+  } catch (err) {
+    console.error("Erreur vérif session:", err);
+  }
+
+// --- Sidebar : ouvrir / fermer ---
+  if (welcomeMsg) {
+    welcomeMsg.addEventListener("click", () => {
+      userSidebar.classList.add("open");
+      sidebarOverlay.classList.add("active");
+    });
+  }
+  if (sidebarOverlay) {
+    sidebarOverlay.addEventListener("click", () => {
+      userSidebar.classList.remove("open");
+      sidebarOverlay.classList.remove("active");
+    });
+  }
+  document.querySelectorAll("#userSidebar a").forEach(link => {
+    link.addEventListener("click", () => {
+      userSidebar.classList.remove("open");
+      sidebarOverlay.classList.remove("active");
+    });
+  });    
+
+// --- Déconnexion ---
+  if (logoutBtn) {
+    logoutBtn.addEventListener("click", async (e) => {
+      e.preventDefault();
+      try {
+        await fetch("/api/auth/logout", { method: "POST", credentials: "include" });
+        userMenu.style.display = "none";
+        if (welcomeName) welcomeName.textContent = "";
+        if (sidebarName) sidebarName.textContent = "";
+      } catch (err) {
+        console.error("Erreur déconnexion:", err);
+      }
+    });
+  }
+      
+
+  // --- Sauvegarde des infos ---
+if (saveBtn) {
+  saveBtn.addEventListener("click", async () => {
+    const fullname = document.getElementById("fullname")?.value.trim();
+    const address = document.getElementById("address")?.value.trim();
+    let city = document.getElementById("city")?.value.trim(); // ⬅️ let ici
+    const postal = document.getElementById("postal")?.value.trim();
+      
+    // Split prénom et nom
+    let firstname = "";
+    let lastname = "";
+    if (fullname) {
+      const parts = fullname.split(" ");
+      firstname = parts[0];
+      lastname = parts.slice(1).join(" ");
+    }
+// 🔠 Normalisation de la ville : 1ère lettre majuscule, le reste en minuscules
+if (city) {
+  city = city.charAt(0).toUpperCase() + city.slice(1).toLowerCase();
+  document.getElementById("city").value = city; // met aussi à jour l’UI
+}
+  
+    try {
+      const res = await fetch("/api/users/me", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+body: JSON.stringify({ firstname, lastname, street: address, city, postal })
+      });
+      
+      if (res.ok) {
+        showToast("Votre profil a été mis à jour");
+      } else {
+        const err = await res.json();
+        showToast("❌ Erreur : " + (err.error || "Impossible d’enregistrer"), true);
+      }
+    } catch (err) {
+      console.error("Erreur save account:", err);
+      showToast("❌ Impossible d’enregistrer vos infos", true);
+    }
+  });
+}
+
+// 🔔 Fonction toast réutilisable (overlay centré)
+function showToast(message, isError = false) {
+  const toast = document.createElement("div");
+  toast.textContent = message;
+  toast.style.position = "fixed";
+  toast.style.top = "40px"; // 👉 au lieu de bottom: "20px"
+  toast.style.left = "50%";
+  toast.style.transform = "translateX(-50%)";
+  toast.style.background = "#000"; // fond noir   
+  toast.style.color = "#fff";
+  toast.style.padding = "6px 14px"; // 👉 plus petit
+  toast.style.borderRadius = "6px";
+  toast.style.fontSize = "13px"; // 👉 plus discret
+  toast.style.boxShadow = "0 2px 8px rgba(0,0,0,0.15)";
+  toast.style.zIndex = "1000";
+  document.body.appendChild(toast);
+
+  // --- Disparition progressive ---
+  setTimeout(() => {
+    toast.style.opacity = "0";
+    toast.style.transition = "opacity 0.4s ease";
+    setTimeout(() => toast.remove(), 400);
+  }, 2000);
+}
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  const verifyBtn = document.getElementById("verifyPhoneBtn"); // bouton "Vérifier votre numéro"
+  const phoneInput = document.getElementById("phone"); // champ affiché après validation
+  const phoneModal = document.getElementById("phoneModal"); // le modal
+  const closeModal = document.getElementById("closePhoneModal"); // bouton ✖ du modal
+  const sendOtpBtn = document.getElementById("sendOtpBtn"); // bouton "Recevoir le code"
+  const checkOtpBtn = document.getElementById("checkOtpBtn"); // bouton "Valider"
+  const modalPhoneInput = document.getElementById("modalPhoneInput"); // numéro saisi
+  const otpInput = document.getElementById("otpInput"); // code OTP
+  const otpSection = document.getElementById("otpSection"); // bloc OTP dans le modal
+
+  // --- Ouvrir le modal ---
+  if (verifyBtn) {
+    verifyBtn.addEventListener("click", () => {
+      phoneModal.style.display = "flex";
+    });
+  }
+
+  // --- Fermer le modal ---
+  if (closeModal) {
+    closeModal.addEventListener("click", () => {
+      phoneModal.style.display = "none";
+    });
+  }
+  window.addEventListener("click", (e) => {
+    if (e.target === phoneModal) {
+      phoneModal.style.display = "none";
+    }
+  });
+
+  // --- Étape 1 : Envoi du code ---
+if (sendOtpBtn) {
+  sendOtpBtn.addEventListener("click", async () => {
+    const phone = "+33" + modalPhoneInput.value.trim();
+    if (!phone) return;
+
+    try {
+      const res = await fetch("/api/verify/send", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ phone }),
+        credentials: "include"
+      });
+      if (res.ok) {
+        // Passe directement à l’étape 2
+        document.getElementById("step1").style.display = "none";
+        document.getElementById("step2").style.display = "block";
+      }
+    } catch (err) {
+      console.error("Erreur verify send:", err);
+    }
+  });
+}
+  // --- Étape 2 : Vérification du code ---
+  if (checkOtpBtn) {
+    checkOtpBtn.addEventListener("click", async () => {
+      const phone = "+33" + modalPhoneInput.value.trim(); // ⚡ même format que send
+      const code = otpInput.value.trim();
+      if (!code) {
+        alert("Veuillez entrer le code reçu");
+        return;
+      }
+      try {
+        const res = await fetch("/api/verify/check", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ phone, code }),
+          credentials: "include"
+        });
+        if (res.ok) {
+          alert("✅ Numéro vérifié !");
+          // Affiche le numéro sur la page
+          phoneInput.value = phone;
+          phoneInput.style.display = "block";
+          phoneInput.setAttribute("readonly", true);
+          verifyBtn.style.display = "none";
+          // Ferme le modal
+          phoneModal.style.display = "none";
+        } else {
+          alert("❌ Code invalide");
+        }
+      } catch (err) {
+        console.error("Erreur verify check:", err);
+        alert("Problème serveur");
+      }
+    });
+  }
+});
+
+
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  const addressInput = document.getElementById("address");
+  const suggestions = document.getElementById("addressSuggestions");
+
+  // 👇 debounce utilitaire
+  function debounce(func, delay) {
+    let timer;
+    return function (...args) {
+      clearTimeout(timer);
+      timer = setTimeout(() => func.apply(this, args), delay);
+    };
+  }
+
+  // --- écoute avec debounce ---
+  addressInput.addEventListener("input", debounce(async () => {
+    const query = addressInput.value.trim();
+    if (query.length < 3) {
+      suggestions.innerHTML = "";
+      return;
+    }
+
+    try {
+      const res = await fetch(`https://api-adresse.data.gouv.fr/search/?q=${encodeURIComponent(query)}&limit=5`);
+      const data = await res.json();
+
+      suggestions.innerHTML = "";
+      data.features.forEach(f => {
+        const li = document.createElement("li");
+        li.textContent = f.properties.label;
+        li.addEventListener("click", () => {
+          addressInput.value = f.properties.name || f.properties.label;
+          document.getElementById("postal").value = f.properties.postcode || "";
+          document.getElementById("city").value = f.properties.city || "";
+          suggestions.innerHTML = "";
+        });
+        suggestions.appendChild(li);
+      });
+    } catch (err) {
+      console.error("Erreur BAN:", err);
+    }
+  }, 300)); // 👈 attends 300ms après la frappe
+});
+
+</script>
+
+
+<script type="module">
+import { startRegistration, startAuthentication } from "https://cdn.jsdelivr.net/npm/@simplewebauthn/browser/+esm";
+
+const passkeyModal = document.getElementById("passkeyModal");
+const openPasskeyModal = document.getElementById("openPasskeyModal");
+const closePasskeyModal = document.getElementById("closePasskeyModal");
+const cancelPasskeyBtn = document.getElementById("cancelPasskeyBtn");
+const createPasskeyBtn = document.getElementById("createPasskeyBtn");
+const loginBtn = document.getElementById("loginBtn");
+
+// 👉 Ouvrir
+if (openPasskeyModal) {
+  openPasskeyModal.addEventListener("click", () => {
+    passkeyModal.style.display = "flex";
+  });
+}
+
+// 👉 Fermer
+[closePasskeyModal, cancelPasskeyBtn].forEach((btn) => {
+  if (btn) {
+    btn.addEventListener("click", () => {
+      passkeyModal.style.display = "none";
+    });
+  }
+});
+window.addEventListener("click", (e) => {
+  if (e.target === passkeyModal) {
+    passkeyModal.style.display = "none";
+  }
+});
+
+// 👉 Créer une clé d’accès
+if (createPasskeyBtn) {
+  createPasskeyBtn.addEventListener("click", async () => {
+    try {
+      const optionsRes = await fetch("/api/webauthn/register/start", {
+        method: "POST",
+        credentials: "include",
+      });
+      const options = await optionsRes.json();
+      console.log("Options reçues:", options);
+
+      // ✅ direct, pas besoin de transformer user.id
+      const attResp = await startRegistration(options);
+
+      const verificationRes = await fetch("/api/webauthn/register/finish", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify(attResp),
+      });
+
+      if (verificationRes.ok) {
+        alert("✅ Clé d’accès créée avec succès !");
+        passkeyModal.style.display = "none";
+      } else {
+        alert("❌ Erreur lors de la création");
+      }
+    } catch (err) {
+      console.error("Erreur WebAuthn détail:", err);
+      alert("Erreur WebAuthn");
+    }
+  });
+}
+
+// 👉 Se connecter avec une clé
+if (loginBtn) {
+  loginBtn.addEventListener("click", async () => {
+    try {
+      const email = prompt("Entrez votre email :");
+      if (!email) return;
+
+      const optionsRes = await fetch("/api/webauthn/login/start", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      const { options, userId } = await optionsRes.json();
+
+      const authResp = await startAuthentication(options);
+
+      const verificationRes = await fetch("/api/webauthn/login/finish", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId, response: authResp }),
+      });
+
+      if (verificationRes.ok) {
+        alert("✅ Connexion réussie !");
+      } else {
+        alert("❌ Connexion impossible");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Erreur WebAuthn");
+    }
+  });
+}
+// --- Afficher seulement l’option adaptée à l’appareil ---
+document.addEventListener("DOMContentLoaded", () => {
+  const ua = navigator.userAgent.toLowerCase();
+  
+  if (/iphone|ipad|mac/.test(ua)) {
+    document.querySelectorAll(".apple-only").forEach(el => el.style.display = "flex");
+  } else if (/windows/.test(ua)) {
+    document.querySelectorAll(".windows-only").forEach(el => el.style.display = "flex");
+  } else if (/android/.test(ua)) {
+    document.querySelectorAll(".android-only").forEach(el => el.style.display = "flex");
+  }
+});
+
+
+
+
+
+
+// --- Ouvrir le modal 2FA depuis le bouton "Activer"
+const openTwofaBtn = document.getElementById("openTwofaModal");
+const twofaModal = document.getElementById("twofaModal");
+const closeTwofaModal = document.getElementById("closeTwofaModal");
+const cancelTwofaBtn = document.getElementById("cancelTwofaBtn");
+const startTwofaBtn = document.getElementById("startTwofaBtn");
+
+if (openTwofaBtn) {
+  openTwofaBtn.addEventListener("click", () => {
+    twofaModal.style.display = "flex";
+  });
+}
+
+if (closeTwofaModal) {
+  closeTwofaModal.addEventListener("click", () => {
+    twofaModal.style.display = "none";
+  });
+}
+
+if (cancelTwofaBtn) {
+  cancelTwofaBtn.addEventListener("click", () => {
+    twofaModal.style.display = "none";
+  });
+}
+
+if (startTwofaBtn) {
+  startTwofaBtn.addEventListener("click", () => {
+    window.location.href = "/account-2fa.html"; // redirection directe
+  });
+}
+
+
+
+
+</script>
+
+<script>
+document.querySelectorAll(".sidebar-links a").forEach(link => {
+  link.addEventListener("click", function (e) {
+    const target = this.getAttribute("href");
+    if (target.startsWith("#view-")) {
+      e.preventDefault();
+      // Masquer toutes les vues
+      document.querySelectorAll(".view").forEach(v => v.classList.add("hidden"));
+      // Afficher la vue ciblée
+      const section = document.querySelector(target);
+      if (section) {
+        section.classList.remove("hidden");
+      }
+    }
+  });
+});
+</script>
+
+</body>
+</html>

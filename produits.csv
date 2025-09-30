@@ -1,0 +1,4 @@
+store_name,category,product_name,price,description,image_url
+McDonald’s,Burger,Big Mac,5.90,"Pain, steak, salade",https://fakecdn.com/mcdo/bigmac.png
+McDonald’s,Drink,Coca-Cola 50cl,2.50,Bouteille fraîche,https://fakecdn.com/mcdo/coca.png
+KFC,Bucket,Bucket 10pc,15.90,Poulet frit croustillant,https://fakecdn.com/kfc/bucket.png
