@@ -113,6 +113,7 @@ router.post(
         role: user.role,
         delivery_code: user.delivery_code,
         token: accessToken,   // ✅ indispensable pour l'app mobile
+refreshToken // 👈 ajouté ici
       });
 
     } catch (err) {
@@ -194,6 +195,7 @@ router.post("/login", async (req, res) => {
     // --- Réponse (⚡ pas de refreshToken en clair)
     res.json({
 token: accessToken,  // ✅ cohérent avec /register
+refreshToken,
       user: {
         id: user.id,
         firstname: user.firstname,
