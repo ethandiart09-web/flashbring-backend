@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "start": "node server.js",   // ✅ script obligatoire pour Render
+    "start": "node server.js",
     "dev": "node server.js",
     "seed": "node prisma/seed.js"
   },
@@ -38,10 +38,6 @@
     "twilio": "^5.9.0",
     "validator": "^13.15.15",
     "zod": "^3.25.76"
-  },
-  "prisma": {
-    "schema": "prisma/schema.prisma",
-    "seed": "node seed.js"
   },
   "devDependencies": {
     "eslint": "^9.36.0",
