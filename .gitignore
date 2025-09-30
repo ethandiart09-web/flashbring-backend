@@ -1,9 +1,10 @@
 # Secrets
 .env
-.env*
-*.json
-*.pem
-*.key
+.env.*
+# On ignore uniquement tes credentials sensibles
+flashbring-*.json
+cert.pem
+key.pem
 *.gpg
 
 # Node.js
